@@ -1,0 +1,22 @@
+/// Info
+/// https://developer-data.fingrid.fi/api-details#api=avoindata-api
+/// Datasets
+/// https://data.fingrid.fi/en/datasets
+
+@datasetProductionPrediction = 241
+@datasetConsumptionForecast = 165
+
+### Electricity production prediction info
+GET https://data.fingrid.fi/api/datasets/{{datasetProductionPrediction}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity consumption forecasts info
+GET https://data.fingrid.fi/api/datasets/{{datasetConsumptionForecast}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Multiple datasets
+GET https://data.fingrid.fi/api/data?datasets={{datasetProductionPrediction}},{{datasetConsumptionForecast}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}

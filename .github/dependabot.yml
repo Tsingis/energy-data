@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
+    target-branch: "master"
+  - package-ecosystem: "pip"
+    directory: "/server"
+    schedule:
+      interval: "daily"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
+    target-branch: "master"
+  - package-ecosystem: "npm"
+    directory: "/client"
+    versioning-strategy: "increase"
+    schedule:
+      interval: "daily"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
+    target-branch: "master"
+    groups:
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/js"
+      ts-eslint:
+        patterns:
+          - "@typescript-eslint/*"
+  - package-ecosystem: "docker"
+    directories:
+      - "/client"
+      - "/server"
+    schedule:
+      interval: "daily"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
+    target-branch: "master"
