@@ -1,0 +1,30 @@
+{
+  "name": "energy-data",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config ./config/vite.config.ts --open",
+    "audit": "npm audit --audit-level low",
+    "lint": "npx eslint . --config ./config/eslint.config.js",
+    "lint:fix": "npx eslint . --config ./config/eslint.config.js --fix",
+    "prettier": "npx prettier --check '**/*.{js,ts,vue,css,html}'",
+    "prettier:fix": "npx prettier --write '**/*.{jjs,ts,vue,css,htm}'",
+    "typecheck": "tsc --noEmit -p ./config/tsconfig.json",
+    "build": "tsc -b ./config/tsconfig.json && vite --config ./config/vite.config.ts build"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.6",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.15.0",
+    "eslint-plugin-vue": "^9.31.0",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1"
+  }
+}

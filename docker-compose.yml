@@ -1,0 +1,33 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      no_cache: false
+    image: energy-server
+    container_name: energy-server
+    ports:
+      - 8000:8000
+    user: api
+    read_only: true
+    privileged: false
+    tmpfs:
+      - /tmp:rw
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      no_cache: false
+    depends_on:
+      server:
+        condition: service_started
+        restart: true
+    image: energy-client
+    container_name: energy-client
+    ports:
+      - 3000:3000
+    user: nginx
+    read_only: true
+    privileged: false
+    tmpfs:
+      - /tmp:rw
