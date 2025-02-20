@@ -11,7 +11,8 @@ updates:
   - package-ecosystem: "pip"
     directory: "/server"
     schedule:
-      interval: "daily"
+      interval: "monthly"
+      day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
     target-branch: "master"
@@ -19,7 +20,8 @@ updates:
     directory: "/client"
     versioning-strategy: "increase"
     schedule:
-      interval: "daily"
+      interval: "monthly"
+      day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
     target-branch: "master"
