@@ -1,0 +1,8 @@
+### Test data
+GET http://localhost:8000/data
+Content-Type: application/json
+
+
+### Test health
+GET http://localhost:8000/health
+Content-Type: application/json

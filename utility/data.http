@@ -10,9 +10,9 @@
 
 ### Multiple datasets
 GET https://data.fingrid.fi/api/data?datasets={{datasetProduction}},{{datasetProductionPrediction}},{{datasetConsumption}},{{datasetConsumptionForecast}}
-    &pageSize=100
-    &startTime=2025-03-08T12:00:00Z
-    &endTime=2025-03-08T15:00:00Z
+    &pageSize=1000
+    &startTime=2025-03-08T08:00:00Z
+    &endTime=2025-03-08T22:00:00Z
     &format=json
     &sortBy=startTime
     &sortOrder=asc
