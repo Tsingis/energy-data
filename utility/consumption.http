@@ -1,0 +1,22 @@
+@datasetConsumption = 193
+@datasetConsumptionForecast = 165
+
+### Electricity consumption
+GET https://data.fingrid.fi/api/datasets/{{datasetConsumption}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity consumption forecasts
+GET https://data.fingrid.fi/api/datasets/{{datasetConsumptionForecast}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity consumption  data
+GET https://data.fingrid.fi/api/datasets/{{datasetConsumption}}/data?pageSize=100
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity consumption forecasts data
+GET https://data.fingrid.fi/api/datasets/{{datasetConsumptionForecast}}/data?pageSize=100
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}

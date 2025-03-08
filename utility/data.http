@@ -1,0 +1,20 @@
+/// Info
+/// https://developer-data.fingrid.fi/api-details#api=avoindata-api
+/// Datasets
+/// https://data.fingrid.fi/en/datasets
+
+@datasetProduction = 74
+@datasetProductionPrediction = 241
+@datasetConsumption = 193
+@datasetConsumptionForecast = 165
+
+### Multiple datasets
+GET https://data.fingrid.fi/api/data?datasets={{datasetProduction}},{{datasetProductionPrediction}},{{datasetConsumption}},{{datasetConsumptionForecast}}
+    &pageSize=100
+    &startTime=2025-03-08T12:00:00Z
+    &endTime=2025-03-08T15:00:00Z
+    &format=json
+    &sortBy=startTime
+    &sortOrder=asc
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}

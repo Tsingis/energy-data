@@ -1,0 +1,22 @@
+@datasetProduction = 74
+@datasetProductionPrediction = 241
+
+### Electricity production
+GET https://data.fingrid.fi/api/datasets/{{datasetProduction}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity production prediction
+GET https://data.fingrid.fi/api/datasets/{{datasetProductionPrediction}}
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity production  data
+GET https://data.fingrid.fi/api/datasets/{{datasetProduction}}/data?pageSize=100
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
+
+### Electricity production prediction data
+GET https://data.fingrid.fi/api/datasets/{{datasetProductionPrediction}}/data?pageSize=100
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
