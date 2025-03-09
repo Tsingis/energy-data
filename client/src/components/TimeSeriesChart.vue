@@ -54,6 +54,16 @@
 
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
 
+      const sortDatasetsAlphabetically = (
+        datasets: ChartDataset<"line", (number | Point | null)[]>[]
+      ) => {
+        return datasets.sort((a, b) => {
+          const aLabel = a.label || ""
+          const bLabel = b.label || ""
+          return aLabel.localeCompare(bLabel)
+        })
+      }
+
       const updateChart = () => {
         if (
           !props.datasets ||
@@ -68,11 +78,15 @@
         }
 
         if (chartCanvas.value) {
+          const sortedDatasets = sortDatasetsAlphabetically(
+            props.datasets.datasets
+          )
+
           const chartConfig: ChartConfiguration<"line"> = {
             type: "line",
             data: {
               labels: props.datasets.labels,
-              datasets: props.datasets.datasets,
+              datasets: sortedDatasets,
             },
             options: {
               responsive: true,
