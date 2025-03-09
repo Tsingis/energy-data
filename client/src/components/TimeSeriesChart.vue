@@ -8,10 +8,11 @@
   import { defineComponent, onUnmounted, ref, watch } from "vue"
   import {
     Chart,
-    ChartConfiguration,
-    ChartDataset,
-    LegendItem,
-    Point,
+    type ChartConfiguration,
+    type ChartDataset,
+    type LegendItem,
+    type Point,
+    type TooltipItem,
     registerables,
   } from "chart.js"
   import "chartjs-adapter-date-fns"
@@ -36,6 +37,7 @@
       yAxisLabel: {
         type: String,
         required: false,
+        default: "",
       },
       minTimestamp: {
         type: Date,
@@ -113,10 +115,11 @@
                   enabled: true,
                   mode: "nearest",
                   intersect: false,
+                  usePointStyle: true,
                   callbacks: {
-                    label: (tooltipItem) => {
-                      const value = tooltipItem.raw as number
-                      return `Value: ${value}`
+                    label: (tooltipItem: TooltipItem<"line">) => {
+                      const { y } = tooltipItem.raw as { y: number }
+                      return `Value: ${y}`
                     },
                   },
                 },
@@ -158,7 +161,7 @@
                     text: props.yAxisLabel,
                   },
                   ticks: {
-                    callback: function (value) {
+                    callback: (value) => {
                       return value
                     },
                   },

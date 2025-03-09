@@ -4,6 +4,7 @@ import plugin from "@typescript-eslint/eslint-plugin"
 import parser from "@typescript-eslint/parser"
 import pluginVue from "eslint-plugin-vue"
 import pluginPrettier from "eslint-plugin-prettier"
+import vueParser from "vue-eslint-parser"
 
 export default [
   js.configs.recommended,
@@ -12,6 +13,7 @@ export default [
     files: ["**/*.{js,ts,vue}"],
     ignores: ["dist", "**/eslint.config.js", "**/*d.ts"],
     languageOptions: {
+      parser: vueParser,
       parserOptions: {
         parser: parser,
         ecmaVersion: "latest",

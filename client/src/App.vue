@@ -2,17 +2,17 @@
   <h1>Energy Data in Finland</h1>
   <TimeSeriesChart
     :datasets="chartDatasets"
-    yAxisLabel="MW"
-    :minTimestamp="chartDatasets?.minTimestamp"
-    :maxTimestamp="chartDatasets?.maxTimestamp"
+    y-axis-label="MW"
+    :min-timestamp="chartDatasets?.minTimestamp"
+    :max-timestamp="chartDatasets?.maxTimestamp"
   />
 </template>
 
 <script lang="ts">
   import { defineComponent, ref, onMounted } from "vue"
-  import { ChartDataset } from "chart.js"
+  import { type ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
-  import { EnergyData, EnergyModel } from "./types"
+  import { type EnergyData, type EnergyModel } from "./types"
   import { DATASET_COLORS, DATASET_LABELS } from "./contants"
 
   export default defineComponent({
