@@ -7,6 +7,7 @@
 <script lang="ts">
   import { defineComponent, onUnmounted, ref, watch } from "vue"
   import { Chart, ChartConfiguration, registerables } from "chart.js"
+  import { toZonedTime } from "date-fns-tz"
   import "chartjs-adapter-date-fns"
 
   // Register all Chart.js components
@@ -37,6 +38,8 @@
     setup(props) {
       const chartCanvas = ref<HTMLCanvasElement | null>(null)
       let chartInstance: Chart | null = null
+
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
 
       const updateChart = () => {
         if (
@@ -79,8 +82,7 @@
                     callback: (value) => {
                       const date = new Date(value as number)
                       return date.toLocaleTimeString(undefined, {
-                        timeZone:
-                          Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        timeZone: tz,
                         hour: "2-digit",
                         minute: "2-digit",
                         hour12: false,
@@ -88,10 +90,10 @@
                     },
                   },
                   min: props.minTimestamp
-                    ? props.minTimestamp.getTime()
+                    ? toZonedTime(props.minTimestamp, tz).getTime()
                     : undefined,
                   max: props.maxTimestamp
-                    ? props.maxTimestamp.getTime()
+                    ? toZonedTime(props.maxTimestamp, tz).getTime()
                     : undefined,
                 },
                 y: {
@@ -119,6 +121,17 @@
         () => props.datasets,
         (newValue) => {
           if (newValue) {
+            updateChart()
+          }
+        },
+        { immediate: true }
+      )
+
+      watch(
+        () => [props.minTimestamp, props.maxTimestamp],
+        ([newMin, newMax]) => {
+          // Update chart configuration if min or max timestamp changes
+          if (newMin && newMax) {
             updateChart()
           }
         },

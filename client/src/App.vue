@@ -3,8 +3,8 @@
   <TimeSeriesChart
     :datasets="chartDatasets"
     yAxisLabel="MW"
-    :min="chartDatasets?.minTimestamp"
-    :max="chartDatasets?.maxTimestamp"
+    :minTimestamp="chartDatasets?.minTimestamp"
+    :maxTimestamp="chartDatasets?.maxTimestamp"
   />
 </template>
 
@@ -35,12 +35,13 @@
         } catch (error) {}
       })
 
+      //TODO: Why all charts are "capped" at specific timestamp
       const transformDataForChart = (data: Record<string, EnergyModel[]>) => {
         const labels: string[] = []
         const datasets: any[] = []
 
-        let minTimestamp: number | null = null
-        let maxTimestamp: number | null = null
+        let min: Date | null = null
+        let max: Date | null = null
 
         for (const [datasetId, datasetData] of Object.entries(data)) {
           const datasetLabels = datasetData.map((entry) => entry.timestamp)
@@ -51,12 +52,12 @@
           }
 
           datasetLabels.forEach((timestamp) => {
-            const timestampValue = new Date(timestamp).getTime()
-            if (minTimestamp === null || timestampValue < minTimestamp) {
-              minTimestamp = timestampValue
+            const timestampValue = new Date(timestamp)
+            if (min === null || timestampValue < min) {
+              min = timestampValue
             }
-            if (maxTimestamp === null || timestampValue > maxTimestamp) {
-              maxTimestamp = timestampValue
+            if (max === null || timestampValue > max) {
+              max = timestampValue
             }
           })
 
@@ -73,14 +74,14 @@
         return {
           labels,
           datasets,
-          // minTimestamp: minTimestamp ? new Date(minTimestamp) : null,
-          // maxTimestamp: maxTimestamp ? new Date(maxTimestamp) : null,
-          minTimestamp: null,
-          maxTimestamp: null,
+          minTimestamp: min ? new Date(min) : null,
+          maxTimestamp: max ? new Date(max) : null,
         }
       }
 
-      return { chartDatasets }
+      return {
+        chartDatasets,
+      }
     },
   })
 </script>
