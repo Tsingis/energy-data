@@ -10,6 +10,7 @@
 
 <script lang="ts">
   import { defineComponent, ref, onMounted } from "vue"
+  import { ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
   import { EnergyData, EnergyModel } from "./types"
   import { COLORS, DATASET_LABELS } from "./contants"
@@ -32,27 +33,32 @@
           const data: EnergyData = await response.json()
           const formattedData = transformDataForChart(data.data)
           chartDatasets.value = formattedData
-        } catch (error) {}
+        } catch (error) {
+          console.error(error)
+        }
       })
 
-      //TODO: Why all charts are "capped" at specific timestamp
       const transformDataForChart = (data: Record<string, EnergyModel[]>) => {
-        const labels: string[] = []
-        const datasets: any[] = []
+        const labels: Date[] = []
+        const datasets: ChartDataset[] = []
 
         let min: Date | null = null
         let max: Date | null = null
 
         for (const [datasetId, datasetData] of Object.entries(data)) {
-          const datasetLabels = datasetData.map((entry) => entry.timestamp)
+          const datasetLabels = datasetData.map(
+            (entry) => new Date(entry.timestamp)
+          )
           const values = datasetData.map((entry) => entry.value)
 
-          if (labels.length === 0 && datasetLabels.length > 0) {
-            labels.push(...datasetLabels)
-          }
-
           datasetLabels.forEach((timestamp) => {
-            const timestampValue = new Date(timestamp)
+            if (
+              !labels.some((label) => label.getTime() === timestamp.getTime())
+            ) {
+              labels.push(timestamp)
+            }
+
+            const timestampValue = timestamp
             if (min === null || timestampValue < min) {
               min = timestampValue
             }
@@ -61,15 +67,22 @@
             }
           })
 
+          const datasetValues = datasetLabels.map((timestamp, index) => ({
+            x: timestamp.getTime(),
+            y: values[index],
+          }))
+
           datasets.push({
             label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
-            data: values,
+            data: datasetValues,
             borderColor: COLORS[datasetId] || "#ccc",
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderWidth: 2,
             fill: false,
           })
         }
+
+        labels.sort((a, b) => a.getTime() - b.getTime())
 
         return {
           labels,

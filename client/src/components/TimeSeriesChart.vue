@@ -6,7 +6,13 @@
 
 <script lang="ts">
   import { defineComponent, onUnmounted, ref, watch } from "vue"
-  import { Chart, ChartConfiguration, registerables } from "chart.js"
+  import {
+    Chart,
+    ChartConfiguration,
+    ChartDataset,
+    Point,
+    registerables,
+  } from "chart.js"
   import { toZonedTime } from "date-fns-tz"
   import "chartjs-adapter-date-fns"
 
@@ -17,8 +23,15 @@
     name: "TimeSeriesChart",
     props: {
       datasets: {
-        type: Object as () => { labels: string[]; datasets: any[] },
+        type: Object as () => {
+          labels: string[]
+          datasets: ChartDataset<"line", (number | Point | null)[]>[]
+        },
         required: true,
+        default: () => ({
+          labels: [],
+          datasets: [],
+        }),
       },
       yAxisLabel: {
         type: String,
@@ -43,10 +56,18 @@
 
       const updateChart = () => {
         if (
-          props.datasets &&
-          props.datasets.labels &&
-          props.datasets.datasets
+          !props.datasets ||
+          !props.datasets.labels ||
+          !props.datasets.datasets
         ) {
+          return
+        }
+
+        if (chartInstance) {
+          chartInstance.destroy()
+        }
+
+        if (chartCanvas.value) {
           const chartConfig: ChartConfiguration<"line"> = {
             type: "line",
             data: {
@@ -64,7 +85,8 @@
                   intersect: false,
                   callbacks: {
                     label: (tooltipItem) => {
-                      return `Value: ${tooltipItem.raw}`
+                      const value = tooltipItem.raw as number
+                      return `Value: ${value}`
                     },
                   },
                 },
@@ -111,9 +133,7 @@
             },
           }
 
-          if (chartCanvas.value) {
-            chartInstance = new Chart(chartCanvas.value, chartConfig)
-          }
+          chartInstance = new Chart(chartCanvas.value, chartConfig)
         }
       }
 
@@ -130,7 +150,6 @@
       watch(
         () => [props.minTimestamp, props.maxTimestamp],
         ([newMin, newMax]) => {
-          // Update chart configuration if min or max timestamp changes
           if (newMin && newMax) {
             updateChart()
           }
