@@ -79,6 +79,8 @@
                     callback: (value) => {
                       const date = new Date(value as number)
                       return date.toLocaleTimeString(undefined, {
+                        timeZone:
+                          Intl.DateTimeFormat().resolvedOptions().timeZone,
                         hour: "2-digit",
                         minute: "2-digit",
                         hour12: false,

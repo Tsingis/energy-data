@@ -72,8 +72,7 @@ class EnergyClient:
         data = {}
         for item in json.get("data", []):
             dataset_id = str(item["datasetId"])
-            time = datetime.strptime(item["startTime"], self.datetime_format)
-
+            time = datetime.fromisoformat(item["startTime"])
             data_point = EnergyModel(timestamp=time, value=item["value"])
             if dataset_id not in data:
                 data[dataset_id] = []
