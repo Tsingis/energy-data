@@ -33,7 +33,7 @@ async def get_data():
         client = EnergyClient()
         data = await client.fetch_energy_data()
 
-        await cache.set(cache_key, data.model_dump(), ttl=900)
+        await cache.set(cache_key, data.model_dump(), ttl=int(os.getenv("CACHE_TTL", 900)))
         return data.model_dump()
     except Exception:
         logger.exception("Error fetching data")
