@@ -51,7 +51,7 @@ class EnergyClient:
             "datasets": ",".join(map(str, self.datasets)),
             "pageSize": 1000,
             "startTime": (now + timedelta(hours=-12)).strftime(self.datetime_format),
-            "endTime": (now + timedelta(hours=1)).strftime(self.datetime_format),
+            "endTime": (now + timedelta(hours=12)).strftime(self.datetime_format),
             "format": "json",
             "sortBy": "startTime",
             "sortOrder": "asc",
