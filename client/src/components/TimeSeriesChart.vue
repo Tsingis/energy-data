@@ -140,12 +140,18 @@
   .chart-container {
     width: 100%;
     height: 100%;
-    max-width: 100vw;
+    max-width: 90vw;
     max-height: 100vh;
     margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .chart-container {
+      min-height: 50vh;
+    }
   }
 
   canvas {
