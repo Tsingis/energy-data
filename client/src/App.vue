@@ -2,7 +2,8 @@
   <h1>Energy Data in Finland</h1>
   <TimeSeriesChart
     :datasets="chartDatasets"
-    y-axis-label="MW"
+    y-axis-label-left="MW"
+    y-axis-label-right="c/kWh"
     :min-timestamp="chartDatasets?.minTimestamp"
     :max-timestamp="chartDatasets?.maxTimestamp"
   />
@@ -12,7 +13,12 @@
   import { defineComponent, ref, onMounted } from "vue"
   import { type ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
-  import { type EnergyData, type EnergyModel } from "./types"
+  import {
+    PriceData,
+    PriceModel,
+    type EnergyData,
+    type EnergyModel,
+  } from "./types"
   import { DATASET_COLORS, DATASET_LABELS } from "./contants"
 
   export default defineComponent({
@@ -27,27 +33,37 @@
         try {
           const apiUrl =
             import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
-          const response = await fetch(`${apiUrl}/energy`)
-          if (!response.ok) {
+          const energyResponse = await fetch(`${apiUrl}/energy`)
+          if (!energyResponse.ok) {
             throw new Error("Network response was not ok")
           }
 
-          const data: EnergyData = await response.json()
-          const formattedData = transformDataForChart(data.data)
+          const priceResponse = await fetch(`${apiUrl}/price`)
+
+          const energyData: EnergyData = await energyResponse.json()
+          const priceData: PriceData = await priceResponse.json()
+
+          const formattedData = transformDataForChart(
+            energyData.data,
+            priceData.data
+          )
           chartDatasets.value = formattedData
         } catch (error) {
           console.error(error)
         }
       })
 
-      const transformDataForChart = (data: Record<string, EnergyModel[]>) => {
+      const transformDataForChart = (
+        energyData: Record<string, EnergyModel[]>,
+        priceData: PriceModel[]
+      ) => {
         const labels: Date[] = []
         const datasets: ChartDataset[] = []
 
         let min: Date | null = null
         let max: Date | null = null
 
-        for (const [datasetId, datasetData] of Object.entries(data)) {
+        for (const [datasetId, datasetData] of Object.entries(energyData)) {
           const datasetLabels = datasetData.map(
             (entry) => new Date(entry.timestamp)
           )
@@ -78,11 +94,27 @@
             label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
             data: datasetValues,
             borderColor: DATASET_COLORS[datasetId] || "#ccc",
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            backgroundColor: DATASET_COLORS[datasetId] || "#ccc",
             borderWidth: 2,
             fill: false,
           })
         }
+
+        const priceDatasetValues = priceData.map((entry) => ({
+          x: new Date(entry.timestamp).getTime(),
+          y: entry.value,
+        }))
+
+        datasets.push({
+          label: DATASET_LABELS["prices"],
+          data: priceDatasetValues,
+          borderColor: DATASET_COLORS["prices"] || "yellow",
+          backgroundColor: DATASET_COLORS["prices"] || "yellow",
+          borderWidth: 2,
+          fill: false,
+          borderDash: [5, 5],
+          yAxisID: "y2",
+        })
 
         labels.sort((a, b) => a.getTime() - b.getTime())
 

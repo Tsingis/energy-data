@@ -8,3 +8,12 @@ export type EnergyData = {
     [key: string]: EnergyModel[]
   }
 }
+
+export type PriceModel = {
+  timestamp: string
+  value: number
+}
+
+export type PriceData = {
+  data: PriceModel[]
+}

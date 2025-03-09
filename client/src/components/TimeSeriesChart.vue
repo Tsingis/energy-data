@@ -34,7 +34,12 @@
           datasets: [],
         }),
       },
-      yAxisLabel: {
+      yAxisLabelLeft: {
+        type: String,
+        required: false,
+        default: "",
+      },
+      yAxisLabelRight: {
         type: String,
         required: false,
         default: "",
@@ -158,7 +163,19 @@
                 y: {
                   title: {
                     display: true,
-                    text: props.yAxisLabel,
+                    text: props.yAxisLabelLeft,
+                  },
+                  ticks: {
+                    callback: (value) => {
+                      return value
+                    },
+                  },
+                },
+                y2: {
+                  position: "right",
+                  title: {
+                    display: true,
+                    text: props.yAxisLabelRight,
                   },
                   ticks: {
                     callback: (value) => {
