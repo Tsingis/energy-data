@@ -29,7 +29,7 @@ class PriceClient:
         self.base_url = "https://api.porssisahko.net/v1/latest-prices.json"
         self.datetime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
-    async def fetch_price_data(self) -> PriceData:
+    async def fetch_price_data(self, start_time: datetime, end_time: datetime) -> PriceData:
         """
         Fetches prices in cents / kWh
         """
@@ -37,6 +37,7 @@ class PriceClient:
             response = await client.get(self.base_url)
             if response.status_code == 200:
                 data = self._map_response_to_model(response.json())
+                data = self._filter_data_by_time(data, start_time, end_time)
                 return PriceData(data=data)
             response.raise_for_status()
 
@@ -47,3 +48,8 @@ class PriceClient:
             data_point = PriceModel(timestamp=time, value=item["price"])
             data.append(data_point)
         return data
+
+    def _filter_data_by_time(
+        self, data: List[PriceModel], start_time: datetime, end_time: datetime
+    ) -> List[PriceModel]:
+        return [item for item in data if start_time <= item.timestamp <= end_time]

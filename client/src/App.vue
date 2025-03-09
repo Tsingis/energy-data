@@ -14,8 +14,8 @@
   import { type ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
   import {
-    PriceData,
-    PriceModel,
+    type PriceData,
+    type PriceModel,
     type EnergyData,
     type EnergyModel,
   } from "./types"

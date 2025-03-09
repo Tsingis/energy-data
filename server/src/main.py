@@ -4,6 +4,7 @@ import uvicorn
 from aiocache import SimpleMemoryCache
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime, timedelta, timezone
 from energy_client import EnergyClient, EnergyData
 from price_client import PriceClient, PriceData
 
@@ -21,6 +22,11 @@ app.add_middleware(
 
 cache = SimpleMemoryCache()
 
+now = datetime.now(timezone.utc)
+delta = timedelta(hours=12)
+start_time = now - delta
+end_time = now + delta
+
 
 @app.get("/data/energy")
 async def get_energy_data():
@@ -32,7 +38,7 @@ async def get_energy_data():
             return data.model_dump()
 
         client = EnergyClient()
-        data = await client.fetch_energy_data()
+        data = await client.fetch_energy_data(start_time, end_time)
 
         await cache.set(cache_key, data.model_dump(), ttl=int(os.getenv("CACHE_TTL", 900)))
         return data.model_dump()
@@ -54,7 +60,7 @@ async def get_price_data():
             return data.model_dump()
 
         client = PriceClient()
-        data = await client.fetch_price_data()
+        data = await client.fetch_price_data(start_time, end_time)
 
         await cache.set(cache_key, data.model_dump(), ttl=int(os.getenv("CACHE_TTL", 900)))
         return data.model_dump()

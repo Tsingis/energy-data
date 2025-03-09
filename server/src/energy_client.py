@@ -1,7 +1,7 @@
 import httpx
 import os
 import urllib.parse
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from dotenv import load_dotenv
 from enum import Enum
 from pydantic import BaseModel
@@ -45,16 +45,15 @@ class EnergyClient:
         ]
         self.datetime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
-    async def fetch_energy_data(self) -> EnergyData:
+    async def fetch_energy_data(self, start_time: datetime, end_time: datetime) -> EnergyData:
         """
         Fetches energy consumptions, productions and their respective predictions in MW
         """
-        now = datetime.now(timezone.utc)
         params = {
             "datasets": ",".join(map(str, self.datasets)),
             "pageSize": 1000,
-            "startTime": (now + timedelta(hours=-12)).strftime(self.datetime_format),
-            "endTime": (now + timedelta(hours=12)).strftime(self.datetime_format),
+            "startTime": start_time.strftime(self.datetime_format),
+            "endTime": end_time.strftime(self.datetime_format),
             "format": "json",
             "sortBy": "startTime",
             "sortOrder": "asc",
