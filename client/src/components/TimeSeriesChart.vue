@@ -14,7 +14,6 @@
     Point,
     registerables,
   } from "chart.js"
-  import { toZonedTime } from "date-fns-tz"
   import "chartjs-adapter-date-fns"
 
   // Register all Chart.js components
@@ -143,10 +142,14 @@
                     },
                   },
                   min: props.minTimestamp
-                    ? toZonedTime(props.minTimestamp, tz).getTime()
+                    ? new Date(props.minTimestamp).toLocaleString(undefined, {
+                        timeZone: tz,
+                      })
                     : undefined,
                   max: props.maxTimestamp
-                    ? toZonedTime(props.maxTimestamp, tz).getTime()
+                    ? new Date(props.maxTimestamp).toLocaleString(undefined, {
+                        timeZone: tz,
+                      })
                     : undefined,
                 },
                 y: {
