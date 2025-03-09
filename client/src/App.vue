@@ -27,7 +27,7 @@
         try {
           const apiUrl =
             import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
-          const response = await fetch(apiUrl)
+          const response = await fetch(`${apiUrl}/energy`)
           if (!response.ok) {
             throw new Error("Network response was not ok")
           }

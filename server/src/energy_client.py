@@ -12,7 +12,7 @@ load_dotenv()
 
 class EnergyModel(BaseModel):
     timestamp: datetime
-    value: float
+    value: float  # Unit: MW
 
 
 class EnergyData(BaseModel):
@@ -46,6 +46,9 @@ class EnergyClient:
         self.datetime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
     async def fetch_energy_data(self) -> EnergyData:
+        """
+        Fetches energy consumptions, productions and their respective predictions in MW
+        """
         now = datetime.now(timezone.utc)
         params = {
             "datasets": ",".join(map(str, self.datasets)),
