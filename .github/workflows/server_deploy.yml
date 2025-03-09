@@ -1,0 +1,22 @@
+name: server-deploy
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "server/src/**"
+      - "server/requirements.txt"
+      - "server/Dockerfile"
+      - ".github/workflows/server_deploy.yml"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: curl "$DEPLOY_URL"
+        env:
+          DEPLOY_URL: ${{ secrets.SERVER_DEPLOY_URL }}

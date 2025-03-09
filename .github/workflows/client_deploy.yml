@@ -1,0 +1,24 @@
+name: client-deploy
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "client/src/**"
+      - "client/nginx/**"
+      - "client/config/**"
+      - "client/package*.json"
+      - "client/Dockerfile"
+      - ".github/workflows/client_deploy.yml"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: curl "$DEPLOY_URL"
+        env:
+          DEPLOY_URL: ${{ secrets.CLIENT_DEPLOY_URL }}
