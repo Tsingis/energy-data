@@ -13,7 +13,7 @@
   import { ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
   import { EnergyData, EnergyModel } from "./types"
-  import { COLORS, DATASET_LABELS } from "./contants"
+  import { DATASET_COLORS, DATASET_LABELS } from "./contants"
 
   export default defineComponent({
     name: "App",
@@ -75,7 +75,7 @@
           datasets.push({
             label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
             data: datasetValues,
-            borderColor: COLORS[datasetId] || "#ccc",
+            borderColor: DATASET_COLORS[datasetId] || "#ccc",
             backgroundColor: "rgba(75, 192, 192, 0.2)",
             borderWidth: 2,
             fill: false,
