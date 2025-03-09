@@ -16,7 +16,15 @@ COPY ./src .
 
 RUN rm -r /usr/local/lib/python3.13/site-packages/pip*
 
+ARG FINGRID_API_KEY
+ARG PORT=8000
+
+ENV PORT=${PORT}
+ENV FINGRID_API_KEY=${FINGRID_API_KEY}
+
 RUN addgroup -S app && adduser -S -G app api
 USER api
+
+EXPOSE 8000
 
 CMD ["python", "main.py"]

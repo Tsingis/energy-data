@@ -6,6 +6,10 @@ COPY package*.json ./
 
 RUN npm ci
 
+ARG API_URL
+
+ENV VITE_API_URL=${API_URL}
+
 COPY config/ ./config
 COPY src/ ./src
 

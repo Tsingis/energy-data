@@ -7,7 +7,7 @@ on:
       - "client/src/**"
       - "client/config/**"
       - "client/package*.json"
-      - ".github/workflows/clienttest.yml"
+      - ".github/workflows/client_test.yml"
   workflow_dispatch:
 jobs:
   setup:

@@ -4,6 +4,8 @@ services:
       context: ./server
       dockerfile: Dockerfile
       no_cache: false
+      args:
+        FINGRID_API_KEY: ${FINGRID_API_KEY}
     image: energy-server
     container_name: energy-server
     ports:

@@ -25,7 +25,9 @@
 
       onMounted(async () => {
         try {
-          const response = await fetch("http://localhost:8000/data")
+          const apiUrl =
+            import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
+          const response = await fetch(apiUrl)
           if (!response.ok) {
             throw new Error("Network response was not ok")
           }
