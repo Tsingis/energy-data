@@ -10,6 +10,7 @@
     Chart,
     ChartConfiguration,
     ChartDataset,
+    LegendItem,
     Point,
     registerables,
   } from "chart.js"
@@ -92,7 +93,23 @@
               responsive: true,
               maintainAspectRatio: false,
               plugins: {
-                legend: { display: true, position: "top" },
+                legend: {
+                  display: true,
+                  position: "top",
+                  labels: {
+                    boxWidth: 20,
+                    usePointStyle: true,
+                    generateLabels: (chart) => {
+                      return chart.data.datasets.map((dataset, i) => ({
+                        text: dataset.label ?? `Dataset ${i}`,
+                        fillStyle: dataset.borderColor,
+                        strokeStyle: dataset.borderColor,
+                        lineWidth: 3,
+                        datasetIndex: i,
+                      })) as LegendItem[]
+                    },
+                  },
+                },
                 tooltip: {
                   enabled: true,
                   mode: "nearest",
