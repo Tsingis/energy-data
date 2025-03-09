@@ -65,6 +65,7 @@ class EnergyClient:
             response = await client.get(url, headers=headers)
             if response.status_code == 200:
                 data = self._map_response_to_model(response.json())
+                self._adjust_predictions(data)
                 return EnergyData(data=data)
             response.raise_for_status()
 
@@ -78,3 +79,28 @@ class EnergyClient:
                 data[dataset_id] = []
             data[dataset_id].append(data_point)
         return data
+
+    def _adjust_predictions(self, data: Dict[str, List[EnergyModel]]) -> None:
+        if (
+            str(Dataset.PRODUCTION.value) in data
+            and str(Dataset.PRODUCTION_PREDICTION.value) in data
+        ):
+            last_production = data[str(Dataset.PRODUCTION.value)][-1]
+            # Remove predictions before the last production timestamp
+            data[str(Dataset.PRODUCTION_PREDICTION.value)] = [
+                prediction
+                for prediction in data[str(Dataset.PRODUCTION_PREDICTION.value)]
+                if prediction.timestamp >= last_production.timestamp
+            ]
+
+        if (
+            str(Dataset.CONSUMPTION.value) in data
+            and str(Dataset.CONSUMPTION_PREDICTION.value) in data
+        ):
+            last_consumption = data[str(Dataset.CONSUMPTION.value)][-1]
+            # Remove predictions before the last consumption timestamp
+            data[str(Dataset.CONSUMPTION_PREDICTION.value)] = [
+                prediction
+                for prediction in data[str(Dataset.CONSUMPTION_PREDICTION.value)]
+                if prediction.timestamp >= last_consumption.timestamp
+            ]
