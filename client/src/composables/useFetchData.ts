@@ -12,6 +12,7 @@ export function useFetchData<T>(fetchFunction: () => Promise<T>) {
     try {
       data.value = await fetchFunction()
     } catch (err) {
+      console.log(err)
       setTimeout(fetchData, 5000)
     } finally {
       loading.value = false
