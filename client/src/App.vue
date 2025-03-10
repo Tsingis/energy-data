@@ -19,7 +19,7 @@
     type EnergyData,
     type EnergyModel,
   } from "./types"
-  import { DATASET_COLORS, DATASET_LABELS } from "./contants"
+  import { DATASET_COLORS, DATASET_LABELS } from "./constants"
 
   export default defineComponent({
     name: "App",
