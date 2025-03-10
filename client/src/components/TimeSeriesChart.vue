@@ -15,10 +15,12 @@
     type TooltipItem,
     registerables,
   } from "chart.js"
+  import annotationPlugin from "chartjs-plugin-annotation"
   import "chartjs-adapter-date-fns"
 
   // Register all Chart.js components
   Chart.register(...registerables)
+  Chart.register(annotationPlugin)
 
   export default defineComponent({
     name: "TimeSeriesChart",
@@ -125,6 +127,18 @@
                     label: (tooltipItem: TooltipItem<"line">) => {
                       const { y } = tooltipItem.raw as { y: number }
                       return `Value: ${y}`
+                    },
+                  },
+                },
+                annotation: {
+                  annotations: {
+                    currentTimeLine: {
+                      type: "line",
+                      xMin: new Date().getTime(),
+                      xMax: new Date().getTime(),
+                      borderColor: "rgba(169, 169, 169, 0.5)",
+                      borderWidth: 2,
+                      borderDash: [5, 5],
                     },
                   },
                 },
