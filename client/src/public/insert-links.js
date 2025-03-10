@@ -19,10 +19,17 @@
   dnsPrefetchLink.href = apiUrl.origin
   head.appendChild(dnsPrefetchLink)
 
-  const preloadLink = document.createElement("link")
-  preloadLink.rel = "preload"
-  preloadLink.href = apiUrl
-  preloadLink.as = "fetch"
-  preloadLink.crossOrigin = "anonymous"
-  head.appendChild(preloadLink)
+  const preloadLinkEnergy = document.createElement("link")
+  preloadLinkEnergy.rel = "preload"
+  preloadLinkEnergy.href = `${apiUrl}/energy`
+  preloadLinkEnergy.as = "fetch"
+  preloadLinkEnergy.crossOrigin = "anonymous"
+  head.appendChild(preloadLinkEnergy)
+
+  const preloadLinkPrice = document.createElement("link")
+  preloadLinkPrice.rel = "preload"
+  preloadLinkPrice.href = `${apiUrl}/price`
+  preloadLinkPrice.as = "fetch"
+  preloadLinkPrice.crossOrigin = "anonymous"
+  head.appendChild(preloadLinkPrice)
 })()
