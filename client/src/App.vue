@@ -1,5 +1,6 @@
 <template>
   <h1>Energy Data in Finland</h1>
+  <Loading v-if="loading" size="6x" />
   <TimeSeriesChart
     :datasets="chartDatasets"
     y-axis-label-left="MW"
@@ -10,9 +11,11 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, onMounted } from "vue"
+  import { defineComponent, ref, onMounted, watch } from "vue"
   import { type ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
+  import Loading from "./components/Loading.vue"
+  import { useFetchData } from "./composables/useFetchData"
   import {
     type PriceData,
     type PriceModel,
@@ -25,33 +28,40 @@
     name: "App",
     components: {
       TimeSeriesChart,
+      Loading,
     },
     setup() {
-      const chartDatasets = ref<any>(null)
+      const chartDatasets = ref<{
+        datasets: ChartDataset[]
+        minTimestamp: number | null
+        maxTimestamp: number | null
+      } | null>(null)
 
-      onMounted(async () => {
-        try {
-          const apiUrl =
-            import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
-          const energyResponse = await fetch(`${apiUrl}/energy`)
-          if (!energyResponse.ok) {
-            throw new Error("Network response was not ok")
-          }
+      const fetchFunction = async () => {
+        const apiUrl =
+          import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
 
-          const priceResponse = await fetch(`${apiUrl}/price`)
+        const energyResponse = await fetch(`${apiUrl}/energy`)
+        if (!energyResponse.ok) throw new Error("Failed to fetch energy data")
 
-          const energyData: EnergyData = await energyResponse.json()
-          const priceData: PriceData = await priceResponse.json()
+        const priceResponse = await fetch(`${apiUrl}/price`)
+        if (!priceResponse.ok) throw new Error("Failed to fetch price data")
 
-          const formattedData = transformDataForChart(
-            energyData.data,
-            priceData.data
-          )
-          chartDatasets.value = formattedData
-        } catch (error) {
-          console.error(error)
+        const energyData: EnergyData = await energyResponse.json()
+        const priceData: PriceData = await priceResponse.json()
+
+        return transformDataForChart(energyData.data, priceData.data)
+      }
+
+      const { data, loading, error, fetchData } = useFetchData(fetchFunction)
+
+      watch(data, (newData) => {
+        if (newData) {
+          chartDatasets.value = newData
         }
       })
+
+      onMounted(fetchData)
 
       const transformDataForChart = (
         energyData: Record<string, EnergyModel[]>,
@@ -128,6 +138,8 @@
 
       return {
         chartDatasets,
+        loading,
+        error,
       }
     },
   })
