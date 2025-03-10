@@ -153,14 +153,20 @@
                   ticks: {
                     autoSkip: false,
                     stepSize: 15,
-                    callback: (value) => {
-                      const date = new Date(value as number)
-                      return date.toLocaleTimeString(undefined, {
-                        timeZone: tz,
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      })
+                    callback: (value, index) => {
+                      if (index % 4 === 0) {
+                        const date = new Date(value as number)
+                        const minutes = date.getMinutes()
+                        const roundedMinutes = Math.floor(minutes / 15) * 15
+                        date.setMinutes(roundedMinutes, 0, 0)
+                        return date.toLocaleTimeString(undefined, {
+                          timeZone: tz,
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })
+                      }
+                      return ""
                     },
                   },
                   min: props.minTimestamp
