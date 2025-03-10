@@ -1,5 +1,5 @@
 <template>
-  <div class="spinner-container" aria-label="loading">
+  <div class="loading-container" aria-label="loading">
     <font-awesome-icon :icon="faSpinner" :spin="true" :size="size" />
   </div>
 </template>
@@ -29,10 +29,10 @@
 </script>
 
 <style scoped>
-  .spinner-container {
+  .loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    height: 50vh;
   }
 </style>
