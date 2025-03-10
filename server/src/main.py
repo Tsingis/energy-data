@@ -23,7 +23,7 @@ app.add_middleware(
 cache = SimpleMemoryCache()
 
 now = datetime.now(timezone.utc)
-delta = timedelta(hours=12)
+delta = timedelta(hours=15)
 start_time = now - delta
 end_time = now + delta
 
