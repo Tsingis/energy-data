@@ -12,7 +12,6 @@
 
 <script lang="ts">
   import { defineComponent, ref, onMounted, watch } from "vue"
-  import { type ChartDataset } from "chart.js"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
   import Loading from "./components/Loading.vue"
   import { useFetchData } from "./composables/useFetchData"
@@ -21,6 +20,8 @@
     type PriceModel,
     type EnergyData,
     type EnergyModel,
+    type Dataset,
+    type ChartData,
   } from "./types"
   import { DATASET_COLORS, DATASET_LABELS } from "./constants"
 
@@ -31,11 +32,7 @@
       Loading,
     },
     setup() {
-      const chartDatasets = ref<{
-        datasets: ChartDataset[]
-        minTimestamp: number | null
-        maxTimestamp: number | null
-      } | null>(null)
+      const chartDatasets = ref<ChartData | undefined>(undefined)
 
       const fetchFunction = async () => {
         const apiUrl =
@@ -66,9 +63,9 @@
       const transformDataForChart = (
         energyData: Record<string, EnergyModel[]>,
         priceData: PriceModel[]
-      ) => {
-        const labels: Date[] = []
-        const datasets: ChartDataset[] = []
+      ): ChartData => {
+        const labels: string[] = []
+        const datasets: Dataset[] = []
 
         let min: Date | null = null
         let max: Date | null = null
@@ -80,10 +77,10 @@
           const values = datasetData.map((entry) => entry.value)
 
           datasetLabels.forEach((timestamp) => {
-            if (
-              !labels.some((label) => label.getTime() === timestamp.getTime())
-            ) {
-              labels.push(timestamp)
+            const timestampStr = timestamp.toISOString()
+
+            if (!labels.includes(timestampStr)) {
+              labels.push(timestampStr)
             }
 
             const timestampValue = timestamp
@@ -126,7 +123,7 @@
           yAxisID: "y2",
         })
 
-        labels.sort((a, b) => a.getTime() - b.getTime())
+        labels.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
 
         return {
           labels,

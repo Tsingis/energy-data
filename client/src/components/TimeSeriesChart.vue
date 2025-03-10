@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onUnmounted, ref, watch } from "vue"
+  import { defineComponent, onUnmounted, ref, watch, type PropType } from "vue"
   import {
     Chart,
     type ChartConfiguration,
@@ -47,12 +47,12 @@
         default: "",
       },
       minTimestamp: {
-        type: Date,
+        type: Date as PropType<Date | null | undefined>,
         required: false,
         default: undefined,
       },
       maxTimestamp: {
-        type: Date,
+        type: Date as PropType<Date | null | undefined>,
         required: false,
         default: undefined,
       },
