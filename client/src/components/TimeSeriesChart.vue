@@ -180,6 +180,7 @@
                     text: props.yAxisLabelLeft,
                   },
                   ticks: {
+                    maxTicksLimit: 5,
                     callback: (value) => {
                       return value
                     },
@@ -192,9 +193,13 @@
                     text: props.yAxisLabelRight,
                   },
                   ticks: {
+                    maxTicksLimit: 5,
                     callback: (value) => {
                       return value
                     },
+                  },
+                  grid: {
+                    offset: true,
                   },
                 },
               },
