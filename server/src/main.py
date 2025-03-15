@@ -8,15 +8,18 @@ from setup_logger import setup_logger
 from energy_client import EnergyClient, EnergyData
 from price_client import PriceClient, PriceData
 
+
+ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
+
 logger = setup_logger()
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[ALLOWED_ORIGIN],
+    allow_methods=["GET"],
+    allow_headers=["Accept", "Content-Type"],
 )
 
 cache = SimpleMemoryCache()
@@ -78,4 +81,5 @@ def health():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=True)
+    reload = os.getenv("ENVIRONMENT", "dev") == "dev"
+    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=reload)
