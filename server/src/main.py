@@ -1,15 +1,14 @@
-import logging
 import os
 import uvicorn
 from aiocache import SimpleMemoryCache
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta, timezone
+from setup_logger import setup_logger
 from energy_client import EnergyClient, EnergyData
 from price_client import PriceClient, PriceData
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = setup_logger()
 
 app = FastAPI()
 
@@ -79,4 +78,4 @@ def health():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=True)
