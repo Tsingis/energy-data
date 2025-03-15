@@ -159,19 +159,34 @@
                     autoSkip: false,
                     stepSize: 15,
                     callback: (value, index) => {
-                      if (index % 4 === 0) {
-                        const date = new Date(value as number)
-                        const minutes = date.getMinutes()
-                        const roundedMinutes = Math.floor(minutes / 15) * 15
-                        date.setMinutes(roundedMinutes, 0, 0)
-                        return date.toLocaleTimeString(undefined, {
-                          timeZone: tz,
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: false,
-                        })
+                      const date = new Date(value as number)
+                      const hours = date.getHours()
+                      const minutes = date.getMinutes()
+                      const roundedMinutes = Math.floor(minutes / 15) * 15
+                      date.setMinutes(roundedMinutes, 0, 0)
+
+                      const datePart = date.toLocaleString("fi-FI", {
+                        timeZone: tz,
+                        day: "numeric",
+                        month: "numeric",
+                      })
+
+                      const timePart = date.toLocaleTimeString(undefined, {
+                        timeZone: tz,
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })
+
+                      const combinedDateTime = `${datePart} ${timePart}`
+
+                      if (hours === 0 && roundedMinutes === 0) {
+                        return combinedDateTime
+                      } else if (index % 4 === 0) {
+                        return timePart
+                      } else {
+                        return ""
                       }
-                      return ""
                     },
                   },
                   min: props.minTimestamp
