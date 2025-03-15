@@ -1,5 +1,5 @@
 <template>
-  <h1>Energy Data in Finland</h1>
+  <h1>Energy in Finland</h1>
   <Loading v-if="loading" size="6x" />
   <TimeSeriesChart
     :datasets="chartDatasets"
