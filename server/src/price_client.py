@@ -41,7 +41,7 @@ class PriceClient:
                 return PriceData(data=data)
             response.raise_for_status()
 
-    def _map_response_to_model(self, json: Dict) -> Dict[str, List[PriceModel]]:
+    def _map_response_to_model(self, json: Dict) -> List[PriceModel]:
         data = []
         for item in json.get("prices", []):
             time = datetime.fromisoformat(item["startDate"])
