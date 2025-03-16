@@ -2,6 +2,7 @@
   <h1>Energy in Finland</h1>
   <Loading v-if="loading" size="6x" />
   <TimeSeriesChart
+    v-if="!loading"
     :datasets="chartDatasets"
     y-axis-label-left="MW"
     y-axis-label-right="c/kWh"
@@ -10,6 +11,7 @@
     :max-timestamp="new Date(range[1])"
   />
   <DateRangeSlider
+    v-if="!loading"
     :model-value="[new Date(range[0]), new Date(range[1])]"
     :step="15 * 60 * 1000"
     :min="minTimestamp"
