@@ -14,9 +14,10 @@ WORKDIR /app
 COPY --from=build /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 COPY ./src .
 
-RUN rm -r /usr/local/lib/python3.13/site-packages/pip*
+RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
+    addgroup -S app && \
+    adduser -S -G app api
 
-RUN addgroup -S app && adduser -S -G app api
 USER api
 
 EXPOSE 8000

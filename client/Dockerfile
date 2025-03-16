@@ -13,9 +13,8 @@ ENV VITE_API_URL=${API_URL}
 COPY config/ ./config
 COPY src/ ./src
 
-RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js
-
-RUN npm run build
+RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js && \
+    npm run build
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine-slim
 
