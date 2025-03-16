@@ -1,10 +1,10 @@
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 export function formattedDate(date: Date): string {
-  return date.toLocaleString("fi-FI", {
+  return date.toLocaleString("en-US", {
     timeZone: timezone,
     day: "numeric",
-    month: "numeric",
+    month: "short",
   })
 }
 
@@ -17,8 +17,11 @@ export function formattedTime(date: Date): string {
   })
 }
 
-export function formattedDateTime(date: Date): string {
+export function formattedDateTime(
+  date: Date,
+  newLine: boolean = false
+): string {
   const datePart = formattedDate(date)
   const timePart = formattedTime(date)
-  return `${datePart} ${timePart}`
+  return newLine ? `${datePart} \n ${timePart}` : `${datePart} ${timePart}`
 }
