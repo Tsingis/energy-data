@@ -6,14 +6,23 @@
     y-axis-label-left="MW"
     y-axis-label-right="c/kWh"
     :y-axis-min-value-right="chartDatasets?.minValue"
-    :min-timestamp="chartDatasets?.minTimestamp"
-    :max-timestamp="chartDatasets?.maxTimestamp"
+    :min-timestamp="new Date(range[0])"
+    :max-timestamp="new Date(range[1])"
+  />
+  <DateRangeSlider
+    :model-value="[new Date(range[0]), new Date(range[1])]"
+    :step="15 * 60 * 1000"
+    :min="minTimestamp"
+    :max="maxTimestamp"
+    :format-value="formattedDatePart"
+    @update:model-value="onRangeUpdate"
   />
 </template>
 
 <script lang="ts">
   import { defineComponent, ref, onMounted, watch } from "vue"
   import TimeSeriesChart from "./components/TimeSeriesChart.vue"
+  import DateRangeSlider from "./components/DateRangeSlider.vue"
   import Loading from "./components/Loading.vue"
   import { useFetchData } from "./composables/useFetchData"
   import {
@@ -25,20 +34,24 @@
     type ChartData,
   } from "./types"
   import { DATASET_COLORS, DATASET_LABELS } from "./constants"
+  import { formattedDatePart, formattedTimePart } from "./composables/dateUtil"
 
   export default defineComponent({
     name: "App",
     components: {
       TimeSeriesChart,
+      DateRangeSlider,
       Loading,
     },
     setup() {
       const chartDatasets = ref<ChartData | undefined>(undefined)
+      const minTimestamp = ref<Date | null>(null)
+      const maxTimestamp = ref<Date | null>(null)
+      const range = ref<[number, number]>([0, 0])
 
       const fetchFunction = async () => {
         const apiUrl =
           import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
-
         const energyResponse = await fetch(`${apiUrl}/energy`)
         if (!energyResponse.ok) throw new Error("Failed to fetch energy data")
 
@@ -56,6 +69,22 @@
       watch(data, (newData) => {
         if (newData) {
           chartDatasets.value = newData
+          if (newData.minTimestamp && newData.maxTimestamp) {
+            minTimestamp.value = newData.minTimestamp
+            maxTimestamp.value = newData.maxTimestamp
+
+            const now = new Date()
+            const start = new Date(now)
+            start.setHours(now.getHours() - 3)
+
+            const end = new Date(now)
+            end.setHours(now.getHours() + 3)
+
+            range.value = [
+              Math.max(start.getTime(), newData.minTimestamp.getTime()),
+              Math.min(end.getTime(), newData.maxTimestamp.getTime()),
+            ]
+          }
         }
       })
 
@@ -72,31 +101,15 @@
         let max: Date | null = null
 
         for (const [datasetId, datasetData] of Object.entries(energyData)) {
-          const datasetLabels = datasetData.map(
-            (entry) => new Date(entry.timestamp)
-          )
-          const values = datasetData.map((entry) => entry.value)
-
-          datasetLabels.forEach((timestamp) => {
-            const timestampStr = timestamp.toISOString()
-
-            if (!labels.includes(timestampStr)) {
-              labels.push(timestampStr)
-            }
-
-            const timestampValue = timestamp
-            if (min === null || timestampValue < min) {
-              min = timestampValue
-            }
-            if (max === null || timestampValue > max) {
-              max = timestampValue
+          const datasetValues = datasetData.map((entry) => {
+            const timestamp = new Date(entry.timestamp)
+            if (min === null || timestamp < min) min = timestamp
+            if (max === null || timestamp > max) max = timestamp
+            return {
+              x: timestamp.getTime(),
+              y: entry.value,
             }
           })
-
-          const datasetValues = datasetLabels.map((timestamp, index) => ({
-            x: timestamp.getTime(),
-            y: values[index],
-          }))
 
           datasets.push({
             label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
@@ -127,8 +140,6 @@
           yAxisID: "y2",
         })
 
-        labels.sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-
         return {
           labels,
           datasets,
@@ -138,23 +149,19 @@
         }
       }
 
+      const onRangeUpdate = (value: [Date, Date]) => {
+        range.value = [value[0].getTime(), value[1].getTime()]
+      }
+
       return {
         chartDatasets,
         loading,
         error,
+        minTimestamp,
+        maxTimestamp,
+        range,
+        onRangeUpdate,
       }
     },
   })
 </script>
-
-<style>
-  #app {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-</style>

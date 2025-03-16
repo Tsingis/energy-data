@@ -17,6 +17,10 @@
   } from "chart.js"
   import annotationPlugin from "chartjs-plugin-annotation"
   import "chartjs-adapter-date-fns"
+  import {
+    formattedDatePart,
+    formattedTimePart,
+  } from "./../composables/dateUtil"
 
   // Register all Chart.js components
   Chart.register(...registerables)
@@ -53,20 +57,18 @@
       },
       minTimestamp: {
         type: Date as PropType<Date | null | undefined>,
-        required: false,
+        required: true,
         default: undefined,
       },
       maxTimestamp: {
         type: Date as PropType<Date | null | undefined>,
-        required: false,
+        required: true,
         default: undefined,
       },
     },
     setup(props) {
       const chartCanvas = ref<HTMLCanvasElement | null>(null)
       let chartInstance: Chart | null = null
-
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
 
       const sortDatasetsAlphabetically = (
         datasets: ChartDataset<"line", (number | Point | null)[]>[]
@@ -155,6 +157,12 @@
                     unit: "minute",
                     tooltipFormat: "HH:mm",
                   },
+                  min: props.minTimestamp
+                    ? props.minTimestamp.getTime()
+                    : undefined,
+                  max: props.maxTimestamp
+                    ? props.maxTimestamp.getTime()
+                    : undefined,
                   ticks: {
                     autoSkip: false,
                     stepSize: 15,
@@ -165,19 +173,8 @@
                       const roundedMinutes = Math.floor(minutes / 15) * 15
                       date.setMinutes(roundedMinutes, 0, 0)
 
-                      const datePart = date.toLocaleString("fi-FI", {
-                        timeZone: tz,
-                        day: "numeric",
-                        month: "numeric",
-                      })
-
-                      const timePart = date.toLocaleTimeString(undefined, {
-                        timeZone: tz,
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                      })
-
+                      const datePart = formattedDatePart(date)
+                      const timePart = formattedTimePart(date)
                       const combinedDateTime = `${datePart} ${timePart}`
 
                       if (hours === 0 && roundedMinutes === 0) {
@@ -189,16 +186,6 @@
                       }
                     },
                   },
-                  min: props.minTimestamp
-                    ? new Date(props.minTimestamp).toLocaleString(undefined, {
-                        timeZone: tz,
-                      })
-                    : undefined,
-                  max: props.maxTimestamp
-                    ? new Date(props.maxTimestamp).toLocaleString(undefined, {
-                        timeZone: tz,
-                      })
-                    : undefined,
                 },
                 y: {
                   title: {
