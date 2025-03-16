@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 now = datetime.now(timezone.utc)
-delta = timedelta(hours=15)
+delta = timedelta(hours=24)
 start_time = now - delta
 end_time = now + delta
 
