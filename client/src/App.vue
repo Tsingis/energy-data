@@ -5,6 +5,7 @@
     :datasets="chartDatasets"
     y-axis-label-left="MW"
     y-axis-label-right="c/kWh"
+    :y-axis-min-value-right="chartDatasets?.minValue"
     :min-timestamp="chartDatasets?.minTimestamp"
     :max-timestamp="chartDatasets?.maxTimestamp"
   />
@@ -112,6 +113,9 @@
           y: entry.value,
         }))
 
+        const minPrice = Math.min(...priceData.map((entry) => entry.value))
+        const minValue = minPrice > 5 ? minPrice : 0
+
         datasets.push({
           label: DATASET_LABELS["prices"],
           data: priceDatasetValues,
@@ -130,6 +134,7 @@
           datasets,
           minTimestamp: min ? new Date(min) : null,
           maxTimestamp: max ? new Date(max) : null,
+          minValue,
         }
       }
 

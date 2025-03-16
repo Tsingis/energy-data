@@ -34,4 +34,5 @@ export type ChartData = {
   datasets: Dataset[]
   minTimestamp: Date | null
   maxTimestamp: Date | null
+  minValue: number
 }
