@@ -155,6 +155,13 @@
     const track = (event.target as HTMLElement).closest(
       ".range-slider__track"
     ) as HTMLElement
+
+    if (!track) {
+      const range = max.value.getTime() - min.value.getTime()
+      const value = new Date(min.value.getTime() + range / 2)
+      return roundValue(value)
+    }
+
     const rect = track.getBoundingClientRect()
     const offset = (event.clientX - rect.left) / rect.width
     const range = max.value.getTime() - min.value.getTime()
