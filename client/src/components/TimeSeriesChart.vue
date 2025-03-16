@@ -17,7 +17,7 @@
   } from "chart.js"
   import annotationPlugin from "chartjs-plugin-annotation"
   import "chartjs-adapter-date-fns"
-  import { formattedDateTime, formattedTime } from "./../composables/dateUtil"
+  import { formattedTime } from "./../composables/dateUtil"
 
   // Register all Chart.js components
   Chart.register(...registerables)
@@ -165,14 +165,10 @@
                     stepSize: 15,
                     callback: (value, index) => {
                       const date = new Date(value as number)
-                      const hours = date.getHours()
                       const minutes = date.getMinutes()
                       const roundedMinutes = Math.floor(minutes / 15) * 15
                       date.setMinutes(roundedMinutes, 0, 0)
-                      if (hours === 0 && roundedMinutes === 0) {
-                        const datetime = formattedDateTime(date)
-                        return datetime
-                      } else if (index % 4 === 0) {
+                      if (index % 4 === 0) {
                         const timePart = formattedTime(date)
                         return timePart
                       } else {
