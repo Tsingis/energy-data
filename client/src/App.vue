@@ -14,7 +14,7 @@
     :step="15 * 60 * 1000"
     :min="minTimestamp"
     :max="maxTimestamp"
-    :format-value="formattedDatePart"
+    :format-value="formattedDateTime"
     @update:model-value="onRangeUpdate"
   />
 </template>
@@ -34,7 +34,7 @@
     type ChartData,
   } from "./types"
   import { DATASET_COLORS, DATASET_LABELS } from "./constants"
-  import { formattedDatePart, formattedTimePart } from "./composables/dateUtil"
+  import { formattedDateTime } from "./composables/dateUtil"
 
   export default defineComponent({
     name: "App",
@@ -161,7 +161,21 @@
         maxTimestamp,
         range,
         onRangeUpdate,
+        formattedDateTime,
       }
     },
   })
 </script>
+
+<style>
+  #app {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 90vh;
+  }
+</style>
