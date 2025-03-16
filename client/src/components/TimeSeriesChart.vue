@@ -25,7 +25,10 @@
   } from "chart.js"
   import annotationPlugin from "chartjs-plugin-annotation"
   import "chartjs-adapter-date-fns"
-  import { formattedTime } from "./../composables/dateUtil"
+  import {
+    formattedTime,
+    roundToNearestQuarterHour,
+  } from "./../composables/dateUtil"
 
   // Register all Chart.js components
   Chart.register(...registerables)
@@ -172,10 +175,9 @@
                     autoSkip: false,
                     stepSize: 15,
                     callback: (value, index) => {
-                      const date = new Date(value as number)
-                      const minutes = date.getMinutes()
-                      const roundedMinutes = Math.floor(minutes / 15) * 15
-                      date.setMinutes(roundedMinutes, 0, 0)
+                      const date = roundToNearestQuarterHour(
+                        new Date(value as number)
+                      )
                       if (index % 4 === 0) {
                         const timePart = formattedTime(date)
                         return timePart

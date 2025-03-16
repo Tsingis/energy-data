@@ -2,7 +2,7 @@
   <div
     class="range-slider"
     @mousedown="onSliderMouseDown"
-    @touchstart="onSliderTouchStart"
+    @touchstart.passive="onSliderTouchStart"
   >
     <div class="range-slider__track">
       <div
@@ -17,7 +17,7 @@
         class="range-slider__thumb"
         :style="{ left: `${position(modelValue[0])}%` }"
         @mousedown="onThumbMouseDown('start', $event)"
-        @touchstart="onThumbTouchStart('start', $event)"
+        @touchstart.passive="onThumbTouchStart('start', $event)"
       >
         <div class="range-slider__value">
           {{ defaultFormatValue(modelValue[0]) }}
@@ -28,7 +28,7 @@
         class="range-slider__thumb"
         :style="{ left: `${position(modelValue[1])}%` }"
         @mousedown="onThumbMouseDown('end', $event)"
-        @touchstart="onThumbTouchStart('end', $event)"
+        @touchstart.passive="onThumbTouchStart('end', $event)"
       >
         <div class="range-slider__value">
           {{ defaultFormatValue(modelValue[1]) }}
@@ -70,7 +70,7 @@
       (max.value.getTime() - min.value.getTime())) *
     100
 
-  function roundValue(value: Date) {
+  const roundValue = (value: Date) => {
     const timeFromMin = value.getTime() - min.value.getTime()
     const steppedTime = Math.round(timeFromMin / step.value) * step.value
     const roundedDate = new Date(min.value.getTime() + steppedTime)
@@ -82,7 +82,7 @@
     )
   }
 
-  function updateValue(value: Date) {
+  const updateValue = (value: Date) => {
     if (activeThumb.value === "start") {
       emit("update:modelValue", [
         new Date(
@@ -100,7 +100,11 @@
     }
   }
 
-  function onSliderMouseDown(event: MouseEvent) {
+  const onSliderMouseDown = (event: MouseEvent) => {
+    const track = event.currentTarget as HTMLElement
+    if (!track) {
+      return
+    }
     const value = getValueFromEvent(event)
     const closestThumb =
       Math.abs(value.getTime() - props.modelValue[0].getTime()) <
@@ -114,7 +118,7 @@
     window.addEventListener("mouseup", onMouseUp)
   }
 
-  function onSliderTouchStart(event: TouchEvent) {
+  const onSliderTouchStart = (event: TouchEvent) => {
     const touch = event.touches[0]
     const simulatedMouseEvent = new MouseEvent("mousedown", {
       bubbles: true,
@@ -127,56 +131,59 @@
     onSliderMouseDown(simulatedMouseEvent)
   }
 
-  function onMouseMove(event: MouseEvent) {
+  const onMouseMove = (event: MouseEvent) => {
     if (!activeThumb.value) return
 
     const value = getValueFromEvent(event)
+    const roundedValue = roundValue(value)
 
     if (activeThumb.value === "start") {
       emit("update:modelValue", [
-        new Date(Math.min(value.getTime(), props.modelValue[1].getTime())),
+        new Date(
+          Math.min(roundedValue.getTime(), props.modelValue[1].getTime())
+        ),
         props.modelValue[1],
       ])
     } else if (activeThumb.value === "end") {
       emit("update:modelValue", [
         props.modelValue[0],
-        new Date(Math.max(value.getTime(), props.modelValue[0].getTime())),
+        new Date(
+          Math.max(roundedValue.getTime(), props.modelValue[0].getTime())
+        ),
       ])
     }
   }
 
-  function onMouseUp() {
+  const onMouseUp = () => {
     activeThumb.value = null
     emit("end", props.modelValue)
     window.removeEventListener("mousemove", onMouseMove)
     window.removeEventListener("mouseup", onMouseUp)
   }
 
-  function onThumbMouseDown(thumb: "start" | "end", event: MouseEvent) {
-    event.stopPropagation()
+  const onThumbMouseDown = (thumb: "start" | "end", _: MouseEvent) => {
     activeThumb.value = thumb
     emit("start", props.modelValue)
     window.addEventListener("mousemove", onMouseMove)
     window.addEventListener("mouseup", onMouseUp)
   }
 
-  function onThumbTouchStart(thumb: "start" | "end", event: TouchEvent) {
+  const onThumbTouchStart = (thumb: "start" | "end", event: TouchEvent) => {
     onThumbMouseDown(thumb, event.touches[0] as any)
   }
-
-  function getValueFromEvent(event: MouseEvent | Touch) {
-    const track = (event.target as HTMLElement).closest(
-      ".range-slider__track"
-    ) as HTMLElement
+  const getValueFromEvent = (event: MouseEvent | Touch) => {
+    const target = event.target as HTMLElement
+    const track = target.closest(".range-slider__track") as HTMLElement
 
     if (!track) {
-      const range = max.value.getTime() - min.value.getTime()
-      const value = new Date(min.value.getTime() + range / 2)
-      return roundValue(value)
+      return roundValue(new Date(min.value.getTime()))
     }
 
     const rect = track.getBoundingClientRect()
-    const offset = (event.clientX - rect.left) / rect.width
+    const offset = Math.max(
+      0,
+      Math.min(1, (event.clientX - rect.left) / rect.width)
+    )
     const range = max.value.getTime() - min.value.getTime()
     const value = new Date(min.value.getTime() + offset * range)
     return roundValue(value)
