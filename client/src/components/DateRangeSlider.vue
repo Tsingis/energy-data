@@ -20,7 +20,7 @@
         @touchstart="onThumbTouchStart('start', $event)"
       >
         <div class="range-slider__value">
-          {{ formatValue(modelValue[0]) }}
+          {{ defaultFormatValue(modelValue[0]) }}
         </div>
       </div>
       <div
@@ -31,7 +31,7 @@
         @touchstart="onThumbTouchStart('end', $event)"
       >
         <div class="range-slider__value">
-          {{ formatValue(modelValue[1]) }}
+          {{ defaultFormatValue(modelValue[1]) }}
         </div>
       </div>
     </div>
@@ -40,7 +40,6 @@
 
 <script setup lang="ts">
   import { ref, computed } from "vue"
-  import { format, addMilliseconds, differenceInMilliseconds } from "date-fns"
 
   const props = defineProps<{
     modelValue: [Date, Date]
@@ -64,15 +63,17 @@
   const endThumb = ref<HTMLElement | null>(null)
   const activeThumb = ref<"start" | "end" | null>(null)
 
+  // Calculate position of the thumb based on value
   const position = (value: Date) =>
-    (differenceInMilliseconds(value, min.value) /
-      differenceInMilliseconds(max.value, min.value)) *
+    ((value.getTime() - min.value.getTime()) /
+      (max.value.getTime() - min.value.getTime())) *
     100
 
+  // Round value to the nearest step
   function roundValue(value: Date) {
-    const timeFromMin = differenceInMilliseconds(value, min.value)
+    const timeFromMin = value.getTime() - min.value.getTime()
     const steppedTime = Math.round(timeFromMin / step.value) * step.value
-    const roundedDate = addMilliseconds(min.value, steppedTime)
+    const roundedDate = new Date(min.value.getTime() + steppedTime)
     return new Date(
       Math.min(
         max.value.getTime(),
@@ -81,6 +82,7 @@
     )
   }
 
+  // Update the value based on the active thumb
   function updateValue(value: Date) {
     if (activeThumb.value === "start") {
       emit("update:modelValue", [
@@ -99,6 +101,7 @@
     }
   }
 
+  // Mouse down event on slider
   function onSliderMouseDown(event: MouseEvent) {
     const value = getValueFromEvent(event)
     const closestThumb =
@@ -129,6 +132,7 @@
     window.removeEventListener("mouseup", onMouseUp)
   }
 
+  // Mouse down event on thumb
   function onThumbMouseDown(thumb: "start" | "end", event: MouseEvent) {
     event.stopPropagation()
     activeThumb.value = thumb
@@ -137,6 +141,7 @@
     window.addEventListener("mouseup", onMouseUp)
   }
 
+  // Touch start event on thumb
   function onThumbTouchStart(thumb: "start" | "end", event: TouchEvent) {
     onThumbMouseDown(thumb, event.touches[0] as any)
   }
@@ -147,15 +152,16 @@
     ) as HTMLElement
     const rect = track.getBoundingClientRect()
     const offset = (event.clientX - rect.left) / rect.width
-    const range = differenceInMilliseconds(max.value, min.value)
-    const value = addMilliseconds(min.value, offset * range)
+    const range = max.value.getTime() - min.value.getTime()
+    const value = new Date(min.value.getTime() + offset * range)
     return roundValue(value)
   }
 
-  const formatValue = (value: Date) => {
+  // Format date value (replacing date-fns format)
+  const defaultFormatValue = (value: Date) => {
     return props.formatValue
       ? props.formatValue(value)
-      : format(value, "yyyy-MM-dd HH:mm")
+      : `${value.toLocaleDateString()} ${value.toLocaleTimeString()}`
   }
 </script>
 
@@ -163,6 +169,8 @@
   .range-slider {
     position: relative;
     height: 20px;
+    width: 75%;
+    margin-top: 1.5rem;
     user-select: none;
   }
 
@@ -176,7 +184,7 @@
   .range-slider__range {
     position: absolute;
     height: 100%;
-    background-color: #6200ea;
+    background-color: #0d1d47;
     border-radius: 2px;
   }
 
@@ -185,7 +193,7 @@
     top: 50%;
     width: 16px;
     height: 16px;
-    background-color: #6200ea;
+    background-color: #0d1d47;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     cursor: pointer;
@@ -193,10 +201,10 @@
 
   .range-slider__value {
     position: absolute;
-    top: -24px;
+    top: 24px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: #6200ea;
+    background-color: #0d1d47;
     color: #ffffff;
     font-size: 12px;
     padding: 2px 6px;
