@@ -42,6 +42,7 @@
   import { ref, computed } from "vue"
 
   const props = defineProps<{
+    /* eslint-disable no-unused-vars */
     modelValue: [Date, Date]
     min?: Date
     max?: Date
@@ -50,6 +51,7 @@
   }>()
 
   const emit = defineEmits<{
+    /* eslint-disable no-unused-vars */
     (e: "update:modelValue", value: [Date, Date]): void
     (e: "start", value: [Date, Date]): void
     (e: "end", value: [Date, Date]): void
@@ -63,13 +65,11 @@
   const endThumb = ref<HTMLElement | null>(null)
   const activeThumb = ref<"start" | "end" | null>(null)
 
-  // Calculate position of the thumb based on value
   const position = (value: Date) =>
     ((value.getTime() - min.value.getTime()) /
       (max.value.getTime() - min.value.getTime())) *
     100
 
-  // Round value to the nearest step
   function roundValue(value: Date) {
     const timeFromMin = value.getTime() - min.value.getTime()
     const steppedTime = Math.round(timeFromMin / step.value) * step.value
@@ -82,7 +82,6 @@
     )
   }
 
-  // Update the value based on the active thumb
   function updateValue(value: Date) {
     if (activeThumb.value === "start") {
       emit("update:modelValue", [
@@ -101,7 +100,6 @@
     }
   }
 
-  // Mouse down event on slider
   function onSliderMouseDown(event: MouseEvent) {
     const value = getValueFromEvent(event)
     const closestThumb =
@@ -117,7 +115,16 @@
   }
 
   function onSliderTouchStart(event: TouchEvent) {
-    onSliderMouseDown(event.touches[0])
+    const touch = event.touches[0]
+    const simulatedMouseEvent = new MouseEvent("mousedown", {
+      bubbles: true,
+      cancelable: true,
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      button: 0,
+    })
+
+    onSliderMouseDown(simulatedMouseEvent)
   }
 
   function onMouseMove(event: MouseEvent) {
@@ -132,7 +139,6 @@
     window.removeEventListener("mouseup", onMouseUp)
   }
 
-  // Mouse down event on thumb
   function onThumbMouseDown(thumb: "start" | "end", event: MouseEvent) {
     event.stopPropagation()
     activeThumb.value = thumb
@@ -141,7 +147,6 @@
     window.addEventListener("mouseup", onMouseUp)
   }
 
-  // Touch start event on thumb
   function onThumbTouchStart(thumb: "start" | "end", event: TouchEvent) {
     onThumbMouseDown(thumb, event.touches[0] as any)
   }
@@ -157,7 +162,6 @@
     return roundValue(value)
   }
 
-  // Format date value (replacing date-fns format)
   const defaultFormatValue = (value: Date) => {
     return props.formatValue
       ? props.formatValue(value)

@@ -45,8 +45,8 @@
     },
     setup() {
       const chartDatasets = ref<ChartData | undefined>(undefined)
-      const minTimestamp = ref<Date | null>(null)
-      const maxTimestamp = ref<Date | null>(null)
+      const minTimestamp = ref<Date | undefined>(undefined)
+      const maxTimestamp = ref<Date | undefined>(undefined)
       const range = ref<[number, number]>([0, 0])
 
       const fetchFunction = async () => {
@@ -176,6 +176,6 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    height: 90vh;
+    height: 80vh;
   }
 </style>
