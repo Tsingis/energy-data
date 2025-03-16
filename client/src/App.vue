@@ -16,7 +16,7 @@
     :step="15 * 60 * 1000"
     :min="minTimestamp"
     :max="maxTimestamp"
-    :format-value="formattedDateTime"
+    :format-value="(value) => formattedDateTime(value, true)"
     @update:model-value="onRangeUpdate"
   />
 </template>
