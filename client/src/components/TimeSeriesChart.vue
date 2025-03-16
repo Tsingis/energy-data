@@ -5,7 +5,15 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, onUnmounted, ref, watch, type PropType } from "vue"
+  import {
+    defineComponent,
+    nextTick,
+    onMounted,
+    onUnmounted,
+    ref,
+    watch,
+    type PropType,
+  } from "vue"
   import {
     Chart,
     type ChartConfiguration,
@@ -238,6 +246,12 @@
         if (chartInstance) {
           chartInstance.destroy()
         }
+      })
+
+      onMounted(() => {
+        nextTick(() => {
+          updateChart()
+        })
       })
 
       return { chartCanvas }
