@@ -128,8 +128,21 @@
   }
 
   function onMouseMove(event: MouseEvent) {
+    if (!activeThumb.value) return
+
     const value = getValueFromEvent(event)
-    updateValue(value)
+
+    if (activeThumb.value === "start") {
+      emit("update:modelValue", [
+        new Date(Math.min(value.getTime(), props.modelValue[1].getTime())),
+        props.modelValue[1],
+      ])
+    } else if (activeThumb.value === "end") {
+      emit("update:modelValue", [
+        props.modelValue[0],
+        new Date(Math.max(value.getTime(), props.modelValue[0].getTime())),
+      ])
+    }
   }
 
   function onMouseUp() {
@@ -179,7 +192,7 @@
 <style scoped>
   .range-slider {
     position: relative;
-    height: 20px;
+    height: 30px;
     width: 75%;
     margin-top: 1.5rem;
     user-select: none;
@@ -187,9 +200,10 @@
 
   .range-slider__track {
     position: relative;
-    height: 4px;
+    height: 10px;
     background-color: #e0e0e0;
     border-radius: 2px;
+    cursor: pointer;
   }
 
   .range-slider__range {
@@ -202,8 +216,8 @@
   .range-slider__thumb {
     position: absolute;
     top: 50%;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background-color: #0d1d47;
     border-radius: 50%;
     transform: translate(-50%, -50%);
