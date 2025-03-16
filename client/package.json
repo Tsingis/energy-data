@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config ./config/vite.config.ts --open",
+    "dev:check": "vite --config ./config/vite.config.ts --open -- --use-checker",
     "audit": "npm audit --audit-level low",
     "lint": "npx eslint . --config ./config/eslint.config.js",
     "lint:fix": "npx eslint . --config ./config/eslint.config.js --fix",
@@ -33,6 +34,7 @@
     "prettier": "^3.5.1",
     "typescript": "5.8.2",
     "vite": "^6.2.1",
+    "vite-plugin-checker": "^0.9.0",
     "vue-eslint-parser": "^10.1.1",
     "vue-tsc": "^2.2.8"
   }

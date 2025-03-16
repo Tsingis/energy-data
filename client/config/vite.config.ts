@@ -1,8 +1,25 @@
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
+import checker from "vite-plugin-checker"
+
+const args = process.argv.slice(3)
+const useChecker = args.includes("--use-checker")
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    useChecker &&
+      checker({
+        typescript: {
+          tsconfigPath: "./config/tsconfig.json",
+        },
+        //TODO: Test once eslint v9 flatfile config is supported
+        // eslint: {
+        //   lintCommand: "eslint . --config ./config/eslint.config.js",
+        //   useFlatConfig: true,
+        // },
+      }),
+  ],
   root: "src",
   publicDir: "public",
   envDir: "../..",
