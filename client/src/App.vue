@@ -75,10 +75,10 @@
 
             const now = new Date()
             const start = new Date(now)
-            start.setHours(now.getHours() - 3)
+            start.setHours(now.getHours() - 5)
 
             const end = new Date(now)
-            end.setHours(now.getHours() + 3)
+            end.setHours(now.getHours() + 5)
 
             range.value = [
               Math.max(start.getTime(), newData.minTimestamp.getTime()),
