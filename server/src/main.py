@@ -1,10 +1,18 @@
 import os
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.exceptions import HTTPException as StarletteHTTPException
 from datetime import datetime, timedelta, timezone
 from setup_logger import setup_logger
 from cache import cache_result
+from exception_handlers import (
+    http_exception_handler,
+    fastapi_http_exception_handler,
+    validation_exception_handler,
+    general_exception_handler,
+)
 from middleware.secure_headers import SecureHeadersMiddleware
 from clients.energy_client import EnergyClient, EnergyData
 from clients.price_client import PriceClient, PriceData
@@ -16,6 +24,11 @@ CACHE_TTL = int(os.getenv("CACHE_TTL", 900))
 logger = setup_logger()
 
 app = FastAPI()
+
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(HTTPException, fastapi_http_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(Exception, general_exception_handler)
 
 app.add_middleware(
     CORSMiddleware,
