@@ -1,9 +1,11 @@
 import os
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
 from datetime import datetime, timedelta, timezone
 from setup_logger import setup_logger
 from cache import cache_result
@@ -12,6 +14,7 @@ from exception_handlers import (
     fastapi_http_exception_handler,
     validation_exception_handler,
     general_exception_handler,
+    ratelimit_exception_handler,
 )
 from middleware.secure_headers import SecureHeadersMiddleware
 from clients.energy_client import EnergyClient, EnergyData
@@ -25,10 +28,14 @@ logger = setup_logger()
 
 app = FastAPI()
 
+limiter = Limiter(key_func=lambda: "global")
+app.state.limiter = limiter
+
 app.add_exception_handler(StarletteHTTPException, http_exception_handler)
 app.add_exception_handler(HTTPException, fastapi_http_exception_handler)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, general_exception_handler)
+app.add_exception_handler(RateLimitExceeded, ratelimit_exception_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,23 +53,26 @@ end_time = now + delta
 
 
 @app.get("/data/energy")
+@limiter.limit("10/minute")
 @cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
-async def get_energy_data():
+async def get_energy_data(request: Request):
     client = EnergyClient()
     data = await client.fetch_energy_data(start_time, end_time)
     return data.model_dump()
 
 
 @app.get("/data/price")
+@limiter.limit("10/minute")
 @cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
-async def get_price_data():
+async def get_price_data(request: Request):
     client = PriceClient()
     data = await client.fetch_price_data(start_time, end_time)
     return data.model_dump()
 
 
 @app.get("/health")
-def health():
+@limiter.limit("15/minute")
+def health(request: Request):
     return {"message": "healthy"}
 
 

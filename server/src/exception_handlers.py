@@ -2,6 +2,7 @@ from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from slowapi.errors import RateLimitExceeded
 from setup_logger import setup_logger
 
 logger = setup_logger()
@@ -36,4 +37,12 @@ async def general_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
         status_code=500,
         content={"error": "Internal server error"},
+    )
+
+
+async def ratelimit_exception_handler(request: Request, exc: RateLimitExceeded):
+    logger.exception("Rate limit exceeded", exc_info=exc)
+    return JSONResponse(
+        status_code=429,
+        content={"message": "Rate limit exceeded. Try again later."},
     )
