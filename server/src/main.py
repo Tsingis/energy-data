@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timedelta, timezone
 from setup_logger import setup_logger
 from cache import cache_result
+from middleware.secure_headers import SecureHeadersMiddleware
 from energy_client import EnergyClient, EnergyData
 from price_client import PriceClient, PriceData
 
@@ -22,6 +23,8 @@ app.add_middleware(
     allow_methods=["GET"],
     allow_headers=["Accept", "Content-Type"],
 )
+
+app.add_middleware(SecureHeadersMiddleware)
 
 now = datetime.now(timezone.utc)
 delta = timedelta(hours=24)
