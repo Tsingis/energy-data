@@ -6,8 +6,8 @@ from datetime import datetime, timedelta, timezone
 from setup_logger import setup_logger
 from cache import cache_result
 from middleware.secure_headers import SecureHeadersMiddleware
-from energy_client import EnergyClient, EnergyData
-from price_client import PriceClient, PriceData
+from clients.energy_client import EnergyClient, EnergyData
+from clients.price_client import PriceClient, PriceData
 
 
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
