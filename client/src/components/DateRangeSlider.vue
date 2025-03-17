@@ -168,12 +168,36 @@
     window.addEventListener("mouseup", onMouseUp)
   }
 
-  const onThumbTouchStart = (thumb: "start" | "end", event: TouchEvent) => {
-    onThumbMouseDown(thumb, event.touches[0] as any)
+  const onThumbTouchStart = (thumb: "start" | "end", _: TouchEvent) => {
+    activeThumb.value = thumb
+    emit("start", props.modelValue)
+
+    window.addEventListener("touchmove", onTouchMove)
+    window.addEventListener("touchend", onTouchEnd)
   }
+
+  const onTouchMove = (event: TouchEvent) => {
+    if (!activeThumb.value) return
+
+    const touch = event.touches[0]
+    if (!touch) return
+
+    const value = getValueFromEvent(touch)
+    updateValue(value)
+  }
+
+  const onTouchEnd = () => {
+    activeThumb.value = null
+    emit("end", props.modelValue)
+
+    window.removeEventListener("touchmove", onTouchMove)
+    window.removeEventListener("touchend", onTouchEnd)
+  }
+
   const getValueFromEvent = (event: MouseEvent | Touch) => {
-    const target = event.target as HTMLElement
-    const track = target.closest(".range-slider__track") as HTMLElement
+    const track = startThumb.value?.closest(
+      ".range-slider__track"
+    ) as HTMLElement
 
     if (!track) {
       return roundValue(new Date(min.value.getTime()))
