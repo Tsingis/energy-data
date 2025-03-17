@@ -4,6 +4,10 @@ Project about energy consumption and production in Finland. Open source data fro
 
 Energy price in Finland. API ata from [Pörssisähkö](https://porssisahko.net/api)
 
+Frontend: https://energy-data-client.onrender.com
+
+Backend: https://energy-data-server.onrender.com/docs
+
 Tools used:
 
 - Python 3.13
