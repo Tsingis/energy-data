@@ -71,7 +71,7 @@ async def get_price_data(request: Request):
 
 
 @app.get("/health")
-@limiter.limit("15/minute")
+@limiter.limit("30/minute")
 def health(request: Request):
     return {"message": "healthy"}
 
