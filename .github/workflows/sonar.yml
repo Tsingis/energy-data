@@ -5,8 +5,10 @@ on:
       - master
     paths:
       - "server/src/**"
+      - "server/tests/**"
       - "server/requirements.txt"
       - "client/client/src/**"
+      - "client/client/tests/**"
       - "client/client/config/**"
       - "client/package*.json"
       - "**/Dockerfile*"
@@ -16,8 +18,10 @@ on:
       - master
     paths:
       - "server/src/**"
+      - "server/tests/**"
       - "server/requirements.txt"
       - "client/client/src/**"
+      - "client/client/tests/**"
       - "client/client/config/**"
       - "client/package*.json"
       - "**/Dockerfile*"
