@@ -8,7 +8,7 @@ from setup_logger import setup_logger
 logger = setup_logger()
 
 
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+async def http_exception_handler(_: Request, exc: StarletteHTTPException):
     logger.exception(f"HTTP Exception: {exc.status_code} - {exc.detail}")
     return JSONResponse(
         status_code=exc.status_code,
@@ -16,7 +16,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     )
 
 
-async def fastapi_http_exception_handler(request: Request, exc: HTTPException):
+async def fastapi_http_exception_handler(_: Request, exc: HTTPException):
     logger.exception(f"HTTP Exception: {exc.status_code} - {exc.detail}")
     return JSONResponse(
         status_code=exc.status_code,
@@ -24,7 +24,7 @@ async def fastapi_http_exception_handler(request: Request, exc: HTTPException):
     )
 
 
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
+async def validation_exception_handler(_: Request, exc: RequestValidationError):
     logger.exception(f"Validation Error: {exc.errors()}")
     return JSONResponse(
         status_code=422,
@@ -32,7 +32,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 
-async def general_exception_handler(request: Request, exc: Exception):
+async def general_exception_handler(_: Request, exc: Exception):
     logger.exception(f"Unhandled Exception: {exc}")
     return JSONResponse(
         status_code=500,
@@ -40,7 +40,7 @@ async def general_exception_handler(request: Request, exc: Exception):
     )
 
 
-async def ratelimit_exception_handler(request: Request, exc: RateLimitExceeded):
+async def ratelimit_exception_handler(_: Request, exc: RateLimitExceeded):
     logger.exception("Rate limit exceeded", exc_info=exc)
     return JSONResponse(
         status_code=429,
