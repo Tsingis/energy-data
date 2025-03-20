@@ -1,10 +1,7 @@
 import httpx
 from datetime import datetime
-from dotenv import load_dotenv
 from pydantic import BaseModel
 from typing import List, Dict
-
-load_dotenv()
 
 
 class PriceModel(BaseModel):
