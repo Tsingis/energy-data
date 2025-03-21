@@ -52,7 +52,7 @@ start_time = now - delta
 end_time = now + delta
 
 
-@app.get("/data/energy")
+@app.get("/data/energy", response_model=EnergyData)
 @limiter.limit("10/minute")
 @cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
 async def get_energy_data(request: Request):
@@ -61,7 +61,7 @@ async def get_energy_data(request: Request):
     return data.model_dump()
 
 
-@app.get("/data/price")
+@app.get("/data/price", response_model=PriceData)
 @limiter.limit("10/minute")
 @cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
 async def get_price_data(request: Request):
