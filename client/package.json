@@ -6,12 +6,12 @@
   "scripts": {
     "dev": "vite --config ./config/vite.config.ts --open",
     "dev:check": "vite --config ./config/vite.config.ts --open -- --use-checker",
-    "test": "npx vitest --config config/vitest.config.ts",
+    "test": "vitest --config config/vitest.config.ts",
     "audit": "npm audit --audit-level low",
-    "lint": "npx eslint . --config ./config/eslint.config.js",
-    "lint:fix": "npx eslint . --config ./config/eslint.config.js --fix",
-    "prettier": "npx prettier --check '**/*.{js,ts,vue,css,html}'",
-    "prettier:fix": "npx prettier --write '**/*.{js,ts,vue,css,html}'",
+    "lint": "eslint . --config ./config/eslint.config.js",
+    "lint:fix": "eslint . --config ./config/eslint.config.js --fix",
+    "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
+    "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
     "typecheck": "vue-tsc --noEmit -p ./config/tsconfig.json",
     "build": "vue-tsc -b ./config/tsconfig.json && vite --config ./config/vite.config.ts build"
   },
