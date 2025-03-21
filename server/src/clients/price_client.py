@@ -10,7 +10,6 @@ class PriceModel(BaseModel):
 
 
 class PriceData(RootModel[List[PriceModel]]):
-
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat()}
 

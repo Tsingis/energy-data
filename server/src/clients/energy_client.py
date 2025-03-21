@@ -16,7 +16,6 @@ class EnergyModel(BaseModel):
 
 
 class EnergyData(RootModel[Dict[str, List[EnergyModel]]]):
-
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat()}
 

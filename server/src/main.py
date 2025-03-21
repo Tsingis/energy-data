@@ -1,6 +1,6 @@
 import os
 import uvicorn
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -55,18 +55,16 @@ end_time = now + delta
 @app.get("/data/energy", response_model=EnergyData)
 @limiter.limit("10/minute")
 @cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
-async def get_energy_data(request: Request):
-    client = EnergyClient()
-    data = await client.fetch_energy_data(start_time, end_time)
+async def get_energy_data(request: Request, energy_client: EnergyClient = Depends(use_cache=True)):
+    data = await energy_client.fetch_energy_data(start_time, end_time)
     return data.model_dump()
 
 
 @app.get("/data/price", response_model=PriceData)
 @limiter.limit("10/minute")
 @cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
-async def get_price_data(request: Request):
-    client = PriceClient()
-    data = await client.fetch_price_data(start_time, end_time)
+async def get_price_data(request: Request, price_client: PriceClient = Depends(use_cache=True)):
+    data = await price_client.fetch_price_data(start_time, end_time)
     return data.model_dump()
 
 
