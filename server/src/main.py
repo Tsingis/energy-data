@@ -70,7 +70,7 @@ async def get_price_data(request: Request):
     return data.model_dump()
 
 
-@app.get("/health")
+@app.get("/health", include_in_schema=False)
 @limiter.limit("30/minute")
 def health(request: Request):
     return {"message": "healthy"}
