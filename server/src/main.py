@@ -7,9 +7,9 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from datetime import datetime, timedelta, timezone
-from setup_logger import setup_logger
-from cache import cache_result
-from exception_handlers import (
+from common.setup_logger import setup_logger
+from common.cache import cache_result
+from common.exception_handlers import (
     http_exception_handler,
     fastapi_http_exception_handler,
     validation_exception_handler,

@@ -2,9 +2,10 @@ from typing import Type
 from aiocache import SimpleMemoryCache
 from functools import wraps
 from fastapi import HTTPException, status
-import logging
+from .setup_logger import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger()
+
 cache = SimpleMemoryCache()
 
 

@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi.errors import RateLimitExceeded
-from setup_logger import setup_logger
+from .setup_logger import setup_logger
 
 logger = setup_logger()
 
