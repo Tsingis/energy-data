@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
 from src.main import app
+from src.clients.energy_client import Dataset
 
 
 class TestMain(unittest.TestCase):
@@ -21,13 +22,18 @@ class TestMain(unittest.TestCase):
 
     def test_get_energy_data(self):
         response = self.client.get("/data/energy")
+        data = response.json()
         self.assertEqual(response.status_code, 200)
-        self.assertIn("data", response.json())
+        self.assertIn(str(Dataset.PRODUCTION.value), data)
+        self.assertIn(str(Dataset.PRODUCTION_PREDICTION.value), data)
+        self.assertIn(str(Dataset.CONSUMPTION.value), data)
+        self.assertIn(str(Dataset.CONSUMPTION_PREDICTION.value), data)
 
     def test_get_price_data(self):
         response = self.client.get("/data/price")
+        data = response.json()
         self.assertEqual(response.status_code, 200)
-        self.assertIn("data", response.json())
+        self.assertIsInstance(data, list)
 
 
 if __name__ == "__main__":

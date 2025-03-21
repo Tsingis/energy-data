@@ -4,7 +4,7 @@ import urllib.parse
 from datetime import datetime
 from dotenv import load_dotenv
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import List, Dict
 
 load_dotenv()
@@ -15,8 +15,7 @@ class EnergyModel(BaseModel):
     value: float  # Unit: MW
 
 
-class EnergyData(BaseModel):
-    data: Dict[str, List[EnergyModel]]
+class EnergyData(RootModel[Dict[str, List[EnergyModel]]]):
 
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat()}
@@ -68,7 +67,7 @@ class EnergyClient:
             if response.status_code == 200:
                 data = self._map_response_to_model(response.json())
                 self._adjust_predictions(data)
-                return EnergyData(data=data)
+                return EnergyData(data)
             response.raise_for_status()
 
     def _map_response_to_model(self, json: Dict) -> Dict[str, List[EnergyModel]]:

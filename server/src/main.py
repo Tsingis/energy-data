@@ -78,5 +78,5 @@ def health(request: Request):
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    reload = os.getenv("ENVIRONMENT", "dev") == "dev"
+    reload = os.getenv("ENVIRONMENT", "dev").lower() == "dev"
     uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=reload)

@@ -4,9 +4,7 @@ export type EnergyModel = {
 }
 
 export type EnergyData = {
-  data: {
-    [key: string]: EnergyModel[]
-  }
+  [key: string]: EnergyModel[]
 }
 
 export type PriceModel = {
@@ -14,9 +12,7 @@ export type PriceModel = {
   value: number
 }
 
-export type PriceData = {
-  data: PriceModel[]
-}
+export type PriceData = PriceModel[]
 
 export type Dataset = {
   label: string

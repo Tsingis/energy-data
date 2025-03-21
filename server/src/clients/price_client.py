@@ -1,6 +1,6 @@
 import httpx
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 from typing import List, Dict
 
 
@@ -9,8 +9,7 @@ class PriceModel(BaseModel):
     value: float  # Unit: c/kWh
 
 
-class PriceData(BaseModel):
-    data: List[PriceModel]
+class PriceData(RootModel[List[PriceModel]]):
 
     class Config:
         json_encoders = {datetime: lambda v: v.isoformat()}
@@ -35,7 +34,7 @@ class PriceClient:
             if response.status_code == 200:
                 data = self._map_response_to_model(response.json())
                 data = self._filter_data_by_time(data, start_time, end_time)
-                return PriceData(data=data)
+                return PriceData(data)
             response.raise_for_status()
 
     def _map_response_to_model(self, json: Dict) -> List[PriceModel]:

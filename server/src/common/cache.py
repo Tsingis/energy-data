@@ -18,7 +18,11 @@ def cache_result(cache_key: str, model_type: Type, ttl: int = 900):
                 if cached_value:
                     return model_type.model_validate_json(cached_value).model_dump()
                 result = await func(*args, **kwargs)
-                await cache.set(cache_key, model_type(**result).model_dump(), ttl=ttl)
+                if isinstance(result, list):
+                    result = model_type(result)
+                else:
+                    result = model_type(**result)
+                await cache.set(cache_key, result, ttl=ttl)
                 return result
             except Exception:
                 logger.exception(f"Error in caching for key {cache_key}")

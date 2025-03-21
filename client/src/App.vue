@@ -63,7 +63,7 @@
         const energyData: EnergyData = await energyResponse.json()
         const priceData: PriceData = await priceResponse.json()
 
-        return transformDataForChart(energyData.data, priceData.data)
+        return transformDataForChart(energyData, priceData)
       }
 
       const { data, loading, error, fetchData } = useFetchData(fetchFunction)
