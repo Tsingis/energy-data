@@ -58,11 +58,6 @@
         required: false,
         default: "",
       },
-      yAxisMinValueRight: {
-        type: Number,
-        required: false,
-        default: 0,
-      },
       minTimestamp: {
         type: Date as PropType<Date | null | undefined>,
         required: true,
@@ -211,7 +206,6 @@
                       return value
                     },
                   },
-                  min: props.yAxisMinValueRight,
                   grid: {
                     offset: true,
                   },
