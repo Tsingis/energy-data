@@ -38,7 +38,7 @@
     "jsdom": "^26.0.0",
     "prettier": "^3.5.1",
     "typescript": "5.8.2",
-    "vite": "^6.2.1",
+    "vite": "^6.2.3",
     "vite-plugin-checker": "^0.9.1",
     "vitest": "^3.0.9",
     "vue-eslint-parser": "^10.1.1",
