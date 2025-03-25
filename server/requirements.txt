@@ -1,6 +1,6 @@
 aiocache==0.12.3
 fastapi==0.115.12
 httpx==0.28.1
-python-dotenv==1.0.1
+python-dotenv==1.1.0
 slowapi==0.1.9
 uvicorn==0.34.0
