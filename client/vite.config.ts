@@ -11,7 +11,7 @@ export default defineConfig({
     useChecker &&
       checker({
         vueTsc: {
-          tsconfigPath: "./config/tsconfig.json",
+          tsconfigPath: "./tsconfig.json",
         },
         //TODO: Test once eslint v9 flatfile config is supported
         // eslint: {

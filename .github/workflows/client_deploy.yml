@@ -6,7 +6,8 @@ on:
     paths:
       - "client/src/**"
       - "client/nginx/**"
-      - "client/config/**"
+      - "client/vite.config.ts"
+      - "client/tsconfig.json"
       - "client/package*.json"
       - "client/Dockerfile"
       - ".github/workflows/client_deploy.yml"

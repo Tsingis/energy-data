@@ -6,7 +6,10 @@ on:
     paths:
       - "client/src/**"
       - "client/tests/**"
-      - "client/config/**"
+      - "client/vite.config.ts"
+      - "client/vitest.config.ts"
+      - "client/tsconfig.json"
+      - "client/eslint.config.js"
       - "client/package*.json"
       - ".github/workflows/client_test.yml"
   workflow_dispatch:

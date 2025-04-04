@@ -16,5 +16,5 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "vitest.rootConfig": "./client/config/vitest.config.ts",
+  "vitest.rootConfig": "./client/vitest.config.ts",
 }

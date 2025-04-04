@@ -4,16 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --config ./config/vite.config.ts --open",
-    "dev:check": "vite --config ./config/vite.config.ts --open -- --use-checker",
-    "test": "vitest --config config/vitest.config.ts",
+    "dev": "vite --config .vite.config.ts --open",
+    "dev:check": "vite --config ./vite.config.ts --open -- --use-checker",
+    "test": "vitest --config vitest.config.ts",
     "audit": "npm audit --audit-level low",
-    "lint": "eslint . --config ./config/eslint.config.js",
-    "lint:fix": "eslint . --config ./config/eslint.config.js --fix",
+    "lint": "eslint . --config ./eslint.config.js",
+    "lint:fix": "eslint . --config ./eslint.config.js --fix",
     "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
     "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
-    "typecheck": "vue-tsc --noEmit -p ./config/tsconfig.json",
-    "build": "vue-tsc -b ./config/tsconfig.json && vite --config ./config/vite.config.ts build"
+    "typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
+    "build": "vue-tsc -b ./tsconfig.json && vite --config ./vite.config.ts build"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.2",

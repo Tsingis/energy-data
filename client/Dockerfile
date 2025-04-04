@@ -10,8 +10,9 @@ ARG API_URL
 
 ENV VITE_API_URL=${API_URL}
 
-COPY config/ ./config
 COPY src/ ./src
+COPY tsconfig.json ./tsconfig.json
+COPY vite.config.ts ./vite.config.ts
 
 RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js && \
     npm run build
