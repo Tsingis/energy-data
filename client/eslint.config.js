@@ -10,7 +10,6 @@ export default [
   ...pluginVue.configs["flat/strongly-recommended"],
   {
     files: ["**/*.{js,ts,vue}"],
-    ignores: ["dist", "**/eslint.config.js", "**/*d.ts"],
     languageOptions: {
       parser: vueParser,
       parserOptions: {
@@ -40,5 +39,8 @@ export default [
         version: "detect",
       },
     },
+  },
+  {
+    ignores: ["dist"],
   },
 ]
