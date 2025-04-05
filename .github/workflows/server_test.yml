@@ -28,6 +28,31 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         working-directory: ./server
+  check:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          architecture: "x64"
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-python-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-python-
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install flake8 black
+        working-directory: ./server
+      - name: Check linting & formatting
+        run: |
+          flake8 .
+          black --check .
+        working-directory: ./server
   unit-tests:
     runs-on: ubuntu-latest
     needs: setup
