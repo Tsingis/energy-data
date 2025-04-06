@@ -15,14 +15,16 @@ export type PriceModel = {
 export type PriceData = PriceModel[]
 
 export type Dataset = {
+  type: "line" | "bar"
   label: string
   data: { x: number; y: number }[]
   borderColor: string
   backgroundColor: string
-  borderWidth: number
-  fill: boolean
+  borderWidth?: number
+  fill?: boolean
   borderDash?: number[]
   yAxisID?: string
+  order?: number | 0
 }
 
 export type ChartData = {

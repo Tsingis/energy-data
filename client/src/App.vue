@@ -97,6 +97,7 @@
       ): ChartData => {
         const labels: string[] = []
         const datasets: Dataset[] = []
+        let order = 1
 
         let min: Date | null = null
         let max: Date | null = null
@@ -113,13 +114,17 @@
           })
 
           datasets.push({
+            type: "line",
             label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
             data: datasetValues,
             borderColor: DATASET_COLORS[datasetId] || "#ccc",
             backgroundColor: DATASET_COLORS[datasetId] || "#ccc",
             borderWidth: 2,
             fill: false,
+            order: order,
           })
+
+          order++
         }
 
         const priceDatasetValues = priceData.map((entry) => ({
@@ -128,14 +133,13 @@
         }))
 
         datasets.push({
+          type: "bar",
           label: DATASET_LABELS["prices"],
           data: priceDatasetValues,
           borderColor: DATASET_COLORS["prices"] || "yellow",
           backgroundColor: DATASET_COLORS["prices"] || "yellow",
-          borderWidth: 2,
-          fill: false,
-          borderDash: [5, 5],
           yAxisID: "y2",
+          order: order,
         })
 
         return {

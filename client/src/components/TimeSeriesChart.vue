@@ -40,7 +40,7 @@
       datasets: {
         type: Object as () => {
           labels: string[]
-          datasets: ChartDataset<"line", (number | Point | null)[]>[]
+          datasets: ChartDataset<"line" | "bar", (number | Point | null)[]>[]
         },
         required: true,
         default: () => ({
@@ -74,7 +74,7 @@
       let chartInstance: Chart | null = null
 
       const sortDatasetsAlphabetically = (
-        datasets: ChartDataset<"line", (number | Point | null)[]>[]
+        datasets: ChartDataset<"line" | "bar", (number | Point | null)[]>[]
       ) => {
         return datasets.sort((a, b) => {
           const aLabel = a.label || ""
@@ -101,7 +101,7 @@
             props.datasets.datasets
           )
 
-          const chartConfig: ChartConfiguration<"line"> = {
+          const chartConfig: ChartConfiguration<"line" | "bar"> = {
             type: "line",
             data: {
               labels: props.datasets.labels,
