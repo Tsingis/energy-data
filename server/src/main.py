@@ -23,6 +23,7 @@ from clients.price_client import PriceClient, PriceData
 
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
 CACHE_TTL = int(os.getenv("CACHE_TTL", 900))
+IS_DEV = os.getenv("ENVIRONMENT", "dev").lower() == "dev"
 
 logger = setup_logger()
 
@@ -30,6 +31,8 @@ app = FastAPI()
 
 limiter = Limiter(key_func=lambda: "global")
 app.state.limiter = limiter
+limit = None if IS_DEV else "10/minute"
+
 
 app.add_exception_handler(StarletteHTTPException, http_exception_handler)
 app.add_exception_handler(HTTPException, fastapi_http_exception_handler)
@@ -53,7 +56,7 @@ end_time = now + delta
 
 
 @app.get("/data/energy", response_model=EnergyData)
-@limiter.limit("10/minute")
+@limiter.limit(limit)
 @cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
 async def get_energy_data(request: Request, energy_client: EnergyClient = Depends(use_cache=True)):
     data = await energy_client.fetch_energy_data(start_time, end_time)
@@ -61,7 +64,7 @@ async def get_energy_data(request: Request, energy_client: EnergyClient = Depend
 
 
 @app.get("/data/price", response_model=PriceData)
-@limiter.limit("10/minute")
+@limiter.limit(limit)
 @cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
 async def get_price_data(request: Request, price_client: PriceClient = Depends(use_cache=True)):
     data = await price_client.fetch_price_data(start_time, end_time)
@@ -76,5 +79,4 @@ def health(request: Request):
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    reload = os.getenv("ENVIRONMENT", "dev").lower() == "dev"
-    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=reload)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=IS_DEV)
