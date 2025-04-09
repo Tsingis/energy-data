@@ -31,7 +31,7 @@ app = FastAPI()
 
 limiter = Limiter(key_func=lambda: "global")
 app.state.limiter = limiter
-limit = None if IS_DEV else "10/minute"
+limit = "1000/minute" if IS_DEV else "10/minute"
 
 
 app.add_exception_handler(StarletteHTTPException, http_exception_handler)
