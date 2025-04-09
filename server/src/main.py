@@ -21,9 +21,10 @@ from clients.energy_client import EnergyClient, EnergyData
 from clients.price_client import PriceClient, PriceData
 
 
-ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:3000")
+IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
+ALLOWED_ORIGIN = "*" if IS_DEV else os.getenv("ALLOWED_ORIGIN")
 CACHE_TTL = int(os.getenv("CACHE_TTL", 900))
-IS_DEV = os.getenv("ENVIRONMENT", "dev").lower() == "dev"
+PORT = int(os.getenv("PORT", 8000))
 
 logger = setup_logger()
 
@@ -78,5 +79,11 @@ def health(request: Request):
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, log_config=None, reload=IS_DEV)
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=PORT,
+        log_config=None,
+        server_header=False,
+        reload=IS_DEV,
+    )
