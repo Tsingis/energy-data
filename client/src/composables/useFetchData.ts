@@ -6,17 +6,25 @@ export function useFetchData<T>(fetchFunction: () => Promise<T>) {
   const error = ref<string | null>(null)
 
   const fetchData = async () => {
+    if (loading.value) return
+
     loading.value = true
     error.value = null
 
-    try {
-      data.value = await fetchFunction()
-    } catch (err) {
-      console.log(err)
-      setTimeout(fetchData, 5000)
-    } finally {
-      loading.value = false
+    const tryFetch = async () => {
+      try {
+        data.value = await fetchFunction()
+        loading.value = false
+      } catch (err) {
+        console.error(err)
+        error.value = (err as Error).message || "Unknown error"
+        setTimeout(() => {
+          tryFetch()
+        }, 5000)
+      }
     }
+
+    tryFetch()
   }
 
   return { data, loading, error, fetchData }
