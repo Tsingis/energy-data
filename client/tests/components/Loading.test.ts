@@ -5,7 +5,8 @@ import Loading from "../../src/components/Loading.vue"
 describe("Loading.vue", () => {
   it("renders correctly with default props", () => {
     const { container } = render(Loading)
-    const spinnerIcon = container.querySelector("svg")
+    const loading = container.querySelector("[data-testid='loading']")
+    const spinnerIcon = loading?.querySelector("svg")
     expect(spinnerIcon).toBeTruthy()
     expect(spinnerIcon?.classList.contains("fa-1x")).toBe(true)
   })

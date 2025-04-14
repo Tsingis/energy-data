@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-container" aria-label="loading">
+  <div class="loading-container" data-testid="loading" aria-label="loading">
     <font-awesome-icon :icon="faSpinner" :spin="true" :size="size" />
   </div>
 </template>

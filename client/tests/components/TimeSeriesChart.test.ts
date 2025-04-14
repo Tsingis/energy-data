@@ -15,7 +15,9 @@ describe("TimeSeriesChart.vue", () => {
       },
     })
 
-    const chartContainer = container.querySelector(".chart-container")
+    const chartContainer = container.querySelector(
+      "[data-testid='timeseries-chart']"
+    )
     expect(chartContainer).toBeTruthy()
 
     const canvas = container.querySelector("canvas")

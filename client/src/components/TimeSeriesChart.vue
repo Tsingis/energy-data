@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div class="chart-container" data-testid="timeseries-chart">
     <canvas ref="chartCanvas"></canvas>
   </div>
 </template>

@@ -1,10 +1,11 @@
 <template>
   <div
     class="range-slider"
+    data-testid="range-slider"
     @mousedown="onSliderMouseDown"
     @touchstart.passive="onSliderTouchStart"
   >
-    <div class="range-slider__track">
+    <div class="range-slider__track" data-testid="range-slider-track">
       <div
         class="range-slider__range"
         :style="{
@@ -15,6 +16,7 @@
       <div
         ref="startThumb"
         class="range-slider__thumb"
+        data-testid="range-slider-thumb-start"
         :style="{ left: `${position(modelValue[0])}%` }"
         @mousedown="onThumbMouseDown('start', $event)"
         @touchstart.passive="onThumbTouchStart('start', $event)"
@@ -26,6 +28,7 @@
       <div
         ref="endThumb"
         class="range-slider__thumb"
+        data-testid="range-slider-thumb-end"
         :style="{ left: `${position(modelValue[1])}%` }"
         @mousedown="onThumbMouseDown('end', $event)"
         @touchstart.passive="onThumbTouchStart('end', $event)"

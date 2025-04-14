@@ -9,7 +9,7 @@ describe("DateRangeSlider.vue", () => {
         modelValue: [new Date(0), new Date()],
       },
     })
-    expect(container.querySelector(".range-slider")).toBeTruthy()
+    expect(container.querySelector("[data-testid='range-slider']")).toBeTruthy()
   })
 
   it("emits 'update:modelValue' when slider is moved", async () => {
@@ -19,7 +19,7 @@ describe("DateRangeSlider.vue", () => {
       },
     })
 
-    const slider = container.querySelector(".range-slider__track")
+    const slider = container.querySelector("[data-testid='range-slider-track']")
     expect(slider).toBeTruthy()
 
     await fireEvent.mouseDown(slider!, { clientX: 50 })
@@ -36,7 +36,7 @@ describe("DateRangeSlider.vue", () => {
       },
     })
 
-    const slider = container.querySelector(".range-slider__track")
+    const slider = container.querySelector("[data-testid='range-slider-track']")
     expect(slider).toBeTruthy()
 
     await fireEvent.mouseDown(slider!, { clientX: 50 })
@@ -57,7 +57,7 @@ describe("DateRangeSlider.vue", () => {
       },
     })
 
-    const slider = container.querySelector(".range-slider__track")
+    const slider = container.querySelector("[data-testid='range-slider-track']")
     expect(slider).toBeTruthy()
 
     await fireEvent.mouseDown(slider!, { clientX: 50 })
