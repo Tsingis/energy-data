@@ -1,13 +1,13 @@
 import globals from "globals"
 import js from "@eslint/js"
-import plugin from "@typescript-eslint/eslint-plugin"
 import parser from "@typescript-eslint/parser"
-import pluginVue from "eslint-plugin-vue"
 import vueParser from "vue-eslint-parser"
+import tsPlugin from "@typescript-eslint/eslint-plugin"
+import vuePlugin from "eslint-plugin-vue"
 
 export default [
   js.configs.recommended,
-  ...pluginVue.configs["flat/strongly-recommended"],
+  ...vuePlugin.configs["flat/strongly-recommended"],
   {
     files: ["**/*.{js,ts,vue}"],
     languageOptions: {
@@ -23,10 +23,15 @@ export default [
       },
     },
     plugins: {
-      vue: pluginVue,
-      "@typescript-eslint": plugin,
+      "@typescript-eslint": tsPlugin,
+      vue: vuePlugin,
     },
     rules: {
+      ...tsPlugin.configs.recommended.rules,
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { prefer: "type-imports" },
+      ],
       semi: ["error", "never"],
       "no-undef": "warn",
       "no-unused-vars": "warn",

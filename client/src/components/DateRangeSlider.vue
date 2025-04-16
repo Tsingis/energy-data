@@ -18,8 +18,8 @@
         class="range-slider__thumb"
         data-testid="range-slider-thumb-start"
         :style="{ left: `${position(modelValue[0])}%` }"
-        @mousedown="onThumbMouseDown('start', $event)"
-        @touchstart.passive="onThumbTouchStart('start', $event)"
+        @mousedown="onThumbMouseDown('start')"
+        @touchstart.passive="onThumbTouchStart('start')"
       >
         <div class="range-slider__value">
           {{ defaultFormatValue(modelValue[0]) }}
@@ -30,8 +30,8 @@
         class="range-slider__thumb"
         data-testid="range-slider-thumb-end"
         :style="{ left: `${position(modelValue[1])}%` }"
-        @mousedown="onThumbMouseDown('end', $event)"
-        @touchstart.passive="onThumbTouchStart('end', $event)"
+        @mousedown="onThumbMouseDown('end')"
+        @touchstart.passive="onThumbTouchStart('end')"
       >
         <div class="range-slider__value">
           {{ defaultFormatValue(modelValue[1]) }}
@@ -164,14 +164,14 @@
     window.removeEventListener("mouseup", onMouseUp)
   }
 
-  const onThumbMouseDown = (thumb: "start" | "end", _: MouseEvent) => {
+  const onThumbMouseDown = (thumb: "start" | "end") => {
     activeThumb.value = thumb
     emit("start", props.modelValue)
     window.addEventListener("mousemove", onMouseMove)
     window.addEventListener("mouseup", onMouseUp)
   }
 
-  const onThumbTouchStart = (thumb: "start" | "end", _: TouchEvent) => {
+  const onThumbTouchStart = (thumb: "start" | "end") => {
     activeThumb.value = thumb
     emit("start", props.modelValue)
 
