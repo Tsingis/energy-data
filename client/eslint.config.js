@@ -4,6 +4,7 @@ import parser from "@typescript-eslint/parser"
 import vueParser from "vue-eslint-parser"
 import tsPlugin from "@typescript-eslint/eslint-plugin"
 import vuePlugin from "eslint-plugin-vue"
+import importPlugin from "eslint-plugin-import"
 
 export default [
   js.configs.recommended,
@@ -24,14 +25,17 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
+      import: importPlugin,
       vue: vuePlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
+      ...importPlugin.configs.recommended.rules,
       "@typescript-eslint/consistent-type-imports": [
         "error",
         { prefer: "type-imports" },
       ],
+      "import/no-unresolved": "off",
       semi: ["error", "never"],
       "no-undef": "warn",
       "no-unused-vars": "warn",
