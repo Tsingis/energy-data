@@ -24,7 +24,7 @@ export type Dataset = {
   fill?: boolean
   borderDash?: number[]
   yAxisID?: string
-  order?: number | 0
+  order?: number
 }
 
 export type ChartData = {
