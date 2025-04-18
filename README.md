@@ -2,7 +2,7 @@
 
 Project about energy consumption and production in Finland. Open source data from [Fingrid](https://data.fingrid.fi/en/datasets)
 
-Energy price in Finland. API ata from [Pörssisähkö](https://porssisahko.net/api)
+Energy price in Finland. API data from [Pörssisähkö](https://porssisahko.net/api)
 
 Frontend: https://energy-data-client.onrender.com
 
@@ -10,8 +10,8 @@ Backend: https://energy-data-server.onrender.com/docs
 
 Tools used:
 
-- Python 3.13
-- Node.js 22
+- Python
+- Node.js
 - Docker
 
 **Instructions:**
