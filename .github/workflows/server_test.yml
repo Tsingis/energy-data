@@ -9,6 +9,8 @@ on:
       - "server/requirements.txt"
       - ".github/workflows/server_test.yml"
   workflow_dispatch:
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -30,7 +32,7 @@ jobs:
             ${{ runner.os }}-pip-
       - name: Install dependencies
         if: steps.deps-cache.outputs.cache-hit != 'true'
-        run: pip install -r requirements.txt
+        run: pip install --prefer-binary -r requirements.txt
         working-directory: ./server
   check:
     runs-on: ubuntu-latest
@@ -49,10 +51,10 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('server/requirements.txt') }}
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install --prefer-binary -r requirements.txt
         working-directory: ./server
       - name: Install tools
-        run: pip install flake8 black
+        run: pip install --prefer-binary flake8 black
         working-directory: ./server
       - name: Check linting & formatting
         run: |
@@ -76,7 +78,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('server/requirements.txt') }}
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install --prefer-binary -r requirements.txt
         working-directory: ./server
       - name: Run unit tests
         run: python -m unittest discover -s tests/unit
@@ -98,7 +100,7 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('server/requirements.txt') }}
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install --prefer-binary -r requirements.txt
         working-directory: ./server
       - name: Run API tests
         env:
