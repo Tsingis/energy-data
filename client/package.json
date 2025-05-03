@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config .vite.config.ts --open",
+    "dev:testing": "vite --config ./vite.config.ts",
     "dev:check": "vite --config ./vite.config.ts --open -- --use-checker",
     "test": "vitest --config vitest.config.ts",
+    "playwright:setup": "npx playwright install --with-deps",
+    "playwright": "npx playwright test --config=playwright.config.ts",
+    "playwright:update": "npx playwright test --config=playwright.config.ts --update-snapshots",
     "audit": "npm audit --audit-level low",
     "eslint": "eslint . --config ./eslint.config.js",
     "eslint:fix": "eslint . --config ./eslint.config.js --fix",
@@ -25,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
+    "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/vue": "^8.1.0",
     "@types/jsdom": "^21.1.7",
@@ -34,6 +39,7 @@
     "@vitejs/plugin-vue": "^5.2.3",
     "eslint": "^9.25.1",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-playwright": "^2.2.0",
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-vue": "^10.1.0",
