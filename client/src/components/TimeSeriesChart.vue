@@ -73,6 +73,11 @@
         required: true,
         default: undefined,
       },
+      currentDate: {
+        type: Date as PropType<Date>,
+        required: false,
+        default: new Date(),
+      },
     },
     setup(props) {
       const chartCanvas = ref<HTMLCanvasElement | null>(null)
@@ -149,8 +154,8 @@
                   annotations: {
                     currentTimeLine: {
                       type: "line",
-                      xMin: new Date().getTime(),
-                      xMax: new Date().getTime(),
+                      xMin: props.currentDate.getTime(),
+                      xMax: props.currentDate.getTime(),
                       borderColor: "rgba(169, 169, 169, 0.5)",
                       borderWidth: 2,
                       borderDash: [5, 5],
