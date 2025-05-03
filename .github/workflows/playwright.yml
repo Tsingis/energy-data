@@ -1,0 +1,52 @@
+name: playwright
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "client/src/**"
+      - "client/tests/playwright/**"
+      - "client/vite.config.ts"
+      - "client/playwright.config.ts"
+      - "client/tsconfig.json"
+      - "client/package*.json"
+      - ".github/workflows/playwright.yml"
+  workflow_dispatch:
+env:
+  NO_UPDATE_NOTIFIER: true
+jobs:
+  playwright:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: "./client/package-lock.json"
+      - name: Cache Playwright browsers and dependencies
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            client/node_modules
+          key: ${{ runner.os }}-playwright-${{ hashFiles('client/package*.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ runner.os }}-
+            ${{ runner.os }}-playwright-
+      - name: Install dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true' || hashFiles('client/package*.json') != hashFiles('client/package*.json', 'HEAD^')
+        run: npm ci
+        working-directory: ./client
+      - name: Setup
+        run: npm run playwright:setup
+        working-directory: ./client
+      - name: Run tests
+        run: npm run playwright
+        working-directory: ./client
+        env:
+          CI: true

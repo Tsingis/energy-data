@@ -5,7 +5,7 @@ on:
       - master
     paths:
       - "client/src/**"
-      - "client/tests/**"
+      - "client/tests/components/**"
       - "client/vite.config.ts"
       - "client/vitest.config.ts"
       - "client/tsconfig.json"

@@ -6,10 +6,18 @@ import tsPlugin from "@typescript-eslint/eslint-plugin"
 import vuePlugin from "eslint-plugin-vue"
 import importPlugin from "eslint-plugin-import"
 import securityPlugin from "eslint-plugin-security"
+import playwrightPlugin from "eslint-plugin-playwright"
 
 export default [
   js.configs.recommended,
   ...vuePlugin.configs["flat/strongly-recommended"],
+  {
+    ...playwrightPlugin.configs["flat/recommended"],
+    files: ["tests/playwright/**"],
+    rules: {
+      ...playwrightPlugin.configs["flat/recommended"].rules,
+    },
+  },
   {
     files: ["**/*.{js,ts,vue}"],
     languageOptions: {
