@@ -8,6 +8,7 @@
     y-axis-label-right="c/kWh"
     :min-timestamp="new Date(range[0])"
     :max-timestamp="new Date(range[1])"
+    :current-date="date.getDate()"
   />
   <DateRangeSlider
     v-if="!loading"
@@ -26,6 +27,7 @@
   import DateRangeSlider from "./components/DateRangeSlider.vue"
   import Loading from "./components/Loading.vue"
   import { useFetchData } from "./composables/useFetchData"
+  import { useDate } from "./composables/useDate"
   import {
     type PriceData,
     type PriceModel,
@@ -66,6 +68,7 @@
       }
 
       const { data, loading, error, fetchData } = useFetchData(fetchFunction)
+      const date = useDate()
 
       watch(data, (newData) => {
         if (newData) {
@@ -74,7 +77,7 @@
             minTimestamp.value = newData.minTimestamp
             maxTimestamp.value = newData.maxTimestamp
 
-            const now = new Date()
+            const now = date.getDate()
             const start = new Date(now)
             start.setHours(now.getHours() - 5)
 
@@ -163,6 +166,7 @@
         range,
         onRangeUpdate,
         formattedDateTime,
+        date,
       }
     },
   })
