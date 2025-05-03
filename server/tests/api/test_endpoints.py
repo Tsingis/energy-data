@@ -24,10 +24,10 @@ class TestMain(unittest.TestCase):
         response = self.client.get("/data/energy")
         data = response.json()
         self.assertEqual(response.status_code, 200)
-        self.assertIn(str(Dataset.PRODUCTION.value), data)
-        self.assertIn(str(Dataset.PRODUCTION_PREDICTION.value), data)
-        self.assertIn(str(Dataset.CONSUMPTION.value), data)
-        self.assertIn(str(Dataset.CONSUMPTION_PREDICTION.value), data)
+        self.assertIn(Dataset.PRODUCTION.key_name, data)
+        self.assertIn(Dataset.PRODUCTION_PREDICTION.key_name, data)
+        self.assertIn(Dataset.CONSUMPTION.key_name, data)
+        self.assertIn(Dataset.CONSUMPTION_PREDICTION.key_name, data)
 
     def test_get_price_data(self):
         response = self.client.get("/data/price")

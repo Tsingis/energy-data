@@ -105,7 +105,7 @@
         let min: Date | null = null
         let max: Date | null = null
 
-        for (const [datasetId, datasetData] of Object.entries(energyData)) {
+        for (const [dataset, datasetData] of Object.entries(energyData)) {
           const datasetValues = datasetData.map((entry) => {
             const timestamp = new Date(entry.timestamp)
             if (min === null || timestamp < min) min = timestamp
@@ -118,10 +118,10 @@
 
           datasets.push({
             type: "line",
-            label: DATASET_LABELS[datasetId] || `Dataset ${datasetId}`,
+            label: DATASET_LABELS[dataset] || `Dataset ${dataset}`,
             data: datasetValues,
-            borderColor: DATASET_COLORS[datasetId] || "#ccc",
-            backgroundColor: DATASET_COLORS[datasetId] || "#ccc",
+            borderColor: DATASET_COLORS[dataset] || "#ccc",
+            backgroundColor: DATASET_COLORS[dataset] || "#ccc",
             borderWidth: 2,
             fill: false,
             order: order,

@@ -30,6 +30,10 @@ class Dataset(Enum):
     CONSUMPTION = 193
     CONSUMPTION_PREDICTION = 165
 
+    @property
+    def key_name(self) -> str:
+        return self.name.lower()
+
 
 class EnergyClient:
     def __init__(self):
@@ -41,6 +45,7 @@ class EnergyClient:
             Dataset.CONSUMPTION.value,
             Dataset.CONSUMPTION_PREDICTION.value,
         ]
+        self.dataset_mapping = {str(dataset.value): dataset.key_name for dataset in Dataset}
         self.datetime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
     async def fetch_energy_data(self, start_time: datetime, end_time: datetime) -> EnergyData:
@@ -73,34 +78,29 @@ class EnergyClient:
         data = {}
         for item in json.get("data", []):
             dataset_id = str(item["datasetId"])
+            dataset = self.dataset_mapping[dataset_id]
             time = datetime.fromisoformat(item["startTime"])
             data_point = EnergyModel(timestamp=time, value=item["value"])
-            if dataset_id not in data:
-                data[dataset_id] = []
-            data[dataset_id].append(data_point)
+            if dataset not in data:
+                data[dataset] = []
+            data[dataset].append(data_point)
         return data
 
     def _adjust_predictions(self, data: Dict[str, List[EnergyModel]]) -> None:
-        if (
-            str(Dataset.PRODUCTION.value) in data
-            and str(Dataset.PRODUCTION_PREDICTION.value) in data
-        ):
-            last_production = data[str(Dataset.PRODUCTION.value)][-1]
+        if Dataset.PRODUCTION.key_name in data and Dataset.PRODUCTION_PREDICTION.key_name in data:
+            last_production = data[Dataset.PRODUCTION.key_name][-1]
             # Remove predictions before the last production timestamp
-            data[str(Dataset.PRODUCTION_PREDICTION.value)] = [
+            data[Dataset.PRODUCTION_PREDICTION.key_name] = [
                 prediction
-                for prediction in data[str(Dataset.PRODUCTION_PREDICTION.value)]
+                for prediction in data[Dataset.PRODUCTION_PREDICTION.key_name]
                 if prediction.timestamp >= last_production.timestamp
             ]
 
-        if (
-            str(Dataset.CONSUMPTION.value) in data
-            and str(Dataset.CONSUMPTION_PREDICTION.value) in data
-        ):
-            last_consumption = data[str(Dataset.CONSUMPTION.value)][-1]
+        if Dataset.CONSUMPTION.key_name in data and Dataset.CONSUMPTION_PREDICTION.key_name in data:
+            last_consumption = data[Dataset.CONSUMPTION.key_name][-1]
             # Remove predictions before the last consumption timestamp
-            data[str(Dataset.CONSUMPTION_PREDICTION.value)] = [
+            data[Dataset.CONSUMPTION_PREDICTION.key_name] = [
                 prediction
-                for prediction in data[str(Dataset.CONSUMPTION_PREDICTION.value)]
+                for prediction in data[Dataset.CONSUMPTION_PREDICTION.key_name]
                 if prediction.timestamp >= last_consumption.timestamp
             ]
