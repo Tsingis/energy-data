@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
@@ -8,6 +9,10 @@ export default defineConfig({
   retries: 1,
   expect: {
     timeout: 60_000,
+    toHaveScreenshot: {
+      maxDiffPixelRatio: Number(process.env.MAX_DIFF_PIXEL_RATIO) || 0.05,
+      animations: "disabled",
+    },
   },
   webServer: [
     {
