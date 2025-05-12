@@ -20,6 +20,4 @@ RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
 
 USER api
 
-EXPOSE 8000
-
 CMD ["python", "main.py"]

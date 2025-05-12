@@ -20,6 +20,8 @@ services:
       context: ./client
       dockerfile: Dockerfile
       no_cache: false
+      args:
+        PORT: 3000
     depends_on:
       server:
         condition: service_started
