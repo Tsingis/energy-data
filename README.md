@@ -11,7 +11,7 @@ Backend: https://energy-data-server.onrender.com/docs
 Tools used:
 
 - Python
-- Node.js
+- Vue
 - Docker
 
 **Instructions:**
