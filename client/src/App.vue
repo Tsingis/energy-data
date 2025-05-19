@@ -54,11 +54,11 @@
 
       const fetchFunction = async () => {
         const apiUrl =
-          import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000/data"
-        const energyResponse = await fetch(`${apiUrl}/energy`)
+          import.meta.env.VITE_API_URL?.trim() || "http://localhost:8000"
+        const energyResponse = await fetch(`${apiUrl}/api/energy`)
         if (!energyResponse.ok) throw new Error("Failed to fetch energy data")
 
-        const priceResponse = await fetch(`${apiUrl}/price`)
+        const priceResponse = await fetch(`${apiUrl}/api/price`)
         if (!priceResponse.ok) throw new Error("Failed to fetch price data")
 
         const energyData: EnergyData = await energyResponse.json()

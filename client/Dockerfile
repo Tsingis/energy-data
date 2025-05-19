@@ -25,7 +25,7 @@ FROM nginxinc/nginx-unprivileged:1.27-alpine-slim
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 
-ARG PORT
+ARG PORT=3000
 
 RUN sed -i "s|__PORT__|${PORT}|g" /etc/nginx/nginx.conf
 

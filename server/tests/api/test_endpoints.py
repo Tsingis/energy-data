@@ -21,7 +21,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(response.json(), {"message": "healthy"})
 
     def test_get_energy_data(self):
-        response = self.client.get("/data/energy")
+        response = self.client.get("/api/energy")
         data = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertIn(Dataset.PRODUCTION.key_name, data)
@@ -30,7 +30,7 @@ class TestMain(unittest.TestCase):
         self.assertIn(Dataset.CONSUMPTION_PREDICTION.key_name, data)
 
     def test_get_price_data(self):
-        response = self.client.get("/data/price")
+        response = self.client.get("/api/price")
         data = response.json()
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(data, list)

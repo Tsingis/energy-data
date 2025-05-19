@@ -21,7 +21,6 @@ services:
       dockerfile: Dockerfile
       no_cache: false
       args:
-        PORT: 3000
         API_URL: ${VITE_API_URL}
     depends_on:
       server:

@@ -44,7 +44,6 @@ jobs:
           tags: ${{ vars.CLIENT_IMAGE_TAG }}
           build-args: |
             API_URL=${{ vars.SERVER_URL }}
-            PORT=3000
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
