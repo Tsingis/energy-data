@@ -16,11 +16,12 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "npm run dev:testing",
+      command: "npm run preview",
       reuseExistingServer: !process.env.CI,
       stdout: "ignore",
       stderr: "pipe",
       timeout: 60_000,
+      url: "http://localhost:3000",
     },
   ],
   projects: [

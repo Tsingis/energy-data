@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config .vite.config.ts --open",
-    "dev:testing": "vite --config ./vite.config.ts",
     "dev:check": "vite --config ./vite.config.ts --open -- --use-checker",
+    "preview": "vite preview --config ./vite.config.ts",
     "test": "vitest --config vitest.config.ts",
     "playwright:setup": "npx playwright install --with-deps",
     "playwright": "npx playwright test --config=playwright.config.ts",

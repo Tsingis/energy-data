@@ -42,6 +42,9 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true' || hashFiles('client/package*.json') != hashFiles('client/package*.json', 'HEAD^')
         run: npm ci
         working-directory: ./client
+      - name: Build
+        run: npm run build
+        working-directory: ./client
       - name: Setup
         run: npm run playwright:setup
         working-directory: ./client

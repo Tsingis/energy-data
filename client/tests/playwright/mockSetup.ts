@@ -31,7 +31,7 @@ export async function setupMocks(page: Page) {
     },
     { mockDate: MOCK_NOW }
   )
-  await page.route("**/data/energy", async (route) => {
+  await page.route("**/api/energy", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
@@ -39,7 +39,7 @@ export async function setupMocks(page: Page) {
     })
   })
 
-  await page.route("**/data/price", async (route) => {
+  await page.route("**/api/price", async (route) => {
     await route.fulfill({
       status: 200,
       contentType: "application/json",
