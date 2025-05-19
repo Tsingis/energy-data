@@ -13,6 +13,8 @@ Tools used:
 - Python
 - Vue
 - Docker
+- Terraform
+- Google Cloud
 
 **Instructions:**
 
