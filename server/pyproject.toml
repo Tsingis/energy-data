@@ -1,3 +1,26 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "energy-data-server"
+version = "0.1.0"
+description = "Energy Data Server"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+aiocache = "0.12.3"
+fastapi = "0.115.12"
+httpx = "0.28.1"
+python-dotenv = "1.1.0"
+slowapi = "0.1.9"
+uvicorn = "0.34.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "25.1.0"
+flake8 = "7.2.0"
+
 [tool.black]
 line-length = 100
 target-version = ["py313"]

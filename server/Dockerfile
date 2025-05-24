@@ -1,8 +1,26 @@
+FROM python:3.13-alpine AS setup
+
+WORKDIR /app
+
+ENV POETRY_HOME="/opt/poetry"
+ENV PATH="${POETRY_HOME}/bin:${PATH}"
+
+RUN apk update && apk add curl \
+    && curl --proto "=https" -sSL https://install.python-poetry.org | python3 - \
+    && rm -rf /var/lib/apt/lists/* \
+    && poetry self add poetry-plugin-export
+
+COPY pyproject.toml ./
+COPY poetry.lock ./
+
+RUN poetry config virtualenvs.in-project false && \
+    poetry export -f requirements.txt --without-hashes > requirements.txt
+
 FROM python:3.13-alpine AS build
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+COPY --from=setup /app/requirements.txt ./
 
 RUN pip install --prefer-binary --disable-pip-version-check --no-cache-dir -r requirements.txt && \
     python -m pip uninstall -y setuptools wheel pip
