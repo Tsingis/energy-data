@@ -15,22 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          # Built-in support not working out of the box?
-          # cache: "poetry"
-          # cache-dependency-path: ./server/poetry.lock
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
-      - name: Add Poetry to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Setup cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('server/poetry.lock') }}
+          cache: "poetry"
+          cache-dependency-path: ./server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -39,21 +31,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          # cache: "poetry"
-          # cache-dependency-path: ./server/poetry.lock
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
-      - name: Add Poetry to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('server/poetry.lock') }}
+          cache: "poetry"
+          cache-dependency-path: ./server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -67,21 +52,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          # cache: "poetry"
-          # cache-dependency-path: ./server/poetry.lock
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
-      - name: Add Poetry to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('server/poetry.lock') }}
+          cache: "poetry"
+          cache-dependency-path: ./server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -93,21 +71,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Poetry
+        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          # cache: "poetry"
-          # cache-dependency-path: ./server/poetry.lock
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
-      - name: Add Poetry to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry
-          key: ${{ runner.os }}-poetry-${{ hashFiles('server/poetry.lock') }}
+          cache: "poetry"
+          cache-dependency-path: ./server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
