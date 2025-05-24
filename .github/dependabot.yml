@@ -37,6 +37,7 @@ updates:
     directories:
       - "/client"
       - "/server"
+      - "/utility"
     schedule:
       interval: "monthly"
       day: "wednesday"

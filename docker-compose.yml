@@ -35,3 +35,14 @@ services:
     privileged: false
     tmpfs:
       - /tmp:rw
+  tests:
+    build:
+      context: .
+      dockerfile: ./utility/Dockerfile
+      no_cache: false
+    container_name: energy-tests
+    read_only: false
+    privileged: true
+    volumes:
+    - ./client/tests/playwright:/app/tests/playwright
+    command: ["npm", "run", "playwright"]
