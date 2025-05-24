@@ -5,7 +5,8 @@ on:
       - master
     paths:
       - "server/src/**"
-      - "server/requirements.txt"
+      - "server/pyproject.toml"
+      - "server/poetry.lock"
       - "server/Dockerfile"
       - ".github/workflows/server_deploy.yml"
   workflow_dispatch:

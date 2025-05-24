@@ -25,9 +25,9 @@ Docker
 Server
 
 - Navigate to server directory `cd server`
-- Create python virtual environment `python -m venv venv`
-- Activate virtual environment `.\venv\Scripts\activate`
-- Install dependencies `pip install -r requirements.txt`
+- Install poetry `curl -sSL https://install.python-poetry.org | python -`
+- Setup poetry in `PATH`
+- Set up environment `poetry install`
 - Launch `python src\main.py`
 
 Client

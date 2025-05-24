@@ -1,9 +1,9 @@
 ### Test energy data
-GET http://localhost:8000/data/energy
+GET http://localhost:8000/api/energy
 Content-Type: application/json
 
 ### Test price data
-GET http://localhost:8000/data/price
+GET http://localhost:8000/api/price
 Content-Type: application/json
 
 ### Test health

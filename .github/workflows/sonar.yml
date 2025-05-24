@@ -6,7 +6,8 @@ on:
     paths:
       - "server/src/**"
       - "server/tests/**"
-      - "server/requirements.txt"
+      - "server/pyproject.toml"
+      - "server/poetry.lock"
       - "client/client/src/**"
       - "client/client/tests/**"
       - "client/client/config/**"
@@ -19,7 +20,8 @@ on:
     paths:
       - "server/src/**"
       - "server/tests/**"
-      - "server/requirements.txt"
+      - "server/pyproject.toml"
+      - "server/poetry.lock"
       - "client/client/src/**"
       - "client/client/tests/**"
       - "client/client/config/**"

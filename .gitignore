@@ -1,6 +1,6 @@
 .env
 node_modules
-/venv/
+.venv/
 test-results
 __pycache__
 dist

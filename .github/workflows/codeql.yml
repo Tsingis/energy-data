@@ -13,7 +13,8 @@ on:
       - "client/package*.json"
       - "server/src/**"
       - "server/tests/**"
-      - "server/requirements.txt"
+      - "server/pyproject.toml"
+      - "server/poetry.lock"
       - ".github/workflows/codeql.yml"
   schedule:
     - cron: "0 21 * * 0"
