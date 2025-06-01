@@ -22,7 +22,7 @@ jobs:
           python-version: "3.13"
           architecture: "x64"
           cache: "poetry"
-          cache-dependency-path: ./server/poetry.lock
+          cache-dependency-path: server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -38,7 +38,7 @@ jobs:
           python-version: "3.13"
           architecture: "x64"
           cache: "poetry"
-          cache-dependency-path: ./server/poetry.lock
+          cache-dependency-path: server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -59,7 +59,7 @@ jobs:
           python-version: "3.13"
           architecture: "x64"
           cache: "poetry"
-          cache-dependency-path: ./server/poetry.lock
+          cache-dependency-path: server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
@@ -78,7 +78,7 @@ jobs:
           python-version: "3.13"
           architecture: "x64"
           cache: "poetry"
-          cache-dependency-path: ./server/poetry.lock
+          cache-dependency-path: server/poetry.lock
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
         working-directory: ./server
