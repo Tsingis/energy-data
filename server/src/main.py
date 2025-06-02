@@ -51,7 +51,7 @@ app.add_middleware(
 app.add_middleware(SecureHeadersMiddleware)
 
 now = datetime.now(timezone.utc)
-delta = timedelta(hours=24)
+delta = timedelta(hours=48)
 start_time = now - delta
 end_time = now + delta
 

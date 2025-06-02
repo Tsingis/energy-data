@@ -54,7 +54,7 @@ class EnergyClient:
         """
         params = {
             "datasets": ",".join(map(str, self.datasets)),
-            "pageSize": 1000,
+            "pageSize": 2000,
             "startTime": start_time.strftime(self.datetime_format),
             "endTime": end_time.strftime(self.datetime_format),
             "format": "json",
