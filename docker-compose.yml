@@ -44,6 +44,9 @@ services:
     container_name: energy-tests
     read_only: false
     privileged: true
+    environment:
+      - CI=true
     volumes:
     - ./client/tests/playwright:/app/tests/playwright
+    - ./client/test-results:/app/test-results
     command: ["npm", "run", "playwright"]

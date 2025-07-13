@@ -1,16 +1,19 @@
 /// <reference types="node" />
-import { defineConfig, devices } from "@playwright/test"
+import { defineConfig, devices, type ViewportSize } from "@playwright/test"
+
+const viewPort: ViewportSize = { width: 1280, height: 800 }
 
 export default defineConfig({
   testDir: "./tests/playwright",
   fullyParallel: true,
   reporter: "list",
-  timeout: 180_000,
-  retries: 1,
+  timeout: 60_000,
+  retries: process.env.CI ? 5 : 0,
+  workers: process.env.CI ? 1 : undefined,
   expect: {
-    timeout: 60_000,
+    timeout: 10_000,
     toHaveScreenshot: {
-      maxDiffPixelRatio: Number(process.env.MAX_DIFF_PIXEL_RATIO) || 0.05,
+      maxDiffPixelRatio: Number(process.env.MAX_DIFF_PIXEL_RATIO) || 0,
       animations: "disabled",
     },
   },
@@ -29,7 +32,7 @@ export default defineConfig({
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
-        viewport: { width: 1280, height: 800 },
+        viewport: viewPort,
         screenshot: "off",
         video: "off",
         trace: "off",
@@ -39,7 +42,7 @@ export default defineConfig({
       name: "webkit",
       use: {
         ...devices["Desktop Safari"],
-        viewport: { width: 1280, height: 800 },
+        viewport: viewPort,
         screenshot: "off",
         video: "off",
         trace: "off",
@@ -49,7 +52,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: { width: 1280, height: 800 },
+        viewport: viewPort,
         screenshot: "off",
         video: "off",
         trace: "off",
