@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { defineConfig, devices, type ViewportSize } from "@playwright/test"
 
+const baseUrl = "http://localhost:3000"
 const viewPort: ViewportSize = { width: 1280, height: 800 }
 
 export default defineConfig({
@@ -32,6 +33,7 @@ export default defineConfig({
       name: "firefox",
       use: {
         ...devices["Desktop Firefox"],
+        baseURL: baseUrl,
         viewport: viewPort,
         screenshot: "off",
         video: "off",
@@ -42,6 +44,7 @@ export default defineConfig({
       name: "webkit",
       use: {
         ...devices["Desktop Safari"],
+        baseURL: baseUrl,
         viewport: viewPort,
         screenshot: "off",
         video: "off",
@@ -52,6 +55,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
+        baseURL: baseUrl,
         viewport: viewPort,
         screenshot: "off",
         video: "off",
