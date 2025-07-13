@@ -13,5 +13,8 @@ test("Page works", async ({ page }) => {
   const chart = page.getByTestId("timeseries-chart")
   await expect(chart).toBeVisible()
 
+  await page.waitForLoadState()
+  await page.waitForLoadState("networkidle")
+
   await expect(page).toHaveScreenshot("page.png")
 })
