@@ -2,12 +2,9 @@ import httpx
 import os
 import urllib.parse
 from datetime import datetime
-from dotenv import load_dotenv
 from enum import Enum
 from pydantic import BaseModel, RootModel
 from typing import List, Dict
-
-load_dotenv()
 
 
 class EnergyModel(BaseModel):
