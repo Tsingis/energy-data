@@ -7,14 +7,14 @@ ENV PATH="${POETRY_HOME}/bin:${PATH}"
 
 RUN apk update && apk add curl \
     && curl --proto "=https" -sSL https://install.python-poetry.org | python3 - \
-    && rm -rf /var/lib/apt/lists/* \
-    && poetry self add poetry-plugin-export
+    && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml ./
 COPY poetry.lock ./
 
-RUN poetry config virtualenvs.in-project false && \
-    poetry export -f requirements.txt --without-hashes > requirements.txt
+RUN poetry config virtualenvs.in-project false \
+    && poetry install --no-interaction --no-root \
+    && poetry export -f requirements.txt --without-hashes > requirements.txt
 
 FROM python:3.13-alpine AS build
 

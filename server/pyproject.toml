@@ -21,6 +21,9 @@ uvicorn = "0.35.0"
 black = "25.1.0"
 flake8 = "7.3.0"
 
+[tool.poetry.requires-plugins]
+poetry-plugin-export = "1.9.0"
+
 [tool.black]
 line-length = 100
 target-version = ["py313"]
