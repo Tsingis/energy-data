@@ -10,6 +10,7 @@ services:
       - 8000:8000
     environment:
       - FINGRID_API_KEY=${FINGRID_API_KEY}
+      - ENVIRONMENT=prod
     user: api
     read_only: true
     privileged: false
