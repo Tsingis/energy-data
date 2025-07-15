@@ -10,6 +10,8 @@ on:
       - "server/poetry.lock"
       - ".github/workflows/server_test.yml"
   workflow_dispatch:
+env:
+  POETRY_VERSION: ${{ vars.POETRY_VERSION }}
 jobs:
   setup:
     runs-on: ubuntu-latest

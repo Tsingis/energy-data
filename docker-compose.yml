@@ -3,6 +3,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+      args:
+        - POETRY_VERSION=${POETRY_VERSION}
       no_cache: false
     image: energy-server
     container_name: energy-server
@@ -10,7 +12,7 @@ services:
       - 8000:8000
     environment:
       - FINGRID_API_KEY=${FINGRID_API_KEY}
-      - ENVIRONMENT=prod
+      - ENVIRONMENT=${ENVIRONMENT}
     user: api
     read_only: true
     privileged: false
