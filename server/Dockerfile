@@ -1,38 +1,40 @@
-FROM python:3.13-alpine AS setup
+FROM python:3.13-alpine AS base
+
+ENV POETRY_VERSION=2.1.3 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
+
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+FROM base AS build
+
+RUN --mount=type=cache,target=/root/.cache \
+    pip install "poetry==$POETRY_VERSION"
+
+WORKDIR $PYSETUP_PATH
+
+COPY ./poetry.lock ./pyproject.toml ./
+
+RUN --mount=type=cache,target=$POETRY_HOME/pypoetry/cache \
+    poetry install --no-interaction --no-root --without dev
+
+FROM base AS final
 
 WORKDIR /app
 
-ENV POETRY_HOME="/opt/poetry"
-ENV PATH="${POETRY_HOME}/bin:${PATH}"
-
-RUN apk update && apk add curl \
-    && curl --proto "=https" -sSL https://install.python-poetry.org | python3 - \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY pyproject.toml ./
-COPY poetry.lock ./
-
-RUN poetry config virtualenvs.in-project false \
-    && poetry install --no-interaction --no-root \
-    && poetry export -f requirements.txt --without-hashes > requirements.txt
-
-FROM python:3.13-alpine AS build
-
-WORKDIR /app
-
-COPY --from=setup /app/requirements.txt ./
-
-RUN pip install --prefer-binary --disable-pip-version-check --no-cache-dir -r requirements.txt && \
-    python -m pip uninstall -y setuptools wheel pip
-
-FROM python:3.13-alpine
-
-WORKDIR /app
-
-COPY --from=build /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=build $VENV_PATH $VENV_PATH
 COPY ./src .
 
-RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
+RUN rm -f "$VENV_PATH/bin/pip" && \
+    rm -r "$VENV_PATH/lib/python3.13/site-packages"/pip* && \
+    rm -r /usr/local/lib/python3.13/site-packages/pip* && \
     addgroup -S app && \
     adduser -S -G app api
 

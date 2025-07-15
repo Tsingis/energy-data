@@ -3,6 +3,7 @@
 .env*
 .gitignore
 .vscode/
-venv/
+.poetry/
+.venv/
 __pycache__
 README.md
