@@ -8,7 +8,6 @@ test("Page works", async ({ page }) => {
   await expect(page).toHaveTitle("Energy in Finland")
 
   await page.waitForLoadState()
-  await page.waitForLoadState("networkidle")
 
   const title = page.locator("h1:first-of-type")
   await expect(title).toBeVisible()
