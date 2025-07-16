@@ -16,13 +16,9 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        image_tag: [energy-data:latest]
-        context:
-          - ./server
-          - ./client
-    env:
-      IMAGE_TAG: ${{ matrix.image_tag }}
-      CONTEXT: ${{ matrix.context }}
+        image_tag:
+          - ${{ vars.CLIENT_IMAGE_TAG }}
+          - ${{ vars.SERVER_IMAGE_TAG }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up QEMU
@@ -35,23 +31,11 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           logout: true
-      - name: Build image
-        uses: docker/build-push-action@v6
-        with:
-          context: ${{ matrix.context }}
-          push: false
-          load: true
-          pull: false
-          no-cache: false
-          tags: ${{ matrix.image_tag }}
-        env:
-          DOCKER_BUILD_SUMMARY: false
-          DOCKER_BUILD_RECORD_UPLOAD: false
       - name: Scan image
         uses: docker/scout-action@v1
         with:
           command: cves,recommendations
-          image: local://${{ matrix.image_tag }}
+          image: ${{ matrix.image_tag }}
           only-severities: ${{ inputs.severities || 'critical,high' }}
           only-fixed: true
           summary: true
