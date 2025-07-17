@@ -25,10 +25,9 @@ Docker
 Server
 
 - Navigate to server directory `cd server`
-- Install poetry `curl -sSL https://install.python-poetry.org | python -`
-- Setup poetry in `PATH`
-- Set up environment `poetry install`
-- Launch `python src\main.py`
+- Install uv `pip install -r requirements.txt`
+- Set up environment `uv sync`
+- Launch `uv run src\main.py`
 
 Client
 

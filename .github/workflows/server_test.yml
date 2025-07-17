@@ -7,85 +7,63 @@ on:
       - "server/src/**"
       - "server/tests/**"
       - "server/pyproject.toml"
-      - "server/poetry.lock"
+      - "server/uv.lock"
+      - "server/requirements.txt"
       - ".github/workflows/server_test.yml"
   workflow_dispatch:
-env:
-  POETRY_VERSION: ${{ vars.POETRY_VERSION }}
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-          architecture: "x64"
-          cache: "poetry"
-          cache-dependency-path: server/poetry.lock
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-root
-        working-directory: ./server
   check:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          cache: "poetry"
-          cache-dependency-path: server/poetry.lock
+      - name: Install uv
+        run: pip install -r requirements.txt
+        working-directory: ./server
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root
+        run: uv sync --frozen
         working-directory: ./server
       - name: Check linting & formatting
         run: |
-          poetry run flake8 .
-          poetry run black --check .
+          uv run ruff format .
+          uv run ruff check .
         working-directory: ./server
   unit-tests:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          cache: "poetry"
-          cache-dependency-path: server/poetry.lock
+      - name: Install uv
+        run: pip install -r requirements.txt
+        working-directory: ./server
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root
+        run: uv sync --frozen
         working-directory: ./server
       - name: Run unit tests
-        run: poetry run python -m unittest discover -s tests/unit
+        run: uv run python -m unittest discover -s tests/unit
         working-directory: ./server
   api-tests:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Poetry
-        run: curl --proto "=https" -sSL https://install.python-poetry.org | python3 -
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           architecture: "x64"
-          cache: "poetry"
-          cache-dependency-path: server/poetry.lock
+      - name: Install uv
+        run: pip install -r requirements.txt
+        working-directory: ./server
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root
+        run: uv sync --frozen
         working-directory: ./server
       - name: Run API tests
-        run: poetry run python -m unittest discover -s tests/api
+        run: uv run python -m unittest discover -s tests/api
         env:
           FINGRID_API_KEY: ${{ secrets.FINGRID_API_KEY }}
         working-directory: ./server
