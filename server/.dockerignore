@@ -3,7 +3,7 @@
 .env*
 .gitignore
 .vscode/
-.poetry/
 .venv/
+.ruff_cache
 __pycache__
 README.md
