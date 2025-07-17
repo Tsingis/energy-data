@@ -1,28 +1,27 @@
-[build-system]
-requires = ["poetry-core>=2.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
+[project]
 name = "energy-data-server"
 version = "0.1.0"
-description = "Energy Data Server"
-packages = [{include = "src"}]
+requires-python = ">=3.13"
 
-[tool.poetry.dependencies]
-python = "^3.13"
-aiocache = "0.12.3"
-fastapi = "0.116.1"
-httpx = "0.28.1"
-slowapi = "0.1.9"
-uvicorn = "0.35.0"
+dependencies = [
+    "aiocache==0.12.3",
+    "fastapi==0.116.1",
+    "httpx==0.28.1",
+    "slowapi==0.1.9",
+    "uvicorn==0.35.0",
+]
 
-[tool.poetry.group.dev.dependencies]
-black = "25.1.0"
-flake8 = "7.3.0"
-pip-audit = "2.9.0"
-python-dotenv = "1.1.1"
+[dependency-groups]
+dev = [
+    "pip-audit==2.9.0",
+    "python-dotenv==1.1.1",
+    "ruff==0.12.4",
+]
 
-[tool.black]
+[tool.ruff]
 line-length = 100
-target-version = ["py313"]
-include = '\.py$'
+target-version = "py313"
+
+[tool.ruff.lint]
+ignore = ["COM812"]
+exclude = [".venv", "__pycache__"]

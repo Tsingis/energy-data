@@ -1,41 +1,39 @@
 FROM python:3.13-alpine AS base
 
-ARG POETRY_VERSION
-
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    PYSETUP_PATH="/opt/pysetup" \
-    VENV_PATH="/opt/pysetup/.venv"
-
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
 
 FROM base AS build
 
+COPY requirements.txt ./
+
 RUN --mount=type=cache,target=/root/.cache \
-    pip install "poetry==$POETRY_VERSION"
+    pip install -r requirements.txt
 
-WORKDIR $PYSETUP_PATH
+WORKDIR /app
 
-COPY ./poetry.lock ./pyproject.toml ./
+COPY ./uv.lock ./pyproject.toml ./
 
-RUN --mount=type=cache,target=$POETRY_HOME/pypoetry/cache \
-    poetry install --no-interaction --no-root --without dev
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-group dev
 
 FROM base AS final
 
 WORKDIR /app
 
-COPY --from=build $VENV_PATH $VENV_PATH
+COPY --from=build /app .
 COPY ./src .
 
-RUN rm -f "$VENV_PATH/bin/pip" && \
-    rm -r "$VENV_PATH/lib/python3.13/site-packages"/pip* && \
-    rm -r /usr/local/lib/python3.13/site-packages/pip* && \
+ENV PATH="/app/.venv/bin:$PATH"
+
+RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
     addgroup -S app && \
     adduser -S -G app api
 
