@@ -3,8 +3,6 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-      args:
-        - POETRY_VERSION=${POETRY_VERSION}
       no_cache: false
     image: energy-server
     container_name: energy-server

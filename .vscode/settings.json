@@ -10,7 +10,7 @@
   "python.testing.unittestEnabled": true,
   "python.defaultInterpreterPath": "${workspaceFolder}/server/.venv/Scripts/python.exe",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true
   },
   "black-formatter.args": ["--line-length", "100"],

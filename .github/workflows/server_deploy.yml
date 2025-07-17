@@ -6,7 +6,7 @@ on:
     paths:
       - "server/src/**"
       - "server/pyproject.toml"
-      - "server/poetry.lock"
+      - "server/uv.lock"
       - "server/Dockerfile"
       - ".github/workflows/server_deploy.yml"
   workflow_dispatch:
@@ -35,8 +35,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: "./server"
-          build-args: |
-            POETRY_VERSION=${{ vars.POETRY_VERSION }}
           push: true
           load: true
           pull: false
