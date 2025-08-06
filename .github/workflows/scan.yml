@@ -15,6 +15,7 @@ jobs:
     permissions:
       pull-requests: write
     strategy:
+      fail-fast: false
       matrix:
         image_tag:
           - ${{ vars.CLIENT_IMAGE_TAG }}
