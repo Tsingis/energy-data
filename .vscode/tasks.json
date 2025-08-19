@@ -1,0 +1,145 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run:server",
+            "type": "shell",
+            "command": "uv run src/main.py",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "install:server",
+            "type": "shell",
+            "command": "uv sync",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "update:server",
+            "type": "shell",
+            "command": "uv lock",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "outdated:server",
+            "type": "shell",
+            "command": "uv pip list --outdated",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "vulnerable:server",
+            "type": "shell",
+            "command": "uv run pip-audit",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "format:server",
+            "type": "shell",
+            "command": "uv run ruff format .",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "lint:server",
+            "type": "shell",
+            "command": "uv run ruff check .",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "run:client",
+            "type": "shell",
+            "command": "npm run dev:check",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "install:client",
+            "type": "shell",
+            "command": "npm install",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "outdated:client",
+            "type": "shell",
+            "command": "npm outdated",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "vulnerable:client",
+            "type": "shell",
+            "command": "npm audit",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "format:client",
+            "type": "shell",
+            "command": "npm run prettier:fix",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "lint:client",
+            "type": "shell",
+            "command": "npm run eslint:fix",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
+            "label": "build:client",
+            "type": "shell",
+            "command": "npm run build",
+            "options": {
+                "cwd": "${workspaceFolder}/client"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+    ]
+}
