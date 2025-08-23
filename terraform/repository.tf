@@ -10,10 +10,11 @@ resource "google_artifact_registry_repository" "server_repo" {
   }
 
   cleanup_policies {
-    id     = "keep most recent"
-    action = "KEEP"
-    most_recent_versions {
-      keep_count = 1
+    id     = "deleted untagged"
+    action = "DELETE"
+    condition {
+      tag_state  = "UNTAGGED"
+      older_than = "1m"
     }
   }
 }
