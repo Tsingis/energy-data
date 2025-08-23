@@ -14,7 +14,7 @@ resource "google_cloud_run_service" "client" {
       container_concurrency = 10
 
       containers {
-        image = "${var.registry_server}/${var.registry_image_client}"
+        image = "${var.registry_server}/${var.project_id}/${var.registry_repository}/${var.registry_image_client}"
 
         ports {
           container_port = 3000
