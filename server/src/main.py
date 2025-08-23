@@ -23,10 +23,6 @@ from clients.price_client import PriceClient, PriceData
 
 IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
 
-if IS_DEV:
-    from dotenv import load_dotenv
-
-    load_dotenv()
 
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "*")
 CACHE_TTL = int(os.getenv("CACHE_TTL", 900))
