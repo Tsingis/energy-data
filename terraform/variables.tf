@@ -10,7 +10,12 @@ variable "project_id" {
 
 variable "registry_server" {
   type    = string
-  default = "docker.io"
+  default = "europe-north1-docker.pkg.dev"
+}
+
+variable "registry_repository" {
+  type    = string
+  default = "energy-data"
 }
 
 variable "registry_image_server" {
