@@ -11,23 +11,24 @@ Backend: https://energy-data-server-r6oz7us4ea-lz.a.run.app/docs
 Tools used:
 
 - Python
+- Node.js
 - Vue
 - Docker
-- Terraform
 - Google Cloud
+- Terraform
 
 **Instructions:**
 
 Docker
 
-- Run via Docker `docker compose up --build`
+- Run via Docker `docker compose up --build client server`
 
 Server
 
 - Navigate to server directory `cd server`
-- Install uv `pip install -r requirements.txt`
+- Install uv globally `pip install -r requirements.txt`
 - Set up environment `uv sync`
-- Launch `uv run src\main.py`
+- Launch `uv run --env-file {path-to-env} src/main.py`
 
 Client
 
