@@ -15,13 +15,27 @@ on:
 env:
   NO_UPDATE_NOTIFIER: true
 jobs:
-  playwright:
-    runs-on: ${{ matrix.os }}
+  extract-base-image:
+    runs-on: ubuntu-latest
+    outputs:
+      base-image: ${{ steps.get-base-image.outputs.base-image }}
     permissions:
       contents: read
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v5
+      - name: Get base image
+        id: get-base-image
+        run: |
+          IMAGE=$(sed -n 's/^FROM[[:space:]]\+\(.*\)/\1/p' ${{ vars.PLAYWRIGHT_DOCKERFILE }} | head -n 1)
+          echo "base-image=$IMAGE" >> $GITHUB_OUTPUT
+  playwright:
+    needs: extract-base-image
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.extract-base-image.outputs.base-image }}
+      options: --init --user 1001 --ipc=host
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
@@ -34,9 +48,6 @@ jobs:
         working-directory: ./client
       - name: Build
         run: npm run build
-        working-directory: ./client
-      - name: Setup
-        run: npm run playwright:setup
         working-directory: ./client
       - name: Run tests
         run: npm run playwright
