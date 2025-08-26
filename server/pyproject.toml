@@ -15,7 +15,12 @@ dependencies = [
 dev = [
     "pip-audit==2.9.0",
     "ruff==0.12.10",
+    "taskipy==1.14.1",
 ]
+
+[tool.taskipy.tasks]
+api = "uv run --env-file ../.env src/main.py"
+test = "uv run --env-file ../.env python -m unittest discover -v -s tests"
 
 [[tool.uv.index]]
 name = "pypi"

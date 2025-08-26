@@ -28,7 +28,7 @@ Server
 - Navigate to server directory `cd server`
 - Install uv globally `pip install -r requirements.txt`
 - Set up environment `uv sync`
-- Launch `uv run --env-file {path-to-env} src/main.py`
+- Launch `uv run task api`
 
 Client
 

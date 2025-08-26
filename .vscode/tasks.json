@@ -4,7 +4,7 @@
         {
             "label": "run:server",
             "type": "shell",
-            "command": "uv run --env-file ../.env src/main.py",
+            "command": "uv run task api",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
