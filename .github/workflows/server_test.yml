@@ -50,7 +50,7 @@ jobs:
         run: uv sync --frozen
         working-directory: ./server
       - name: Run unit tests
-        run: uv run python -m unittest discover -s tests/unit
+        run: uv run python -m unittest discover -v -s tests/unit
         working-directory: ./server
   api-tests:
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
         run: uv sync --frozen
         working-directory: ./server
       - name: Run API tests
-        run: uv run python -m unittest discover -s tests/api
+        run: uv run python -m unittest discover -v -s tests/api
         env:
           FINGRID_API_KEY: ${{ secrets.FINGRID_API_KEY }}
         working-directory: ./server

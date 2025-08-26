@@ -1,5 +1,6 @@
 # flake8: noqa: E402
 
+import logging
 import os
 import sys
 import unittest
@@ -8,6 +9,8 @@ from fastapi.testclient import TestClient
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
 from src.main import app
 from src.clients.energy_client import Dataset
+
+logging.disable(logging.CRITICAL)
 
 
 class TestMain(unittest.TestCase):
