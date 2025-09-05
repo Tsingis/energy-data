@@ -34,7 +34,7 @@ jobs:
           docker push ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG }}
         working-directory: ./server
       - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v3
         with:
           service: ${{ vars.SERVER_SERVICE_NAME }}
           image: ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG}}
