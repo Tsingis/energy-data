@@ -2,7 +2,7 @@ name: client-deploy
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "client/src/**"
       - "client/nginx/**"

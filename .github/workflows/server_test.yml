@@ -2,7 +2,7 @@ name: server-test
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "server/src/**"
       - "server/tests/**"

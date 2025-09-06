@@ -2,7 +2,7 @@ name: server-deploy
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "server/src/**"
       - "server/pyproject.toml"

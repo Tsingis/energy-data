@@ -2,7 +2,7 @@ name: sonar
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "server/src/**"
       - "server/tests/**"
@@ -16,7 +16,7 @@ on:
       - ".github/workflows/sonar.yml"
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "server/src/**"
       - "server/tests/**"

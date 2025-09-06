@@ -2,7 +2,7 @@ name: client-test
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "client/src/**"
       - "client/tests/components/**"
