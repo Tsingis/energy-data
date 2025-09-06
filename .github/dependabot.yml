@@ -7,7 +7,6 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
   - package-ecosystem: "uv"
     directory: "/server"
     schedule:
@@ -15,7 +14,6 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
   - package-ecosystem: "npm"
     directory: "/client"
     versioning-strategy: "increase"
@@ -24,7 +22,6 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
     groups:
       eslint:
         patterns:
@@ -43,7 +40,6 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
   - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
@@ -51,7 +47,6 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
@@ -59,4 +54,3 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
-    target-branch: "master"
