@@ -1,0 +1,13 @@
+@datasetProduction = 181
+@datasetForecast = 245
+
+### Wind production & forecast
+GET https://data.fingrid.fi/api/data?datasets={{datasetProduction}},{{datasetForecast}}
+    &pageSize=1000
+    &startTime=2025-03-08T08:00:00Z
+    &endTime=2025-03-08T22:00:00Z
+    &format=json
+    &sortBy=startTime
+    &sortOrder=asc
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}

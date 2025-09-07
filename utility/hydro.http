@@ -1,0 +1,12 @@
+@datasetProduction = 191
+
+### Hydro production
+GET https://data.fingrid.fi/api/data?datasets={{datasetProduction}}
+    &pageSize=1000
+    &startTime=2025-03-08T08:00:00Z
+    &endTime=2025-03-08T22:00:00Z
+    &format=json
+    &sortBy=startTime
+    &sortOrder=asc
+Content-Type: application/json
+x-api-key: {{$dotenv FINGRID_API_KEY}}
