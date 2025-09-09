@@ -1,5 +1,14 @@
 name: server-deploy
 on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "server/src/**"
+      - "server/pyproject.toml"
+      - "server/uv.lock"
+      - "server/Dockerfile"
+      - ".github/workflows/server_deploy.yml"
   push:
     branches:
       - main
@@ -14,8 +23,34 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - name: Login to Google Cloud
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: google-github-actions/auth@v3
+        with:
+          project_id: ${{ secrets.PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
+      - name: Configure Docker for registry
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: gcloud auth configure-docker ${{ vars.REPOSITORY_SERVER }} --quiet
+      - name: Build image
+        run: |
+          docker build -t ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG }} .
+        working-directory: ./server
+      - name: Push image
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: |
+          docker push ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG }}
   deploy:
     runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     permissions:
       id-token: write
       contents: read
@@ -26,13 +61,6 @@ jobs:
         with:
           project_id: ${{ secrets.PROJECT_ID }}
           workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
-      - name: Configure Docker for registry
-        run: gcloud auth configure-docker ${{ vars.REPOSITORY_SERVER }} --quiet
-      - name: Build and push image
-        run: |
-          docker build -t ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG }} .
-          docker push ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ vars.SERVER_IMAGE_TAG }}
-        working-directory: ./server
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v3
         with:
