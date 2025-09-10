@@ -7,6 +7,7 @@ on:
       - "server/src/**"
       - "server/pyproject.toml"
       - "server/uv.lock"
+      - "server/requirements.txt"
       - "server/Dockerfile"
       - ".github/workflows/server_deploy.yml"
   push:
