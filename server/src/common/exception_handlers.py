@@ -9,7 +9,7 @@ logger = setup_logger()
 
 
 def http_exception_handler(_: Request, exc: StarletteHTTPException):
-    logger.exception(f"HTTP Exception: {exc.status_code} - {exc.detail}")
+    logger.error("HTTP Exception", exc_info=exc)
     return JSONResponse(
         status_code=exc.status_code,
         content={"error": "An error occurred"},
@@ -17,7 +17,7 @@ def http_exception_handler(_: Request, exc: StarletteHTTPException):
 
 
 def fastapi_http_exception_handler(_: Request, exc: HTTPException):
-    logger.exception(f"HTTP Exception: {exc.status_code} - {exc.detail}")
+    logger.error("HTTP Exception", exc_info=exc)
     return JSONResponse(
         status_code=exc.status_code,
         content={"error": "An error occurred"},
@@ -25,7 +25,7 @@ def fastapi_http_exception_handler(_: Request, exc: HTTPException):
 
 
 def validation_exception_handler(_: Request, exc: RequestValidationError):
-    logger.exception(f"Validation Error: {exc.errors()}")
+    logger.error("Validation Error", exc_info=exc)
     return JSONResponse(
         status_code=422,
         content={"error": "Invalid request"},
@@ -33,7 +33,7 @@ def validation_exception_handler(_: Request, exc: RequestValidationError):
 
 
 def general_exception_handler(_: Request, exc: Exception):
-    logger.exception(f"Unhandled Exception: {exc}")
+    logger.error("Unhandled Exception", exc_info=exc)
     return JSONResponse(
         status_code=500,
         content={"error": "Internal server error"},
@@ -41,7 +41,7 @@ def general_exception_handler(_: Request, exc: Exception):
 
 
 def ratelimit_exception_handler(_: Request, exc: RateLimitExceeded):
-    logger.exception("Rate limit exceeded", exc_info=exc)
+    logger.error("Rate limit exceeded", exc_info=exc)
     return JSONResponse(
         status_code=429,
         content={"message": "Rate limit exceeded. Try again later."},

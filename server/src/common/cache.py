@@ -25,7 +25,7 @@ def cache_result(cache_key: str, model_type: Type, ttl: int = 900):
                 await cache.set(cache_key, result, ttl=ttl)
                 return result
             except Exception:
-                logger.exception(f"Error in caching for key {cache_key}")
+                logger.exception("Error in caching for key %s", cache_key)
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     detail="Error processing request",
