@@ -17,8 +17,8 @@ from common.exception_handlers import (
     ratelimit_exception_handler,
 )
 from middleware.secure_headers import SecureHeadersMiddleware
-from clients.energy_client import EnergyClient, EnergyData
-from clients.price_client import PriceClient, PriceData
+from services.energy_service import EnergyService, EnergyResponse
+from services.price_service import PriceService, PriceResponse
 
 
 IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
@@ -58,18 +58,18 @@ start_time = now - delta
 end_time = now + delta
 
 
-@app.get("/api/energy", response_model=EnergyData)
+@app.get("/api/energy", response_model=EnergyResponse)
 @limiter.limit(RATE_LIMIT)
-@cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
-async def get_energy_data(request: Request, energy_client: EnergyClient = Depends(use_cache=True)):
+@cache_result(cache_key="main:data:energy", model_type=EnergyResponse, ttl=CACHE_TTL)
+async def get_energy_data(request: Request, energy_client: EnergyService = Depends(use_cache=True)):
     data = await energy_client.fetch_energy_data(start_time, end_time)
     return data.model_dump()
 
 
-@app.get("/api/price", response_model=PriceData)
+@app.get("/api/price", response_model=PriceResponse)
 @limiter.limit(RATE_LIMIT)
-@cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
-async def get_price_data(request: Request, price_client: PriceClient = Depends(use_cache=True)):
+@cache_result(cache_key="main:data:price", model_type=PriceResponse, ttl=CACHE_TTL)
+async def get_price_data(request: Request, price_client: PriceService = Depends(use_cache=True)):
     data = await price_client.fetch_price_data(start_time, end_time)
     return data.model_dump()
 
