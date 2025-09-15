@@ -11,6 +11,9 @@ services:
     environment:
       - FINGRID_API_KEY=${FINGRID_API_KEY}
       - ENVIRONMENT=${ENVIRONMENT}
+      - ALLOWING_ORIGIN=${ALLOWING_ORIGIN}
+      - CACHE_TTL=${CACHE_TTL}
+      - RATE_LIMIT=${RATE_LIMIT}
     user: api
     read_only: true
     privileged: false
