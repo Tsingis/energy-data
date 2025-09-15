@@ -12,6 +12,16 @@
             "group": "build"
         },
         {
+            "label": "test:server",
+            "type": "shell",
+            "command": "uv run task test",
+            "options": {
+                "cwd": "${workspaceFolder}/server"
+            },
+            "problemMatcher": "$msCompile",
+            "group": "build"
+        },
+        {
             "label": "install:server",
             "type": "shell",
             "command": "uv sync",

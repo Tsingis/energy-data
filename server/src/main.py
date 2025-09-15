@@ -7,18 +7,18 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from datetime import datetime, timedelta, timezone
-from common.setup_logger import setup_logger
-from common.cache import cache_result
-from common.exception_handlers import (
+from src.common.setup_logger import setup_logger
+from src.common.cache import cache_result
+from src.common.exception_handlers import (
     http_exception_handler,
     fastapi_http_exception_handler,
     validation_exception_handler,
     general_exception_handler,
     ratelimit_exception_handler,
 )
-from middleware.secure_headers import SecureHeadersMiddleware
-from clients.energy_client import EnergyClient, EnergyData
-from clients.price_client import PriceClient, PriceData
+from src.middleware.secure_headers import SecureHeadersMiddleware
+from src.services.energy_service import EnergyService, EnergyResponse
+from src.services.price_service import PriceService, PriceResponse
 
 
 IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
@@ -58,18 +58,18 @@ start_time = now - delta
 end_time = now + delta
 
 
-@app.get("/api/energy", response_model=EnergyData)
+@app.get("/api/energy", response_model=EnergyResponse)
 @limiter.limit(RATE_LIMIT)
-@cache_result(cache_key="main:data:energy", model_type=EnergyData, ttl=CACHE_TTL)
-async def get_energy_data(request: Request, energy_client: EnergyClient = Depends(use_cache=True)):
+@cache_result(cache_key="main:data:energy", model_type=EnergyResponse, ttl=CACHE_TTL)
+async def get_energy_data(request: Request, energy_client: EnergyService = Depends(use_cache=True)):
     data = await energy_client.fetch_energy_data(start_time, end_time)
     return data.model_dump()
 
 
-@app.get("/api/price", response_model=PriceData)
+@app.get("/api/price", response_model=PriceResponse)
 @limiter.limit(RATE_LIMIT)
-@cache_result(cache_key="main:data:price", model_type=PriceData, ttl=CACHE_TTL)
-async def get_price_data(request: Request, price_client: PriceClient = Depends(use_cache=True)):
+@cache_result(cache_key="main:data:price", model_type=PriceResponse, ttl=CACHE_TTL)
+async def get_price_data(request: Request, price_client: PriceService = Depends(use_cache=True)):
     data = await price_client.fetch_price_data(start_time, end_time)
     return data.model_dump()
 
@@ -82,7 +82,7 @@ def health(request: Request):
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
+        "src.main:app",
         host="0.0.0.0",
         port=PORT,
         log_config=None,
