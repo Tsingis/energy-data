@@ -3,8 +3,8 @@ import os
 import urllib.parse
 from datetime import datetime
 from typing import List, Dict
-from enums.dataset import Dataset
-from models.energy import Energy, EnergyApiResponse, EnergyResponse
+from src.enums.dataset import Dataset
+from src.models.energy import Energy, EnergyApiResponse, EnergyResponse
 
 
 class EnergyService:

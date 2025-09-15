@@ -7,18 +7,18 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from datetime import datetime, timedelta, timezone
-from common.setup_logger import setup_logger
-from common.cache import cache_result
-from common.exception_handlers import (
+from src.common.setup_logger import setup_logger
+from src.common.cache import cache_result
+from src.common.exception_handlers import (
     http_exception_handler,
     fastapi_http_exception_handler,
     validation_exception_handler,
     general_exception_handler,
     ratelimit_exception_handler,
 )
-from middleware.secure_headers import SecureHeadersMiddleware
-from services.energy_service import EnergyService, EnergyResponse
-from services.price_service import PriceService, PriceResponse
+from src.middleware.secure_headers import SecureHeadersMiddleware
+from src.services.energy_service import EnergyService, EnergyResponse
+from src.services.price_service import PriceService, PriceResponse
 
 
 IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
@@ -82,7 +82,7 @@ def health(request: Request):
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main:app",
+        "src.main:app",
         host="0.0.0.0",
         port=PORT,
         log_config=None,

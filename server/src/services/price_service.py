@@ -1,7 +1,7 @@
 import httpx
 from datetime import datetime
 from typing import List
-from models.price import Price, PriceApiResponse, PriceResponse
+from src.models.price import Price, PriceApiResponse, PriceResponse
 
 
 class PriceService:

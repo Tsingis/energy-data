@@ -29,8 +29,9 @@ FROM base AS final
 WORKDIR /app
 
 COPY --from=build /app .
-COPY ./src .
+COPY ./src ./src
 
+ENV PYTHONPATH=/app
 ENV PATH="/app/.venv/bin:$PATH"
 
 RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
@@ -39,4 +40,4 @@ RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
 
 USER api
 
-CMD ["python", "main.py"]
+CMD ["python", "-m", "src.main"]

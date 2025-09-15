@@ -2,7 +2,7 @@ from typing import Type
 from aiocache import SimpleMemoryCache
 from functools import wraps
 from fastapi import HTTPException, status
-from .setup_logger import setup_logger
+from src.common.setup_logger import setup_logger
 
 logger = setup_logger()
 
