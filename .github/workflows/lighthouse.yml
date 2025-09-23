@@ -5,7 +5,7 @@ on:
       url:
         description: "URL to audit"
         required: true
-        default: "https://energy-data-client.onrender.com/"
+        default: "https://energy-data-client-r6oz7us4ea-lz.a.run.app"
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
@@ -23,5 +23,7 @@ jobs:
           temporaryPublicStorage: true
       - name: Report
         run: |
-          LINKS=$(echo '${{ steps.lighthouse.outputs.links }}' | jq -r --arg url "${{ inputs.URL }}" '.[$url]')
+          LINKS=$(echo '${{ steps.lighthouse.outputs.links }}' | jq -r --arg url "$URL" '.[$url]')
           echo "[Results]($LINKS)" >> $GITHUB_STEP_SUMMARY
+        env:
+          URL: ${{ inputs.URL }}
