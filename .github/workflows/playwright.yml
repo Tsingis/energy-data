@@ -10,6 +10,7 @@ on:
       - "client/playwright.config.ts"
       - "client/tsconfig.json"
       - "client/package*.json"
+      - "utility/Dockerfile"
       - ".github/workflows/playwright.yml"
   workflow_dispatch:
 env:
