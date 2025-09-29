@@ -4,5 +4,15 @@
   "timezone": "Europe/Helsinki",
   "schedule": ["* 21-22 * * 3"],
   "rebaseWhen": "conflicted",
-  "enabledManagers": ["tflint-plugin"]
+  "enabledManagers": ["tflint-plugin", "npm"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["packageManager"],
+      "enabled": true
+    },
+    {
+      "matchDepTypes": ["dependencies", "devDependencies"],
+      "enabled": false
+    }
+  ]
 }
