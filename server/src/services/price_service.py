@@ -6,7 +6,7 @@ from src.models.price import Price, PriceApiResponse, PriceResponse
 
 class PriceService:
     def __init__(self):
-        self.base_url = "https://api.porssisahko.net/v1/latest-prices.json"
+        self.base_url = "https://api.porssisahko.net/v2/latest-prices.json"
 
     async def fetch_price_data(self, start_time: datetime, end_time: datetime) -> PriceResponse:
         """
