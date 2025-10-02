@@ -34,7 +34,7 @@
     "@playwright/test": "^1.55.1",
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/vue": "^8.1.0",
-    "@types/jsdom": "^21.1.7",
+    "@types/jsdom": "^27.0.0",
     "@types/node": "^24.6.1",
     "@typescript-eslint/eslint-plugin": "^8.44.1",
     "@typescript-eslint/parser": "^8.32.1",
