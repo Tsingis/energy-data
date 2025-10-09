@@ -1,4 +1,4 @@
-FROM python:3.13-alpine AS base
+FROM python:3.13.8-alpine3.22 AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -34,7 +34,7 @@ COPY ./src ./src
 ENV PYTHONPATH=/app
 ENV PATH="/app/.venv/bin:$PATH"
 
-RUN rm -r /usr/local/lib/python3.13/site-packages/pip* && \
+RUN rm -r /usr/local/lib/python*/site-packages/pip* && \
     addgroup -S app && \
     adduser -S -G app api
 
