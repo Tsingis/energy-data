@@ -1,27 +1,5 @@
 name: client-deploy
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "client/src/**"
-      - "client/nginx/**"
-      - "client/vite.config.ts"
-      - "client/tsconfig.json"
-      - "client/package*.json"
-      - "client/Dockerfile"
-      - ".github/workflows/client_deploy.yml"
-  push:
-    branches:
-      - main
-    paths:
-      - "client/src/**"
-      - "client/nginx/**"
-      - "client/vite.config.ts"
-      - "client/tsconfig.json"
-      - "client/package*.json"
-      - "client/Dockerfile"
-      - ".github/workflows/client_deploy.yml"
   workflow_dispatch:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

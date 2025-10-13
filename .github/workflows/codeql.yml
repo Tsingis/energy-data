@@ -1,21 +1,5 @@
 name: codeql
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "client/src/**"
-      - "client/tests/**"
-      - "client/vite.config.ts"
-      - "client/vitest.config.ts"
-      - "client/tsconfig.json"
-      - "client/eslint.config.js"
-      - "client/package*.json"
-      - "server/src/**"
-      - "server/tests/**"
-      - "server/pyproject.toml"
-      - "server/uv.lock"
-      - ".github/workflows/**/*.yml"
   schedule:
     - cron: "0 21 * * 0"
   workflow_dispatch:

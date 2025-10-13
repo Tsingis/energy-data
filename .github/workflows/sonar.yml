@@ -1,33 +1,5 @@
 name: sonar
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "server/src/**"
-      - "server/tests/**"
-      - "server/pyproject.toml"
-      - "server/uv.lock"
-      - "client/client/src/**"
-      - "client/client/tests/**"
-      - "client/client/config/**"
-      - "client/package*.json"
-      - "**/Dockerfile*"
-      - ".github/workflows/sonar.yml"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "server/src/**"
-      - "server/tests/**"
-      - "server/pyproject.toml"
-      - "server/uv.lock"
-      - "client/client/src/**"
-      - "client/client/tests/**"
-      - "client/client/config/**"
-      - "client/package*.json"
-      - "**/Dockerfile*"
-      - ".github/workflows/sonar.yml"
   schedule:
     - cron: "0 21 * * 0"
   workflow_dispatch:
