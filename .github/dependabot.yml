@@ -26,6 +26,9 @@ updates:
       timezone: "Europe/Helsinki"
     cooldown:
       default-days: 1
+    ignore:
+      - dependency-name: "playwright"
+      - dependency-name: "@playwright/test"
     groups:
       eslint:
         patterns:
@@ -39,6 +42,8 @@ updates:
       - "/client"
       - "/server"
       - "/utility"
+    ignore:
+      - dependency-name: "mcr.microsoft.com/playwright"
     schedule:
       interval: "monthly"
       day: "wednesday"
