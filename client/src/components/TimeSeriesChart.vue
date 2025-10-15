@@ -144,7 +144,7 @@
                   intersect: false,
                   usePointStyle: true,
                   callbacks: {
-                    label: (tooltipItem: TooltipItem<"line">) => {
+                    label: (tooltipItem: TooltipItem<"line" | "bar">) => {
                       const { y } = tooltipItem.raw as { y: number }
                       return `Value: ${y}`
                     },
