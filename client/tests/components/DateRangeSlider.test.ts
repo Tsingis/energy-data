@@ -23,8 +23,8 @@ describe("DateRangeSlider.vue", () => {
     expect(slider).toBeTruthy()
 
     await fireEvent.mouseDown(slider!, { clientX: 50 })
-    await fireEvent.mouseMove(window, { clientX: 100 })
-    await fireEvent.mouseUp(window)
+    await fireEvent.mouseMove(globalThis, { clientX: 100 })
+    await fireEvent.mouseUp(globalThis)
 
     expect(emitted()["update:modelValue"]).toBeTruthy()
   })
@@ -42,7 +42,7 @@ describe("DateRangeSlider.vue", () => {
     await fireEvent.mouseDown(slider!, { clientX: 50 })
     expect(emitted()["start"]).toBeTruthy()
 
-    await fireEvent.mouseUp(window)
+    await fireEvent.mouseUp(globalThis)
     expect(emitted()["end"]).toBeTruthy()
   })
 
@@ -61,8 +61,8 @@ describe("DateRangeSlider.vue", () => {
     expect(slider).toBeTruthy()
 
     await fireEvent.mouseDown(slider!, { clientX: 50 })
-    await fireEvent.mouseMove(window, { clientX: 100 })
-    await fireEvent.mouseUp(window)
+    await fireEvent.mouseMove(globalThis, { clientX: 100 })
+    await fireEvent.mouseUp(globalThis)
 
     const emittedValue = (emitted()["update:modelValue"] as [Date[]][])[0][0]
     expect(emittedValue[0].getTime()).toBeGreaterThanOrEqual(minDate.getTime())

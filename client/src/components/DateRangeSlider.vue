@@ -117,8 +117,8 @@
     activeThumb.value = closestThumb
     emit("start", props.modelValue)
     updateValue(value)
-    window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("mouseup", onMouseUp)
+    globalThis.addEventListener("mousemove", onMouseMove)
+    globalThis.addEventListener("mouseup", onMouseUp)
   }
 
   const onSliderTouchStart = (event: TouchEvent) => {
@@ -160,23 +160,23 @@
   const onMouseUp = () => {
     activeThumb.value = null
     emit("end", props.modelValue)
-    window.removeEventListener("mousemove", onMouseMove)
-    window.removeEventListener("mouseup", onMouseUp)
+    globalThis.removeEventListener("mousemove", onMouseMove)
+    globalThis.removeEventListener("mouseup", onMouseUp)
   }
 
   const onThumbMouseDown = (thumb: "start" | "end") => {
     activeThumb.value = thumb
     emit("start", props.modelValue)
-    window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("mouseup", onMouseUp)
+    globalThis.addEventListener("mousemove", onMouseMove)
+    globalThis.addEventListener("mouseup", onMouseUp)
   }
 
   const onThumbTouchStart = (thumb: "start" | "end") => {
     activeThumb.value = thumb
     emit("start", props.modelValue)
 
-    window.addEventListener("touchmove", onTouchMove)
-    window.addEventListener("touchend", onTouchEnd)
+    globalThis.addEventListener("touchmove", onTouchMove)
+    globalThis.addEventListener("touchend", onTouchEnd)
   }
 
   const onTouchMove = (event: TouchEvent) => {
@@ -193,8 +193,8 @@
     activeThumb.value = null
     emit("end", props.modelValue)
 
-    window.removeEventListener("touchmove", onTouchMove)
-    window.removeEventListener("touchend", onTouchEnd)
+    globalThis.removeEventListener("touchmove", onTouchMove)
+    globalThis.removeEventListener("touchend", onTouchEnd)
   }
 
   const getValueFromEvent = (event: MouseEvent | Touch) => {

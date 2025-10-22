@@ -13,7 +13,7 @@ declare global {
 export async function setupMocks(page: Page) {
   await page.addInitScript(
     ({ mockDate }: { mockDate: Date }) => {
-      window.useDate = () => ({
+      globalThis.useDate = () => ({
         getDate: () => mockDate,
       })
       const RealDate = Date
@@ -27,7 +27,7 @@ export async function setupMocks(page: Page) {
           }
         }
       }
-      window.Date = MockDate as DateConstructor
+      globalThis.Date = MockDate as DateConstructor
     },
     { mockDate: MOCK_NOW }
   )
