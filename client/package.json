@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=24"
+  },
   "packageManager": "npm@11.6.2",
   "scripts": {
     "predev": "node check-packages.js",
