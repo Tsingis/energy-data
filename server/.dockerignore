@@ -1,9 +1,4 @@
 .git/
-.github/
-.env*
-.gitignore
-.vscode/
 .venv/
-.ruff_cache
-__pycache__
-README.md
+.ruff_cache/
+__pycache__/
