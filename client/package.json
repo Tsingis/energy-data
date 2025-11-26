@@ -7,7 +7,7 @@
   "engines": {
     "node": ">=24"
   },
-  "packageManager": "npm@11.6.2",
+  "packageManager": "npm@11.6.4",
   "scripts": {
     "predev": "node check-packages.js",
     "dev": "vite --config ./vite.config.ts --open",
