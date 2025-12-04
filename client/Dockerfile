@@ -20,7 +20,7 @@ COPY vite.config.ts ./vite.config.ts
 RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js && \
     npm run build
 
-FROM nginxinc/nginx-unprivileged:1.29.2-alpine3.22-slim
+FROM nginxinc/nginx-unprivileged:1.29.3-alpine3.22-slim
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
