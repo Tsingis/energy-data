@@ -10,7 +10,7 @@ export default defineConfig({
   reporter: "list",
   timeout: 60_000,
   retries: process.env.CI ? 5 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: Number(process.env.WORKERS) || undefined,
   expect: {
     timeout: 10_000,
     toHaveScreenshot: {
