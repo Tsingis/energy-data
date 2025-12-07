@@ -1,4 +1,4 @@
-FROM python:3.14.1-alpine3.22 AS base
+FROM python:3.14.1-alpine3.23 AS base
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
