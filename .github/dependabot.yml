@@ -55,6 +55,18 @@ updates:
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
+  - package-ecosystem: "docker"
+    directories:
+      - "/server"
+    ignore:
+      - dependency-name: "python"
+        update-types:
+          - "version-update:semver-major"
+    schedule:
+      interval: "monthly"
+      day: "wednesday"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
   - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
