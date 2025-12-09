@@ -40,10 +40,16 @@ updates:
   - package-ecosystem: "docker"
     directories:
       - "/client"
-      - "/server"
       - "/utility"
+      - "/server"
     ignore:
       - dependency-name: "*playwright"
+      - dependency-name: "node"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "python"
+        update-types:
+          - "version-update:semver-minor"
     schedule:
       interval: "monthly"
       day: "wednesday"
