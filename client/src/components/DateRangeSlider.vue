@@ -26,7 +26,6 @@
         </div>
       </div>
       <div
-        ref="endThumb"
         class="range-slider__thumb"
         data-testid="range-slider-thumb-end"
         :style="{ left: `${position(modelValue[1])}%` }"
@@ -65,7 +64,6 @@
   const step = computed(() => props.step ?? 3600000)
 
   const startThumb = ref<HTMLElement | null>(null)
-  const endThumb = ref<HTMLElement | null>(null)
   const activeThumb = ref<"start" | "end" | null>(null)
 
   const position = (value: Date) =>
