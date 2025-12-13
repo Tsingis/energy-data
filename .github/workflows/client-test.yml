@@ -11,7 +11,7 @@ on:
       - "client/tsconfig.json"
       - "client/eslint.config.js"
       - "client/package*.json"
-      - ".github/workflows/client_test.yml"
+      - ".github/workflows/client-test.yml"
   workflow_dispatch:
 env:
   NO_UPDATE_NOTIFIER: true

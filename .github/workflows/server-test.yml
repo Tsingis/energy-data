@@ -9,7 +9,7 @@ on:
       - "server/pyproject.toml"
       - "server/uv.lock"
       - "server/requirements.txt"
-      - ".github/workflows/server_test.yml"
+      - ".github/workflows/server-test.yml"
   workflow_dispatch:
 jobs:
   check:
