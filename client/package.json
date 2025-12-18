@@ -21,7 +21,7 @@
     "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
     "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
     "typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
-    "build": "vue-tsc -b ./tsconfig.json && vite --config ./vite.config.ts build"
+    "build": "vite --config ./vite.config.ts build"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
