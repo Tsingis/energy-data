@@ -20,7 +20,7 @@ COPY vite.config.ts ./vite.config.ts
 RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js && \
     npm run build
 
-FROM nginxinc/nginx-unprivileged:1.29.3-alpine3.22-slim
+FROM dhi.io/nginx:1.29.4-alpine3.21
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
@@ -28,5 +28,3 @@ COPY /nginx/nginx.conf /etc/nginx/nginx.conf
 ARG PORT=3000
 
 RUN sed -i "s|__PORT__|${PORT}|g" /etc/nginx/nginx.conf
-
-CMD ["nginx", "-g", "daemon off;"]
