@@ -1,4 +1,12 @@
 version: 2
+registries:
+  docker-registry:
+    type: docker-registry
+    url: https://registry.hub.docker.com
+    # url: https://dhi.io
+    username: ${{ secrets.DOCKERHUB_USERNAME }}
+    password: ${{ secrets.DOCKERHUB_TOKEN }}
+    replaces-base: true
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -44,6 +52,7 @@ updates:
       - "/client"
       - "/utility"
       - "/server"
+    registries: "*"
     ignore:
       - dependency-name: "*playwright"
       - dependency-name: "node"
