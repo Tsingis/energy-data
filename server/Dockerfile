@@ -1,5 +1,7 @@
 FROM python:3.14.2-alpine3.23 AS base
 
+FROM base AS build
+
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
@@ -7,8 +9,6 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
-
-FROM base AS build
 
 COPY requirements.txt ./
 
@@ -28,16 +28,15 @@ FROM base AS final
 
 WORKDIR /app
 
-COPY --from=build /app .
+COPY --from=build ./app/.venv ./.venv
 COPY ./src ./src
 
-ENV PYTHONPATH=/app
 ENV PATH="/app/.venv/bin:$PATH"
 
 RUN rm -r /usr/local/lib/python*/site-packages/pip* && \
     addgroup -S app && \
-    adduser -S -G app api
+    adduser -S -G app nonroot
 
-USER api
+USER nonroot
 
 CMD ["python", "-m", "src.main"]

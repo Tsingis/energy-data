@@ -14,7 +14,7 @@ services:
       - ALLOWING_ORIGIN=${ALLOWING_ORIGIN}
       - CACHE_TTL=${CACHE_TTL}
       - RATE_LIMIT=${RATE_LIMIT}
-    user: api
+    user: nonroot
     read_only: true
     privileged: false
     tmpfs:
