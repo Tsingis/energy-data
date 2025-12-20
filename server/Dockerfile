@@ -1,4 +1,4 @@
-FROM python:3.14.2-alpine3.23 AS base
+FROM dhi.io/python:3.14.2-alpine3.22-dev AS base
 
 FROM base AS build
 
@@ -24,19 +24,14 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project --no-group dev
 
-FROM base AS final
+FROM dhi.io/python:3.14.2-alpine3.22 AS final
 
 WORKDIR /app
 
-COPY --from=build ./app/.venv ./.venv
-COPY ./src ./src
-
+ENV PYTHONUNBUFFERED=1
 ENV PATH="/app/.venv/bin:$PATH"
 
-RUN rm -r /usr/local/lib/python*/site-packages/pip* && \
-    addgroup -S app && \
-    adduser -S -G app nonroot
-
-USER nonroot
+COPY --from=build /app/.venv /app/.venv
+COPY ./src ./src
 
 CMD ["python", "-m", "src.main"]
