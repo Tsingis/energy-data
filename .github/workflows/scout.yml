@@ -1,4 +1,4 @@
-name: scan
+name: scout
 on:
   workflow_dispatch:
     inputs:
@@ -48,13 +48,23 @@ jobs:
           workload_identity_provider: ${{ secrets.IDENTITY_PROVIDER }}
       - name: Configure Docker for registry
         run: gcloud auth configure-docker ${{ vars.REPOSITORY_SERVER }} --quiet
-      - name: Scan image
+      - name: Image CVEs
         uses: docker/scout-action@f8c776824083494ab0d56b8105ba2ca85c86e4de # v1.18.2
         with:
-          command: cves,recommendations
+          command: cves
           image: ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ matrix.image_tag }}
           only-severities: ${{ inputs.severities || 'critical,high' }}
           only-fixed: true
           summary: true
           format: json
           exit-code: true
+      - name: Image recommendations
+        uses: docker/scout-action@f8c776824083494ab0d56b8105ba2ca85c86e4de # v1.18.2
+        continue-on-error: true
+        with:
+          command: recommendations
+          image: ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ matrix.image_tag }}
+          only-severities: ${{ inputs.severities || 'critical,high' }}
+          only-fixed: true
+          summary: true
+          format: json
