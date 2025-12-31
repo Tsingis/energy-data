@@ -1,46 +1,21 @@
 <template>
   <div class="loading-container" data-testid="loading" aria-label="loading">
-    <font-awesome-icon :icon="faSpinner" :spin="true" :size="size" />
+    <PhCube :size="size" class="spin" />
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent, type PropType } from "vue"
-  import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
-  import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+  import { PhCube } from "@phosphor-icons/vue"
 
   export default defineComponent({
     name: "Loading",
-    components: {
-      FontAwesomeIcon,
-    },
+    components: { PhCube },
     props: {
       size: {
-        type: String as PropType<
-          | "2xs"
-          | "xs"
-          | "sm"
-          | "lg"
-          | "xl"
-          | "2xl"
-          | "1x"
-          | "2x"
-          | "3x"
-          | "4x"
-          | "5x"
-          | "6x"
-          | "7x"
-          | "8x"
-          | "9x"
-          | "10x"
-        >,
-        default: "1x",
+        type: [String, Number] as PropType<string | number>,
+        default: 100,
       },
-    },
-    setup() {
-      return {
-        faSpinner,
-      }
     },
   })
 </script>
@@ -51,5 +26,17 @@
     justify-content: center;
     align-items: center;
     height: 50vh;
+  }
+
+  .spin {
+    display: inline-block;
+    transform-origin: center;
+    animation: spin 3s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
