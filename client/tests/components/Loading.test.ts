@@ -8,6 +8,6 @@ describe("Loading.vue", () => {
     const loading = container.querySelector("[data-testid='loading']")
     const spinnerIcon = loading?.querySelector("svg")
     expect(spinnerIcon).toBeTruthy()
-    expect(spinnerIcon?.classList.contains("fa-1x")).toBe(true)
+    expect(spinnerIcon?.classList.contains("spin")).toBe(true)
   })
 })

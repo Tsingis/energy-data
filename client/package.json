@@ -24,8 +24,7 @@
     "build": "vite --config ./vite.config.ts build"
   },
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^7.1.0",
-    "@fortawesome/vue-fontawesome": "^3.1.2",
+    "@phosphor-icons/vue": "^2.2.1",
     "chart.js": "^4.5.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-plugin-annotation": "^3.1.0",
