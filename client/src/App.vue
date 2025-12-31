@@ -1,6 +1,6 @@
 <template>
   <h1>Energy in Finland</h1>
-  <Loading v-if="loading" size="300" />
+  <Loading v-if="loading" />
   <TimeSeriesChart
     v-if="!loading"
     :datasets="chartDatasets"
@@ -173,14 +173,27 @@
 </script>
 
 <style>
+  * {
+    font-family: Arial, sans-serif;
+    background-color: #d7d7d7;
+  }
+
   #app {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 80vh;
+
+    @media (max-width: 1200px) {
+      font-size: 1em;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 0.75em;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.5em;
+    }
   }
 </style>

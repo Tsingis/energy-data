@@ -233,7 +233,7 @@
   .range-slider__track {
     position: relative;
     height: 10px;
-    background-color: #e0e0e0;
+    background-color: #b5b5b5;
     border-radius: 2px;
     cursor: pointer;
   }
