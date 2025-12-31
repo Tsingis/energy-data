@@ -1,22 +1,16 @@
 <template>
   <div class="loading-container" data-testid="loading" aria-label="loading">
-    <PhCube :size="size" class="spin" />
+    <PhCube class="spin" />
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, type PropType } from "vue"
+  import { defineComponent } from "vue"
   import { PhCube } from "@phosphor-icons/vue"
 
   export default defineComponent({
     name: "Loading",
     components: { PhCube },
-    props: {
-      size: {
-        type: [String, Number] as PropType<string | number>,
-        default: 100,
-      },
-    },
   })
 </script>
 
@@ -25,7 +19,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50vh;
+    margin-top: 7.5em;
+  }
+
+  svg {
+    width: 40vw;
+    height: 40vh;
   }
 
   .spin {
