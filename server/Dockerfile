@@ -1,4 +1,4 @@
-FROM dhi.io/python:3.14.2-alpine3.22-dev AS base
+FROM dhi.io/python:3.14.2-alpine3.23-dev AS base
 
 FROM base AS build
 
@@ -24,7 +24,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project --no-group dev
 
-FROM dhi.io/python:3.14.2-alpine3.22 AS final
+FROM dhi.io/python:3.14.2-alpine3.23 AS final
 
 WORKDIR /app
 
