@@ -10,29 +10,25 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
   - package-ecosystem: "uv"
     directory: "/server"
     schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "21:00"
-      timezone: "Europe/Helsinki"
+      interval: "cron"
+      cronjob: "0 21 * * 2,5"
     cooldown:
       default-days: 1
-      exclude:
-        - "uv"
+    ignore:
+      - dependency-name: "uv"
   - package-ecosystem: "npm"
     directory: "/client"
     versioning-strategy: "increase"
     schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "21:00"
-      timezone: "Europe/Helsinki"
+      interval: "cron"
+      cronjob: "0 21 * * 2,5"
     cooldown:
       default-days: 1
     ignore:
@@ -49,7 +45,6 @@ updates:
   - package-ecosystem: "docker"
     directories:
       - "/client"
-      - "/utility"
       - "/server"
     registries: "*"
     ignore:
@@ -61,14 +56,7 @@ updates:
         update-types:
           - "version-update:semver-minor"
     schedule:
-      interval: "monthly"
-      day: "wednesday"
-      time: "21:00"
-      timezone: "Europe/Helsinki"
-  - package-ecosystem: "docker-compose"
-    directory: "/"
-    schedule:
-      interval: "monthly"
+      interval: "weekly"
       day: "wednesday"
       time: "21:00"
       timezone: "Europe/Helsinki"
@@ -80,7 +68,9 @@ updates:
       time: "21:00"
       timezone: "Europe/Helsinki"
   - package-ecosystem: "pip"
-    directory: "/terraform"
+    directories:
+      - "/server"
+      - "/terraform"
     schedule:
       interval: "weekly"
       day: "wednesday"
