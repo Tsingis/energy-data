@@ -34,7 +34,7 @@
         {
             "label": "update:server",
             "type": "shell",
-            "command": "uv lock",
+            "command": "uv lock --upgrade",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
