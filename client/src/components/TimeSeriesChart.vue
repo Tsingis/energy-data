@@ -120,6 +120,7 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
+              devicePixelRatio: 1,
               plugins: {
                 legend: {
                   display: true,
