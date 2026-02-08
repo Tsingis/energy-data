@@ -2,7 +2,18 @@
 import { defineConfig, devices, type ViewportSize } from "@playwright/test"
 
 const baseUrl = "http://localhost:3000"
-const viewPort: ViewportSize = { width: 1280, height: 800 }
+
+const viewports: Record<string, ViewportSize> = {
+  mobile: { width: 390, height: 844 },
+  tablet: { width: 768, height: 1024 },
+  desktop: { width: 1440, height: 900 },
+}
+
+const browsers = [
+  { name: "chromium", device: devices["Desktop Chrome"] },
+  { name: "firefox", device: devices["Desktop Firefox"] },
+  { name: "webkit", device: devices["Desktop Safari"] },
+]
 
 export default defineConfig({
   testDir: "./tests/playwright",
@@ -28,39 +39,17 @@ export default defineConfig({
       url: "http://localhost:3000",
     },
   ],
-  projects: [
-    {
-      name: "firefox",
+  projects: browsers.flatMap(({ name, device }) =>
+    Object.entries(viewports).map(([viewportName, viewport]) => ({
+      name: `${name}-${viewportName}`,
       use: {
-        ...devices["Desktop Firefox"],
+        ...device,
         baseURL: baseUrl,
-        viewport: viewPort,
+        viewport,
         screenshot: "off",
         video: "off",
         trace: "off",
       },
-    },
-    {
-      name: "webkit",
-      use: {
-        ...devices["Desktop Safari"],
-        baseURL: baseUrl,
-        viewport: viewPort,
-        screenshot: "off",
-        video: "off",
-        trace: "off",
-      },
-    },
-    {
-      name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-        baseURL: baseUrl,
-        viewport: viewPort,
-        screenshot: "off",
-        video: "off",
-        trace: "off",
-      },
-    },
-  ],
+    }))
+  ),
 })
