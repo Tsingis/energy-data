@@ -43,14 +43,14 @@ app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(Exception, general_exception_handler)
 app.add_exception_handler(RateLimitExceeded, ratelimit_exception_handler)
 
+app.add_middleware(SecureHeadersMiddleware)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[ALLOWED_ORIGIN],
     allow_methods=["GET"],
     allow_headers=["Accept", "Content-Type"],
 )
-
-app.add_middleware(SecureHeadersMiddleware)
 
 now = datetime.now(timezone.utc)
 delta = timedelta(hours=48)
