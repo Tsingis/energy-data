@@ -28,7 +28,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./client
   check:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./client
       - name: Check linting, formatting & types
         run: |
@@ -64,7 +64,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./client
       - name: Run tests
         run: npm run test
@@ -82,7 +82,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: "client/package-lock.json"
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./client
       - name: Build
         run: npm run build
