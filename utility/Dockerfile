@@ -9,4 +9,4 @@ COPY client/tsconfig.json ./
 COPY client/vite.config.ts ./
 COPY client/playwright.config.ts ./
 
-RUN npm ci && npm run build
+RUN npm ci --ignore-scripts && npm run build

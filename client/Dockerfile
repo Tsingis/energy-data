@@ -7,7 +7,7 @@ ENV NO_UPDATE_NOTIFIER=true
 COPY package*.json ./
 COPY .npmrc ./
 
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 ARG API_URL
 
