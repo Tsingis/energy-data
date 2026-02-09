@@ -7,6 +7,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
 from datetime import datetime, timedelta, timezone
+from typing import Annotated
 from src.common.setup_logger import setup_logger
 from src.common.cache import cache_result
 from src.common.exception_handlers import (
@@ -61,7 +62,9 @@ end_time = now + delta
 @app.get("/api/energy", response_model=EnergyResponse)
 @limiter.limit(RATE_LIMIT)
 @cache_result(cache_key="main:data:energy", model_type=EnergyResponse, ttl=CACHE_TTL)
-async def get_energy_data(request: Request, energy_client: EnergyService = Depends(use_cache=True)):
+async def get_energy_data(
+    request: Request, energy_client: Annotated[EnergyService, Depends(use_cache=True)]
+):
     data = await energy_client.fetch_energy_data(start_time, end_time)
     return data.model_dump()
 
@@ -69,7 +72,9 @@ async def get_energy_data(request: Request, energy_client: EnergyService = Depen
 @app.get("/api/price", response_model=PriceResponse)
 @limiter.limit(RATE_LIMIT)
 @cache_result(cache_key="main:data:price", model_type=PriceResponse, ttl=CACHE_TTL)
-async def get_price_data(request: Request, price_client: PriceService = Depends(use_cache=True)):
+async def get_price_data(
+    request: Request, price_client: Annotated[PriceService, Depends(use_cache=True)]
+):
     data = await price_client.fetch_price_data(start_time, end_time)
     return data.model_dump()
 
