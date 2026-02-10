@@ -20,7 +20,7 @@ COPY vite.config.ts ./vite.config.ts
 RUN sed -i "s|__API_URL__|${API_URL}|g" src/public/insert-links.js && \
     npm run build
 
-FROM dhi.io/nginx:1.29.4-alpine3.23
+FROM dhi.io/nginx:1.29.5-alpine3.23
 
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY /nginx/nginx.conf /etc/nginx/nginx.conf
