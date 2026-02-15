@@ -17,8 +17,8 @@
     },
     {
       "matchManagers": ["dockerfile"],
-      "excludePackageNames": ["mcr.microsoft.com/playwright"],
-      "enabled": false
+      "enabled": false,
+      "matchPackageNames": ["!mcr.microsoft.com/playwright"]
     },
     {
       "matchManagers": ["npm", "dockerfile"],
