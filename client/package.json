@@ -55,5 +55,8 @@
     "vitest": "^4.0.18",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.2.5"
+  },
+  "overrides": {
+    "minimatch": "^10.2.3"
   }
 }
