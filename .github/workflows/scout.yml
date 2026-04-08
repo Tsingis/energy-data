@@ -49,7 +49,7 @@ jobs:
       - name: Configure Docker for registry
         run: gcloud auth configure-docker ${{ vars.REPOSITORY_SERVER }} --quiet
       - name: Image CVEs
-        uses: docker/scout-action@8910519cee8ac046f3ee99686b0dc6654d5ba1a7 # v1.20.3
+        uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3 # v1.20.4
         with:
           command: cves
           image: ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ matrix.image_tag }}
@@ -59,7 +59,7 @@ jobs:
           format: json
           exit-code: true
       - name: Image recommendations
-        uses: docker/scout-action@8910519cee8ac046f3ee99686b0dc6654d5ba1a7 # v1.20.3
+        uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3 # v1.20.4
         continue-on-error: true
         with:
           command: recommendations
