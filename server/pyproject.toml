@@ -7,7 +7,7 @@ dependencies = [
     "aiocache==0.12.3",
     "fastapi==0.135.3",
     "httpx==0.28.1",
-    "pydantic==2.13.0",
+    "pydantic==2.13.1",
     "slowapi==0.1.9",
     "uvicorn==0.44.0",
 ]
