@@ -4,52 +4,52 @@ import DateRangeSlider from "../../src/components/DateRangeSlider.vue"
 
 describe("DateRangeSlider.vue", () => {
   it("renders correctly with default props", () => {
-    const { container } = render(DateRangeSlider, {
+    const { getByTestId } = render(DateRangeSlider, {
       props: {
         modelValue: [new Date(0), new Date()],
       },
     })
-    expect(container.querySelector("[data-testid='range-slider']")).toBeTruthy()
+    expect(getByTestId("range-slider")).toBeTruthy()
   })
 
   it("emits 'update:modelValue' when slider is moved", async () => {
-    const { container, emitted } = render(DateRangeSlider, {
+    const { getByTestId, emitted } = render(DateRangeSlider, {
       props: {
         modelValue: [new Date(0), new Date()],
       },
     })
 
-    const slider = container.querySelector("[data-testid='range-slider-track']")
+    const slider = getByTestId("range-slider-track")
     expect(slider).toBeTruthy()
 
-    await fireEvent.mouseDown(slider!, { clientX: 50 })
-    await fireEvent.mouseMove(globalThis, { clientX: 100 })
-    await fireEvent.mouseUp(globalThis)
+    await fireEvent.mouseDown(slider, { clientX: 50 })
+    await fireEvent.mouseMove(window, { clientX: 100 })
+    await fireEvent.mouseUp(window)
 
     expect(emitted()["update:modelValue"]).toBeTruthy()
   })
 
   it("emits 'start' and 'end' events on interaction", async () => {
-    const { container, emitted } = render(DateRangeSlider, {
+    const { getByTestId, emitted } = render(DateRangeSlider, {
       props: {
         modelValue: [new Date(0), new Date()],
       },
     })
 
-    const slider = container.querySelector("[data-testid='range-slider-track']")
+    const slider = getByTestId("range-slider-track")
     expect(slider).toBeTruthy()
 
-    await fireEvent.mouseDown(slider!, { clientX: 50 })
+    await fireEvent.mouseDown(slider, { clientX: 50 })
     expect(emitted()["start"]).toBeTruthy()
 
-    await fireEvent.mouseUp(globalThis)
+    await fireEvent.mouseUp(window)
     expect(emitted()["end"]).toBeTruthy()
   })
 
   it("respects min and max props", async () => {
     const minDate = new Date(0)
     const maxDate = new Date(1000000000)
-    const { container, emitted } = render(DateRangeSlider, {
+    const { getByTestId, emitted } = render(DateRangeSlider, {
       props: {
         modelValue: [minDate, maxDate],
         min: minDate,
@@ -57,12 +57,12 @@ describe("DateRangeSlider.vue", () => {
       },
     })
 
-    const slider = container.querySelector("[data-testid='range-slider-track']")
+    const slider = getByTestId("range-slider-track")
     expect(slider).toBeTruthy()
 
-    await fireEvent.mouseDown(slider!, { clientX: 50 })
-    await fireEvent.mouseMove(globalThis, { clientX: 100 })
-    await fireEvent.mouseUp(globalThis)
+    await fireEvent.mouseDown(slider, { clientX: 50 })
+    await fireEvent.mouseMove(window, { clientX: 100 })
+    await fireEvent.mouseUp(window)
 
     const emittedValue = (emitted()["update:modelValue"] as [Date[]][])[0][0]
     expect(emittedValue[0].getTime()).toBeGreaterThanOrEqual(minDate.getTime())

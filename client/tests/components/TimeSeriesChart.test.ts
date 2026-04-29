@@ -4,7 +4,7 @@ import TimeSeriesChart from "../../src/components/TimeSeriesChart.vue"
 
 describe("TimeSeriesChart.vue", () => {
   it("renders correctly with empty values", () => {
-    const { container } = render(TimeSeriesChart, {
+    const { getByTestId } = render(TimeSeriesChart, {
       props: {
         datasets: {
           labels: [],
@@ -15,12 +15,10 @@ describe("TimeSeriesChart.vue", () => {
       },
     })
 
-    const chartContainer = container.querySelector(
-      "[data-testid='timeseries-chart']"
-    )
+    const chartContainer = getByTestId("timeseries-chart")
     expect(chartContainer).toBeTruthy()
 
-    const canvas = container.querySelector("canvas")
+    const canvas = chartContainer.querySelector("canvas")
     expect(canvas).toBeTruthy()
   })
 })
