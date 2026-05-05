@@ -26,12 +26,12 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Check linting & formatting
         run: |
-          uv run ruff check .
-          uv run ruff format .
+          uv run --no-build ruff check .
+          uv run --no-build ruff format .
         working-directory: ./server
   unit-tests:
     runs-on: ubuntu-latest
@@ -47,10 +47,10 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Run unit tests
-        run: uv run python -m unittest discover -v -s tests/unit
+        run: uv run --no-build python -m unittest discover -v -s tests/unit
         working-directory: ./server
   api-tests:
     runs-on: ubuntu-latest
@@ -66,10 +66,10 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Run API tests
-        run: uv run python -m unittest discover -v -s tests/api
+        run: uv run --no-build python -m unittest discover -v -s tests/api
         env:
           FINGRID_API_KEY: ${{ secrets.FINGRID_API_KEY }}
         working-directory: ./server

@@ -4,7 +4,7 @@
         {
             "label": "run:server",
             "type": "shell",
-            "command": "uv run task api",
+            "command": "uv run --no-build task api",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
@@ -14,7 +14,7 @@
         {
             "label": "test:server",
             "type": "shell",
-            "command": "uv run task test",
+            "command": "uv run --no-build task test",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
@@ -24,7 +24,7 @@
         {
             "label": "install:server",
             "type": "shell",
-            "command": "uv sync",
+            "command": "uv sync --no-build",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
@@ -54,7 +54,7 @@
         {
             "label": "vulnerable:server",
             "type": "shell",
-            "command": "uv run pip-audit",
+            "command": "uv run --no-build pip-audit",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
@@ -64,7 +64,7 @@
         {
             "label": "format:server",
             "type": "shell",
-            "command": "uv run ruff format .",
+            "command": "uv run --no-build ruff format .",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
@@ -74,7 +74,7 @@
         {
             "label": "lint:server",
             "type": "shell",
-            "command": "uv run ruff check .",
+            "command": "uv run --no-build ruff check .",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
