@@ -24,7 +24,7 @@
         {
             "label": "install:server",
             "type": "shell",
-            "command": "uv sync",
+            "command": "uv sync --no-build",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },

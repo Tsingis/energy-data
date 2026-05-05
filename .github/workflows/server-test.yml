@@ -26,7 +26,7 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Check linting & formatting
         run: |
@@ -47,7 +47,7 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Run unit tests
         run: uv run python -m unittest discover -v -s tests/unit
@@ -66,7 +66,7 @@ jobs:
         run: pip install -r requirements.txt
         working-directory: ./server
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --no-build --frozen
         working-directory: ./server
       - name: Run API tests
         run: uv run python -m unittest discover -v -s tests/api
