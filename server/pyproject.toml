@@ -27,6 +27,7 @@ test = "uv run --no-build --env-file ../.env python -m unittest discover -v -s t
 name = "pypi"
 url = "https://pypi.org/simple"
 default = true
+exclude-newer = "1 days"
 
 [tool.ruff]
 line-length = 100
