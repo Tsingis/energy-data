@@ -54,7 +54,7 @@
     "vite-plugin-checker": "^0.14.1",
     "vitest": "^4.1.8",
     "vue-eslint-parser": "^10.4.1",
-    "vue-tsc": "^3.3.4"
+    "vue-tsc": "^3.3.5"
   },
   "overrides": {
     "minimatch": "^10.2.3"
