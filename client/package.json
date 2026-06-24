@@ -16,7 +16,7 @@
     "playwright": "npx playwright test --config=playwright.config.ts",
     "playwright:update": "npx playwright test --config=playwright.config.ts --update-snapshots",
     "audit": "npm audit --audit-level low",
-    "eslint": "eslint . --config ./eslint.config.js",
+    "eslint": "eslint . --config ./eslint.config.js --cache",
     "eslint:fix": "eslint . --config ./eslint.config.js --fix",
     "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
     "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
