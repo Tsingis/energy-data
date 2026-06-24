@@ -20,7 +20,7 @@
     "eslint:fix": "eslint . --config ./eslint.config.js --fix",
     "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
     "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
-    "typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
+    "typecheck": "vue-tsc -p ./tsconfig.json",
     "build": "vite --config ./vite.config.ts build"
   },
   "dependencies": {
