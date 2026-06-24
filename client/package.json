@@ -18,7 +18,7 @@
     "audit": "npm audit --audit-level low",
     "eslint": "eslint . --config ./eslint.config.js --cache",
     "eslint:fix": "eslint . --config ./eslint.config.js --fix",
-    "prettier": "prettier --check '**/*.{js,ts,vue,css,html}'",
+    "prettier": "prettier --check '**/*.{js,ts,vue,css,html}' --cache",
     "prettier:fix": "prettier --write '**/*.{js,ts,vue,css,html}'",
     "typecheck": "vue-tsc -p ./tsconfig.json",
     "build": "vite --config ./vite.config.ts build"
