@@ -37,7 +37,7 @@
     "@testing-library/vue": "^8.1.0",
     "@types/jsdom": "^28.0.3",
     "@types/node": "^26.1.0",
-    "@typescript-eslint/eslint-plugin": "^8.62.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-vue": "^6.0.7",
     "eslint": "^9.39.4",
