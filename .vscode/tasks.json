@@ -54,7 +54,7 @@
         {
             "label": "vulnerable:server",
             "type": "shell",
-            "command": "uv run --no-build pip-audit",
+            "command": "uv audit",
             "options": {
                 "cwd": "${workspaceFolder}/server"
             },
