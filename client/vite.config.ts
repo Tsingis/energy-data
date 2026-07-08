@@ -14,7 +14,7 @@ export default defineConfig({
           tsconfigPath: "./tsconfig.json",
         },
         eslint: {
-          lintCommand: "eslint . --config ./eslint.config.js",
+          lintCommand: "eslint . --cache",
           useFlatConfig: true,
         },
       }),
