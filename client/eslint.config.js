@@ -4,7 +4,7 @@ import parser from "@typescript-eslint/parser"
 import vueParser from "vue-eslint-parser"
 import tsPlugin from "@typescript-eslint/eslint-plugin"
 import vuePlugin from "eslint-plugin-vue"
-import importPlugin from "eslint-plugin-import"
+import { importX as importXPlugin } from "eslint-plugin-import-x"
 import securityPlugin from "eslint-plugin-security"
 import playwrightPlugin from "eslint-plugin-playwright"
 import sonarPlugin from "eslint-plugin-sonarjs"
@@ -36,20 +36,20 @@ export default [
     plugins: {
       "@typescript-eslint": tsPlugin,
       vue: vuePlugin,
-      import: importPlugin,
+      "import-x": importXPlugin,
       security: securityPlugin,
       sonarjs: sonarPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
-      ...importPlugin.configs.recommended.rules,
+      ...importXPlugin.configs.recommended.rules,
       ...securityPlugin.configs.recommended.rules,
       ...sonarPlugin.configs.recommended.rules,
       "@typescript-eslint/consistent-type-imports": [
         "error",
         { prefer: "type-imports" },
       ],
-      "import/no-unresolved": "off",
+      "import-x/no-unresolved": "off",
       "security/detect-object-injection": "off",
       "sonarjs/todo-tag": "off",
       semi: ["error", "never"],
