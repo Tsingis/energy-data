@@ -1,8 +1,9 @@
-import httpx
 import os
 import urllib.parse
 from datetime import datetime
-from typing import List, Dict
+
+import httpx
+
 from src.enums.dataset import Dataset
 from src.models.energy import Energy, EnergyApiResponse, EnergyResponse
 
@@ -47,8 +48,8 @@ class EnergyService:
             self._adjust_predictions(energy)
             return EnergyResponse(energy)
 
-    def _to_response_model(self, energy_data: List[EnergyApiResponse]) -> Dict[str, List[Energy]]:
-        data: Dict[str, List[Energy]] = {}
+    def _to_response_model(self, energy_data: list[EnergyApiResponse]) -> dict[str, list[Energy]]:
+        data: dict[str, list[Energy]] = {}
         for item in energy_data:
             dataset_id = str(item.datasetId)
             dataset_key = self.dataset_mapping[dataset_id]
@@ -58,7 +59,7 @@ class EnergyService:
             data[dataset_key].append(energy_item)
         return data
 
-    def _adjust_predictions(self, data: Dict[str, List[Energy]]) -> None:
+    def _adjust_predictions(self, data: dict[str, list[Energy]]) -> None:
         if Dataset.PRODUCTION.key_name in data and Dataset.PRODUCTION_PREDICTION.key_name in data:
             last_production = data[Dataset.PRODUCTION.key_name][-1]
             # Remove predictions before the last production timestamp
