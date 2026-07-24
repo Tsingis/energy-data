@@ -1,6 +1,7 @@
-import httpx
 from datetime import datetime
-from typing import List
+
+import httpx
+
 from src.models.price import Price, PriceApiResponse, PriceResponse
 
 
@@ -22,6 +23,6 @@ class PriceService:
             return PriceResponse(filtered)
 
     def _filter_data_by_time(
-        self, data: List[Price], start_time: datetime, end_time: datetime
-    ) -> List[Price]:
+        self, data: list[Price], start_time: datetime, end_time: datetime
+    ) -> list[Price]:
         return [item for item in data if start_time <= item.timestamp <= end_time]

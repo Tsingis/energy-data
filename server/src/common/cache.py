@@ -1,7 +1,8 @@
-from typing import Type
-from aiocache import SimpleMemoryCache
 from functools import wraps
+
+from aiocache import SimpleMemoryCache
 from fastapi import HTTPException, status
+
 from src.common.setup_logger import setup_logger
 
 logger = setup_logger()
@@ -9,7 +10,7 @@ logger = setup_logger()
 cache = SimpleMemoryCache()
 
 
-def cache_result(cache_key: str, model_type: Type, ttl: int = 900):
+def cache_result(cache_key: str, model_type: type, ttl: int = 900):
     def decorator(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):

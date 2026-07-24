@@ -1,34 +1,35 @@
 import os
+from datetime import UTC, datetime, timedelta
+from typing import Annotated
+
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.exceptions import HTTPException as StarletteHTTPException
 from slowapi import Limiter
 from slowapi.errors import RateLimitExceeded
-from datetime import datetime, timedelta, timezone
-from typing import Annotated
-from src.common.setup_logger import setup_logger
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
 from src.common.cache import cache_result
 from src.common.exception_handlers import (
-    http_exception_handler,
     fastapi_http_exception_handler,
-    validation_exception_handler,
     general_exception_handler,
+    http_exception_handler,
     ratelimit_exception_handler,
+    validation_exception_handler,
 )
+from src.common.setup_logger import setup_logger
 from src.middleware.secure_headers import SecureHeadersMiddleware
-from src.services.energy_service import EnergyService, EnergyResponse
-from src.services.price_service import PriceService, PriceResponse
-
+from src.services.energy_service import EnergyResponse, EnergyService
+from src.services.price_service import PriceResponse, PriceService
 
 IS_DEV = bool(os.getenv("ENVIRONMENT", "dev").lower() == "dev")
 
 
 ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "*")
-CACHE_TTL = int(os.getenv("CACHE_TTL", 900))
+CACHE_TTL = int(os.getenv("CACHE_TTL", "900"))
 RATE_LIMIT = os.getenv("RATE_LIMIT", "1000/minute")
-PORT = int(os.getenv("PORT", 8000))
+PORT = int(os.getenv("PORT", "8000"))
 
 logger = setup_logger()
 
@@ -53,7 +54,7 @@ app.add_middleware(
     allow_headers=["Accept", "Content-Type"],
 )
 
-now = datetime.now(timezone.utc)
+now = datetime.now(UTC)
 delta = timedelta(hours=48)
 start_time = now - delta
 end_time = now + delta
