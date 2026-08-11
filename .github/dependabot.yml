@@ -73,8 +73,17 @@ updates:
       timezone: "Europe/Helsinki"
   - package-ecosystem: "pip"
     directories:
-      - "/server"
       - "/terraform"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "21:00"
+      timezone: "Europe/Helsinki"
+  - package-ecosystem: "pip"
+    directories:
+      - "/server"
+    allow:
+      - dependency-name: "uv"
     schedule:
       interval: "weekly"
       day: "wednesday"
