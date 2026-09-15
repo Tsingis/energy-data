@@ -9,7 +9,7 @@ dependencies = [
     "httpx==0.28.1",
     "pydantic==2.13.5",
     "slowapi==0.1.10",
-    "uvicorn==0.52.4",
+    "uvicorn==0.53.0",
 ]
 
 [dependency-groups]
