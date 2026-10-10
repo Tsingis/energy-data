@@ -42,7 +42,6 @@
           labels: string[]
           datasets: ChartDataset<"line" | "bar", (number | Point | null)[]>[]
         },
-        required: true,
         default: () => ({
           labels: [],
           datasets: [],
@@ -65,12 +64,10 @@
       },
       minTimestamp: {
         type: Date as PropType<Date | null | undefined>,
-        required: true,
         default: undefined,
       },
       maxTimestamp: {
         type: Date as PropType<Date | null | undefined>,
-        required: true,
         default: undefined,
       },
       currentDate: {
