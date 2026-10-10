@@ -18,13 +18,13 @@ export function useFetchData<T>(fetchFunction: () => Promise<T>) {
       } catch (err) {
         console.error(err)
         error.value = (err as Error).message || "Unknown error"
-        setTimeout(() => {
-          tryFetch()
+        setTimeout(async () => {
+          await tryFetch()
         }, 5000)
       }
     }
 
-    tryFetch()
+    await tryFetch()
   }
 
   return { data, loading, error, fetchData }
