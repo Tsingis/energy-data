@@ -18,7 +18,7 @@ class Price(BaseModel):
     value: float  # c/kWh
 
     @classmethod
-    def from_api_response(cls, api: PriceApiResponse) -> "Price":
+    def from_api_response(cls, api: PriceApiResponse) -> Price:
         return cls(timestamp=datetime.fromisoformat(api.startDate), value=api.price)
 
 
