@@ -19,7 +19,7 @@ class Energy(BaseModel):
     value: float  # Unit: MW
 
     @classmethod
-    def from_api_response(cls, api: EnergyApiResponse) -> "Energy":
+    def from_api_response(cls, api: EnergyApiResponse) -> Energy:
         return cls(timestamp=datetime.fromisoformat(api.startTime), value=api.value)
 
 
