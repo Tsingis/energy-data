@@ -63,6 +63,9 @@ export default [
       vue: {
         version: "detect",
       },
+      "import-x/parsers": {
+        espree: [".mjs"],
+      },
     },
   },
   {
