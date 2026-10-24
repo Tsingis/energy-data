@@ -86,6 +86,8 @@ updates:
       - "/server"
     allow:
       - dependency-name: "uv"
+    cooldown:
+      default-days: 1
     schedule:
       interval: "weekly"
       day: "wednesday"
