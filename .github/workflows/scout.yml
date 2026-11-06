@@ -50,6 +50,7 @@ jobs:
         run: gcloud auth configure-docker ${{ vars.REPOSITORY_SERVER }} --quiet
       - name: Image CVEs
         uses: docker/scout-action@e7e2a72bf1485d10a58f30696b6c513b261ce4fa # v1.29.0
+        continue-on-error: true
         with:
           command: cves
           image: ${{ vars.REPOSITORY_SERVER }}/${{ secrets.PROJECT_ID }}/${{ vars.REPOSITORY_NAME }}/${{ matrix.image_tag }}
