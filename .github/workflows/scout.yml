@@ -1,5 +1,8 @@
 name: scout
 on:
+  pull_request:
+    paths:
+      - .github/workflows/scout.yml
   workflow_dispatch:
     inputs:
       severities:
