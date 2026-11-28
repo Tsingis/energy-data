@@ -15,6 +15,9 @@ on:
   schedule:
     - cron: "0 21 1 * 0"
   workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -31,6 +34,14 @@ jobs:
         with:
           tflint_version: "latest"
           tflint_wrapper: false
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+      - name: Terraform init
+        run: terraform init -backend=false -input=false
+        working-directory: ./terraform
+      - name: Terraform validate
+        run: terraform validate -no-color
+        working-directory: ./terraform
       - name: Init TFLint
         run: tflint --init
         env:
